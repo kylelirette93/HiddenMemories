@@ -9,30 +9,23 @@ public class GameStateManager : MonoBehaviour
     private void Start()
     {
         uiManager = GameManager.Instance.uiManager;
-    }
-
-    public void ChangeState(GameState state)
-    {
-        if (currentState != previousState)
+        if (uiManager != null)
         {
-            currentState = state;
+            currentState = GameState.MainMenu;
         }
-        previousState = currentState;
     }
 
-    public void Update()
+    public void ChangeState(GameState newState)
     {
-        UpdateState(currentState);
-    }
+        currentState = newState;
 
-    public void UpdateState(GameState state)
-    {
-        switch (state)
+        switch (currentState)
         {
             case GameState.MainMenu:
                 uiManager.EnableMainMenuUI();
                 break;
             case GameState.Gameplay:
+                Cursor.visible = false;
                 uiManager.EnableGameplayUI();
                 break;
             case GameState.Pause:
@@ -50,9 +43,43 @@ public class GameStateManager : MonoBehaviour
             case GameState.GameWin:
                 uiManager.EnableGameWinUI();
                 break;
-                
         }
-            
+    }
+
+    public void PlayGame()
+    {
+        ChangeState(GameState.Gameplay);
+    }
+
+    public void Upgrades()
+    {
+        ChangeState(GameState.Upgrades);
+    }
+
+    public void PauseGame()
+    {
+        previousState = currentState;
+        ChangeState(GameState.Pause);
+        Time.timeScale = 0f; 
+    }
+
+    public void ResumeGame()     
+    {
+        ChangeState(previousState);
+        Time.timeScale = 1f;
+    }
+
+    public void Options()
+    {
+        ChangeState(GameState.Options);
+    }
+    public void Results()
+    {
+        ChangeState(GameState.Results);
+    }
+    public void GameWin()
+    {
+        ChangeState(GameState.GameWin);
     }
 }
 public enum GameState

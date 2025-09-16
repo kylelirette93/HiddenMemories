@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public AudioManager audioManager;
     public ProgressManager progressManager;
     public UpgradeManager upgradeManager;
+    public InputManager inputManager;
 
     private void Awake()
     {
