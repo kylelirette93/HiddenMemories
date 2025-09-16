@@ -2,15 +2,15 @@ using UnityEngine;
 
 public class ProgressManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    int currentSoulAmount;
+    int soulMeterMax = 100;
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        currentSoulAmount = soulMeterMax;
+    }
+    public void AddSoul(int amount)
+    {
+        currentSoulAmount += amount;
     }
 }
