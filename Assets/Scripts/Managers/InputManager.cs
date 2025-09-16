@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,25 +7,47 @@ public class InputManager : MonoBehaviour, Input.IPlayerActions
     Input input;
     void Awake()
     {
-        input = new Input();
+        try
+        {
+            input = new Input();
+            input.Player.SetCallbacks(this);
+            input.Player.Enable();
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError($"InputManager: Exception during initialization: {ex.Message}");
+        }
     }
+
+    #region Input Events
+    public event Action<Vector2> MoveInputEvent;
+    public event Action<Vector2> LookInputEvent;
+    #endregion
 
     void OnEnable()
     {
-
+        if (input != null)
+        {
+            input.Player.Enable();
+        }
     }
 
-    void OnDisable()
+    void OnDestroy()
     {
-
+        if (input != null)
+        {
+            input.Player.Disable();
+        }
     }
+
+  
     public void OnLook(InputAction.CallbackContext context)
     {
-        throw new System.NotImplementedException();
+        LookInputEvent?.Invoke(context.ReadValue<Vector2>());
     }
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        throw new System.NotImplementedException();
+        MoveInputEvent?.Invoke(context.ReadValue<Vector2>());
     }
 }

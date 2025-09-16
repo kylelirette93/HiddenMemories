@@ -5,10 +5,15 @@ public class GameStateManager : MonoBehaviour
     public GameState currentState;
     GameState previousState;
     UIManager uiManager;
+    public GameObject playerPrefab;
+    LevelManager levelManager;
+    Camera sceneCamera;
 
     private void Start()
     {
+        sceneCamera = GameManager.Instance.sceneCamera;
         uiManager = GameManager.Instance.uiManager;
+        levelManager = GameManager.Instance.levelManager;
         if (uiManager != null)
         {
             currentState = GameState.MainMenu;
@@ -48,9 +53,16 @@ public class GameStateManager : MonoBehaviour
 
     public void PlayGame()
     {
+        sceneCamera.gameObject.SetActive(false);
         ChangeState(GameState.Gameplay);
+        SpawnPlayer();
     }
 
+    public void SpawnPlayer()
+    {
+        Vector3 spawnPosition = levelManager.SpawnPoint;
+        Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
+    }
     public void Upgrades()
     {
         ChangeState(GameState.Upgrades);
