@@ -1,20 +1,19 @@
+using System;
 using UnityEngine;
 
 public class InteractionManager : MonoBehaviour
 {
     public Interactable currentInteractable = null;
-    InputManager input;
 
-    private void Awake()
-    {
-        input = GameManager.Instance.inputManager;
-    }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Interactable"))
         {
             currentInteractable = other.GetComponent<Interactable>();
+            currentInteractable.Interact();
+            currentInteractable.gameObject.SetActive(false);
+            Debug.Log("Interacting with: " + currentInteractable);
             // Ideally show feedback or prompt for interactable as well.
         }
     }
