@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -10,16 +11,18 @@ public class PlayerController : MonoBehaviour
     Camera playerCamera;
 
     [Header("Camera Settings")]
-    float fovTransitionSpeed = 5f;
+    Coroutine fovChangeCoroutine;
+    float fovTransitionSpeed = 3.6f;
     float walkFov = 60f;
     float sprintFov = 75f;
 
     [Header("Movement Settings")]
-    Vector2 moveInput;
     bool isSprinting = false;
+    public bool isMoving;
+    Vector2 moveInput;
     float movementSpeed;
-    float walkSpeed = 5f;
-    float runSpeed = 10f;
+    float walkSpeed = 4f;
+    float runSpeed = 8f;
     bool isGrounded = false;
     float groundCheckDistance = 1.1f;
 
@@ -27,6 +30,7 @@ public class PlayerController : MonoBehaviour
     float jumpForce = 450f;
 
     [Header("Look Settings")]
+    public Vector2 LookInput { get { return lookInput; } }
     Vector2 lookInput;
     float lookSensitivity = 0.5f;
     float cameraRotationX = 0f;
@@ -35,6 +39,7 @@ public class PlayerController : MonoBehaviour
         inputManager = GameManager.Instance.inputManager;
         rb = GetComponent<Rigidbody>();
         playerCamera = GetComponentInChildren<Camera>();
+        movementSpeed = walkSpeed;
     }
 
     private void OnEnable()
@@ -86,20 +91,42 @@ public class PlayerController : MonoBehaviour
 
     private void HandleMovement()
     {
-        if (isSprinting)
-        {
-            playerCamera.fieldOfView = Mathf.Lerp(playerCamera.fieldOfView, sprintFov, Time.deltaTime * fovTransitionSpeed);
-            movementSpeed = runSpeed;
-        }
-        else
-        {
-            playerCamera.fieldOfView = Mathf.Lerp(playerCamera.fieldOfView, walkFov, Time.deltaTime * fovTransitionSpeed);
-            movementSpeed = walkSpeed;
-        }
-        Vector3 horizontalVelocity = (transform.forward * moveInput.y + transform.right * moveInput.x).normalized * movementSpeed;
+        bool isMoving = moveInput.magnitude > 0.1f;
 
+        // Determine the target FOV and speed based on sprinting and moving
+        float targetFov = walkFov;
+        float targetSpeed = walkSpeed;
+
+        if (isSprinting && isMoving)
+        {
+            targetFov = sprintFov;
+            targetSpeed = runSpeed;
+        }
+
+        // Lerp camera fov and movement speed.
+        playerCamera.fieldOfView = Mathf.Lerp(playerCamera.fieldOfView, targetFov, Time.fixedDeltaTime * fovTransitionSpeed);
+        movementSpeed = Mathf.Lerp(movementSpeed, targetSpeed, Time.fixedDeltaTime * fovTransitionSpeed);
+
+        // Apply movement.
+        Vector3 horizontalVelocity = (transform.forward * moveInput.y + transform.right * moveInput.x).normalized * movementSpeed;
         rb.linearVelocity = new Vector3(horizontalVelocity.x, rb.linearVelocity.y, horizontalVelocity.z);
     }
+
+    private void HandleSprint(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            // When the sprint button is pressed and held, set isSprinting to true
+            isSprinting = true;
+        }
+        else if (context.canceled)
+        {
+            // When the sprint button is released, set isSprinting to false
+            isSprinting = false;
+        }
+    }
+
+   
 
     private void HandleLook()
     {
@@ -118,18 +145,6 @@ public class PlayerController : MonoBehaviour
        if (context.performed)
         {
             Jump();
-        }
-    }
-
-    private void HandleSprint(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            isSprinting = true;
-        }
-        if (context.canceled)
-        {
-            isSprinting = false;
         }
     }
 }

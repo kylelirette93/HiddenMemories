@@ -2,15 +2,18 @@ using UnityEngine;
 
 public class ProgressManager : MonoBehaviour
 {
-    int currentSoulAmount;
+    // Keep track of stats.
     int soulMeterMax = 100;
+    HUD hud;
 
     private void Start()
     {
-        currentSoulAmount = soulMeterMax;
+        hud = GameManager.Instance.hud;
     }
-    public void AddSoul(int amount)
+
+    private void Update()
     {
-        currentSoulAmount += amount;
+        hud.UpdateSoulMeter(soulMeterMax / 100f);
     }
+
 }

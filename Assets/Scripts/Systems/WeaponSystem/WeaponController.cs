@@ -5,12 +5,17 @@ using UnityEngine.InputSystem;
 public class WeaponController : MonoBehaviour
 {
     public WeaponDataSO currentWeapon;
+    public Transform weaponParent;
+    private GameObject currentWeaponInstance;
+    public Transform playerCamera;
     float powerRate;
     float fireRate;
     int clipCapacity;
     float reloadSpeed;
-    float bulletSpeed = 300f;
+    float bulletSpeed = 150f;
     int spread = 0;
+    // Sound when firing gun.
+    AudioClip fireSound;
     public GameObject bulletPrefab;
     public Transform firePoint;
     InputManager input;
@@ -20,7 +25,6 @@ public class WeaponController : MonoBehaviour
         input = GameManager.Instance.inputManager;
         input.ShootEvent += Shoot;
         InteractableActions.AddWeapon += AddWeapon;
-        PopulateWeaponData();
     }
 
     private void PopulateWeaponData()
@@ -32,6 +36,9 @@ public class WeaponController : MonoBehaviour
             clipCapacity = currentWeapon.clipCapacity;
             reloadSpeed = currentWeapon.reloadSpeed;
             spread = currentWeapon.spread;
+            fireSound = currentWeapon.gun_fire;
+            fireSound.name = currentWeapon.name + "_fire";
+            GameManager.Instance.audioManager.AddSFX(fireSound);
         }
     }
 
@@ -40,8 +47,40 @@ public class WeaponController : MonoBehaviour
         if (weapon is WeaponDataSO _currentWeapon)
         {
             currentWeapon = _currentWeapon;
+            EquipWeapon();
         }
         Debug.Log("Added weapon " + weapon);
+    }
+
+    private void EquipWeapon()
+    {
+        if (currentWeaponInstance != null)
+        {
+            Destroy(currentWeaponInstance);
+        }
+        if (currentWeapon.weaponPrefab != null)
+        {
+            currentWeaponInstance = Instantiate(currentWeapon.weaponPrefab, weaponParent);
+            currentWeaponInstance.transform.localPosition = Vector3.zero;
+            currentWeaponInstance.transform.localRotation = Quaternion.identity;
+            Transform newFirepoint = currentWeaponInstance.transform.Find("Firepoint");
+            newFirepoint.transform.localScale = Vector3.one;
+            newFirepoint.transform.localRotation = Quaternion.identity;
+            if (newFirepoint != null)
+            {
+                firePoint = newFirepoint;
+            }
+            else
+            {
+                Debug.Log("Fire point is null");
+            }
+        }
+        PopulateWeaponData();
+    }
+
+    private void Update()
+    {
+        weaponParent.transform.rotation = playerCamera.transform.rotation;
     }
 
     private void Shoot(InputAction.CallbackContext context)
@@ -50,14 +89,28 @@ public class WeaponController : MonoBehaviour
         {
             Debug.Log("I'm shooting right now.");
             int spreadCount = spread;
-            GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+            if (fireSound != null)
+            {
+                GameManager.Instance.audioManager.PlaySFX(fireSound);
+            }
+            GameObject bullet = Instantiate(bulletPrefab, firePoint.position, weaponParent.rotation);
             Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
-            bulletRb.linearVelocity = transform.forward * bulletSpeed;
+            bulletRb.linearVelocity = firePoint.forward * bulletSpeed;
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         Destroy(gameObject);
+    }
+
+    private void OnDrawGizmos()
+    {
+        // Draw a line from the fire point forward to show the bullet direction.
+        if (firePoint != null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(firePoint.position, firePoint.position + firePoint.forward * 10f);
+        }
     }
 }

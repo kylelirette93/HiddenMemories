@@ -9,11 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2863632183428152317}
-  - component: {fileID: 2702479296329256168}
   - component: {fileID: 5487822787445551188}
   - component: {fileID: 8630317743318836383}
   - component: {fileID: 1452714178278047704}
-  - component: {fileID: 1815377464723516665}
+  - component: {fileID: 2863228338590091732}
+  - component: {fileID: -8338656044446990203}
   m_Layer: 0
   m_Name: GunPickup
   m_TagString: Interactable
@@ -29,21 +29,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7987102532977667543}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.424, y: 0.276, z: 0.69}
-  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
---- !u!33 &2702479296329256168
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7987102532977667543}
-  m_Mesh: {fileID: -5495902117074765545, guid: 0fd265726fbd47349a2ceb69ec9ab200, type: 3}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &5487822787445551188
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -67,7 +59,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 21ed2a7e7286dba459235d96aa4b33a2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -114,8 +106,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  itemData: {fileID: 11400000, guid: 52d8c800ae533f644b38fba20c7c8bf8, type: 2}
---- !u!135 &1815377464723516665
+  itemData: {fileID: 11400000, guid: d7c75dc622ad91b42996a1a71587761a, type: 2}
+--- !u!135 &2863228338590091732
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -134,5 +126,13 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.0410597
-  m_Center: {x: 0.0003615111, y: 0.03105972, z: 0.017305119}
+  m_Radius: 4.293612
+  m_Center: {x: 0.036151122, y: 2.622, z: -2.4021378}
+--- !u!33 &-8338656044446990203
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7987102532977667543}
+  m_Mesh: {fileID: 4493585093827132993, guid: 0fd265726fbd47349a2ceb69ec9ab200, type: 3}

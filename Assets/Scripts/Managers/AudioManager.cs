@@ -1,16 +1,26 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
+    public List<AudioClip> audioClips = new List<AudioClip>();
+    public AudioSource sfxSource;
+
+    public void PlaySFX(AudioClip clip)
+    {    
+        // Play clip from list.
+        if (audioClips.Contains(clip))
+        {
+            sfxSource.PlayOneShot(clip);
+        }
+        else
+        {
+            Debug.LogWarning("AudioManager: Clip not found in audioClips list.");
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void AddSFX(AudioClip clip)
     {
-        
+        audioClips.Add(clip);
     }
 }

@@ -4,9 +4,12 @@ using UnityEngine;
 public class WeaponDataSO : ItemDataSO
 {
     // Holds data tied to specific weapon.
+    public string name;
     public float powerRate;
     public float fireRate;
     public int clipCapacity;
     public float reloadSpeed;
     public int spread = 0;
+    public GameObject weaponPrefab;
+    public AudioClip gun_fire;
 }

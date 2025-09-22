@@ -45,8 +45,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentWeapon: {fileID: 0}
+  weaponParent: {fileID: 1517083301410642802}
+  playerCamera: {fileID: 863769115896205035}
   bulletPrefab: {fileID: 143548174340775267, guid: 82740ac78dc92cd4883da2fbbd38fff2, type: 3}
-  firePoint: {fileID: 1517083301410642802}
+  firePoint: {fileID: 0}
 --- !u!1 &347424874990701841
 GameObject:
   m_ObjectHideFlags: 0
@@ -203,6 +205,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55951e5197c87414f8648ed68e280122, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMoving: 0
 --- !u!1 &979874487357618731
 GameObject:
   m_ObjectHideFlags: 0
@@ -461,7 +464,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1517083301410642802}
   m_Layer: 0
-  m_Name: Firepoint
+  m_Name: WeaponParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -476,7 +479,7 @@ Transform:
   m_GameObject: {fileID: 8871464737035841010}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.519, y: 0.236, z: 0.519}
+  m_LocalPosition: {x: 0.4, y: -0.16, z: 0.99}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public UpgradeManager upgradeManager;
     public InputManager inputManager;
     public LevelManager levelManager;
+    public HUD hud;
 
     private void Awake()
     {
@@ -37,6 +38,7 @@ public class GameManager : MonoBehaviour
         progressManager = GetComponentInChildren<ProgressManager>();
         upgradeManager = GetComponentInChildren<UpgradeManager>();
         levelManager = GetComponentInChildren<LevelManager>();
+        hud = FindObjectOfType<HUD>();
         #endregion
     }
 }
