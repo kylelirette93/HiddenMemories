@@ -22,6 +22,8 @@ public class InputManager : MonoBehaviour, Input.IPlayerActions
     #region Input Events
     public event Action<Vector2> MoveInputEvent;
     public event Action<Vector2> LookInputEvent;
+    public event Action<InputAction.CallbackContext> JumpEvent;
+    public event Action<InputAction.CallbackContext> SprintEvent;
     #endregion
 
     void OnEnable()
@@ -49,5 +51,15 @@ public class InputManager : MonoBehaviour, Input.IPlayerActions
     public void OnMove(InputAction.CallbackContext context)
     {
         MoveInputEvent?.Invoke(context.ReadValue<Vector2>());
+    }
+
+    public void OnJump(InputAction.CallbackContext context)
+    {
+        JumpEvent?.Invoke(context);
+    }
+
+    public void OnSprint(InputAction.CallbackContext context)
+    {
+        SprintEvent?.Invoke(context);
     }
 }

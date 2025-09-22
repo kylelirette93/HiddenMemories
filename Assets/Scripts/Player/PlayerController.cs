@@ -1,4 +1,6 @@
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
@@ -7,9 +9,22 @@ public class PlayerController : MonoBehaviour
     Rigidbody rb;   
     Camera playerCamera;
 
-    [Header("MovementSettings")]
+    [Header("Camera Settings")]
+    float fovTransitionSpeed = 5f;
+    float walkFov = 60f;
+    float sprintFov = 75f;
+
+    [Header("Movement Settings")]
     Vector2 moveInput;
-    float movementSpeed = 5f;
+    bool isSprinting = false;
+    float movementSpeed;
+    float walkSpeed = 5f;
+    float runSpeed = 10f;
+    bool isGrounded = false;
+    float groundCheckDistance = 1.1f;
+
+    [Header("Jump Settings")]
+    float jumpForce = 450f;
 
     [Header("Look Settings")]
     Vector2 lookInput;
@@ -26,6 +41,8 @@ public class PlayerController : MonoBehaviour
     {
         inputManager.MoveInputEvent += SetMoveInput;
         inputManager.LookInputEvent += SetLookInput;
+        inputManager.JumpEvent += HandleJump;
+        inputManager.SprintEvent += HandleSprint;
     }
 
     private void SetMoveInput(Vector2 vector)
@@ -40,7 +57,16 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        isGrounded = GroundCheck();
         HandleMovement();
+    }
+
+    private void Jump()
+    {
+        if (isGrounded)
+        {
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        }
     }
 
     private void LateUpdate()
@@ -48,11 +74,31 @@ public class PlayerController : MonoBehaviour
         HandleLook();
     }
 
+    private bool GroundCheck()
+    {
+        if (Physics.Raycast(transform.position, Vector3.down, groundCheckDistance))
+        {
+            // Something is below player.
+            return true;
+        }
+        return false;
+    }
+
     private void HandleMovement()
     {
-        Vector3 movementDirection = (transform.forward * moveInput.y + transform.right * moveInput.x).normalized;
+        if (isSprinting)
+        {
+            playerCamera.fieldOfView = Mathf.Lerp(playerCamera.fieldOfView, sprintFov, Time.deltaTime * fovTransitionSpeed);
+            movementSpeed = runSpeed;
+        }
+        else
+        {
+            playerCamera.fieldOfView = Mathf.Lerp(playerCamera.fieldOfView, walkFov, Time.deltaTime * fovTransitionSpeed);
+            movementSpeed = walkSpeed;
+        }
+        Vector3 horizontalVelocity = (transform.forward * moveInput.y + transform.right * moveInput.x).normalized * movementSpeed;
 
-        rb.linearVelocity = movementDirection * movementSpeed;
+        rb.linearVelocity = new Vector3(horizontalVelocity.x, rb.linearVelocity.y, horizontalVelocity.z);
     }
 
     private void HandleLook()
@@ -65,5 +111,25 @@ public class PlayerController : MonoBehaviour
         cameraRotationX = Mathf.Clamp(cameraRotationX, -90f, 90f);
 
         playerCamera.transform.localRotation = Quaternion.Euler(cameraRotationX, 0f, 0f);
+    }
+
+    private void HandleJump(InputAction.CallbackContext context)
+    {
+       if (context.performed)
+        {
+            Jump();
+        }
+    }
+
+    private void HandleSprint(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            isSprinting = true;
+        }
+        if (context.canceled)
+        {
+            isSprinting = false;
+        }
     }
 }
