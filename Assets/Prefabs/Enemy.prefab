@@ -145,7 +145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d0cff7ed66c8024ea7a03419f6d9b18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cashPrefab: {fileID: 2447045349800775676, guid: 00344cc784629fd4e8e536470a03c061, type: 3}
+  cashPrefab: {fileID: 7452763399633447479, guid: bf83bbcde8f5ea440aa5e356e81af3ab, type: 3}
 --- !u!114 &5782737838551792587
 MonoBehaviour:
   m_ObjectHideFlags: 0
