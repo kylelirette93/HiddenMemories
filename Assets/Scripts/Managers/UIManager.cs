@@ -3,6 +3,7 @@ using UnityEngine;
 public class UIManager : MonoBehaviour
 {
     public GameObject MainMenuPanel;
+    public GameObject SettingsPanel;
     public GameObject GameplayPanel;
     public GameObject PausePanel;
     public GameObject OptionsPanel;
@@ -14,6 +15,7 @@ public class UIManager : MonoBehaviour
     {
         // Disable all UI panels.
         MainMenuPanel.SetActive(false);
+        SettingsPanel.SetActive(false);
         GameplayPanel.SetActive(false);
         PausePanel.SetActive(false);
         OptionsPanel.SetActive(false);
@@ -26,6 +28,12 @@ public class UIManager : MonoBehaviour
     {
         DisableAllMenuUI();
         MainMenuPanel.SetActive(true);
+    }
+
+    public void EnableSettingsUI()
+    {
+        DisableAllMenuUI();
+        SettingsPanel.SetActive(true);
     }
 
     public void EnableGameplayUI()

@@ -2,16 +2,20 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class InputManager : MonoBehaviour, Input.IPlayerActions
+public class InputManager : MonoBehaviour, Input.IPlayerActions, UI.IControlsActions
 {
     Input input;
+    UI uiInput;
     void Awake()
     {
         try
         {
             input = new Input();
+            uiInput = new UI();
             input.Player.SetCallbacks(this);
+            uiInput.Controls.SetCallbacks(this);
             input.Player.Enable();
+            uiInput.Controls.Enable();
         }
         catch (System.Exception ex)
         {
@@ -25,6 +29,7 @@ public class InputManager : MonoBehaviour, Input.IPlayerActions
     public event Action<InputAction.CallbackContext> JumpEvent;
     public event Action<InputAction.CallbackContext> SprintEvent;
     public event Action<InputAction.CallbackContext> ShootEvent;
+    public event Action PauseEvent;
     #endregion
 
     void OnEnable()
@@ -67,5 +72,10 @@ public class InputManager : MonoBehaviour, Input.IPlayerActions
     public void OnShoot(InputAction.CallbackContext context)
     {
         ShootEvent?.Invoke(context);
+    }
+
+    public void OnPause(InputAction.CallbackContext context)
+    {
+        PauseEvent?.Invoke();
     }
 }

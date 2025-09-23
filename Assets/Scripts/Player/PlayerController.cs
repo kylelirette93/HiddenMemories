@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
     [Header("Look Settings")]
     public Vector2 LookInput { get { return lookInput; } }
     Vector2 lookInput;
-    float lookSensitivity = 0.5f;
+    float lookSensitivity = 17f;
     float cameraRotationX = 0f;
     private void Awake()
     {
@@ -130,9 +130,9 @@ public class PlayerController : MonoBehaviour
 
     private void HandleLook()
     {
-        transform.Rotate(Vector3.up * lookInput.x * lookSensitivity);
+        transform.Rotate(Vector3.up * lookInput.x * lookSensitivity * Time.deltaTime);
 
-        cameraRotationX -= lookInput.y * lookSensitivity;
+        cameraRotationX -= lookInput.y * lookSensitivity * Time.deltaTime;
 
         // Clamp camera rotation to prevent flip effect.
         cameraRotationX = Mathf.Clamp(cameraRotationX, -90f, 90f);
