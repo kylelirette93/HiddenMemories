@@ -6,7 +6,7 @@ public class WeaponController : MonoBehaviour
 {
     public WeaponDataSO currentWeapon;
     public Transform weaponParent;
-    private GameObject currentWeaponInstance;
+    private GameObject currentWeaponInstance = null;
     public Transform playerCamera;
     float powerRate;
     float fireRate;
@@ -25,6 +25,11 @@ public class WeaponController : MonoBehaviour
         input = GameManager.Instance.inputManager;
         input.ShootEvent += Shoot;
         InteractableActions.AddWeapon += AddWeapon;
+    }
+
+    private void OnDestroy()
+    {
+        InteractableActions.AddWeapon -= AddWeapon;
     }
 
     private void PopulateWeaponData()
@@ -54,10 +59,10 @@ public class WeaponController : MonoBehaviour
 
     private void EquipWeapon()
     {
-        if (currentWeaponInstance != null)
+        /*if (currentWeaponInstance != null)
         {
             Destroy(currentWeaponInstance);
-        }
+        }*/
         if (currentWeapon.weaponPrefab != null)
         {
             currentWeaponInstance = Instantiate(currentWeapon.weaponPrefab, weaponParent);
@@ -97,11 +102,6 @@ public class WeaponController : MonoBehaviour
             Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
             bulletRb.linearVelocity = firePoint.forward * bulletSpeed;
         }
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        Destroy(gameObject);
     }
 
     private void OnDrawGizmos()

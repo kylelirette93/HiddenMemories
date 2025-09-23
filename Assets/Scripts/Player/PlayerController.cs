@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
     [Header("Look Settings")]
     public Vector2 LookInput { get { return lookInput; } }
     Vector2 lookInput;
-    float lookSensitivity = 17f;
+    [SerializeField]float lookSensitivity = 17f;
     float cameraRotationX = 0f;
     private void Awake()
     {

@@ -10,11 +10,13 @@ public class InteractionManager : MonoBehaviour
     {
         if (other.CompareTag("Interactable"))
         {
-            currentInteractable = other.GetComponent<Interactable>();
-            currentInteractable.Interact();
-            currentInteractable = null;
-            other.gameObject.SetActive(false);
-            Debug.Log("Interacting with: " + currentInteractable);
+            Interactable currentInteractable = other.GetComponent<Interactable>();
+            if (currentInteractable != null)
+            {
+                currentInteractable.Interact();
+                Debug.Log("Interacting with: " + currentInteractable);
+                other.gameObject.SetActive(false);
+            }
             // Ideally show feedback or prompt for interactable as well.
         }
     }

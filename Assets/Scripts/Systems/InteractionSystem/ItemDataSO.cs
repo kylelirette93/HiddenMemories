@@ -11,5 +11,6 @@ public enum ItemType
 {
     HealthPotion,
     Ammo,
-    Weapon
+    Weapon,
+    Cash
 }
