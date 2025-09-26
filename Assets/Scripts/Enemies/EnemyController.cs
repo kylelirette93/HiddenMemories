@@ -125,17 +125,12 @@ public class EnemyController : MonoBehaviour
         isDead = true;
 
         health.OnDeath -= OnDeath;
-        Instantiate(cashPrefab, transform.position + Vector3.up * 0.2f, cashPrefab.transform.rotation);
-        Invoke("DestroySelf", 0.05f);
-    }
-
-    private void DestroySelf()
-    {
+        Vector3 spawnPos = new Vector3(transform.position.x, 1f, transform.position.z);
+        GameObject temp = Instantiate(cashPrefab, spawnPos, cashPrefab.transform.rotation);
+        Debug.Log("Enemy's current position: " + transform.position);
+        Debug.Log("Game object spawned at: " + spawnPos);
+        temp.transform.SetParent(null);
         Destroy(gameObject);
-    }
-    private void OnDestroy()
-    {
-        StateActions.PlayerSpawned -= SetPlayer;
     }
 
     private void SetPlayer(GameObject player)
