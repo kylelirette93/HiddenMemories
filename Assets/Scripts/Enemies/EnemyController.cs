@@ -1,99 +1,145 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
+using DG.Tweening;
+using UnityEngine.InputSystem.Processors;
 
 public class EnemyController : MonoBehaviour
 {
-    float movementSpeed = 5f;
-    float attackRadius = 0.5f;
-    bool isAttacking = false;
-    EnemyState previousState;
-    EnemyState currentState;
-    GameObject player;
-    Health health;
-    Color originalColor;
-    Color damageColor = Color.red;
-    Material material;
-    public GameObject cashPrefab;
+    public NavMeshAgent agent;
 
-    private void Start()
+    Transform player;
+
+    // Patroling.
+    Vector3 walkPoint;
+    bool walkPointSet;
+    public float walkPointRange;
+
+    public LayerMask whatIsGround, whatIsPlayer;
+
+    // Attacking
+    public float timeBetweenAttacks;
+    bool alreadyAttacked;
+
+    // Attack State variables
+    public float sightRange, attackRange;
+    public bool playerInSightRange, playerInAttackRange;
+
+    private Health health;
+    Material material;
+    Color originalColor;
+    public GameObject cashPrefab;
+    bool canTakeDamage = true;
+    bool isDead = false;
+
+
+    private void Awake()
     {
         health = GetComponent<Health>();
-        material = GetComponent<Renderer>().material;
-        originalColor = material.color;
-        // Have enemy patrol by default.
-        ChangeState(EnemyState.Patrol);
-    }
-    public enum EnemyState
-    {
-        Patrol,
-        Chase,
-        Attack
+        StateActions.PlayerSpawned += SetPlayer;
+        agent = GetComponent<NavMeshAgent>();
+        material = GetComponentInChildren<Renderer>().material;
+        health.OnDeath += OnDeath;
     }
 
-    public void ChangeState(EnemyState state)
+    private void Update()
     {
-        currentState = state;
+        // Check if player is in sight or attack range.
+        playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
+        playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
+
+        if (!playerInSightRange && !playerInAttackRange) Patroling();
+        if (!playerInSightRange && !playerInAttackRange) ChasePlayer();
+        if (playerInAttackRange && playerInSightRange) AttackPlayer();
+    }
+    private void Patroling()
+    {
+        if (!walkPointSet) SearchWalkPoint();
+
+        if (walkPointSet)
+            agent.SetDestination(walkPoint);
+
+        Vector3 distanceToWalkPoint = transform.position - walkPoint;
+
+        if (distanceToWalkPoint.magnitude < 1f)
+            walkPointSet = false;
     }
 
-    public void Update()
+    private void SearchWalkPoint()
     {
-        switch (currentState)
+        float randomZ = Random.Range(-walkPointRange, walkPointRange);
+        float randomX = Random.Range(-walkPointRange, walkPointRange);
+
+        walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
+
+        if (Physics.Raycast(walkPoint, -transform.up, 2f, whatIsGround))
+            walkPointSet = true;
+    }
+
+    private void ChasePlayer()
+    {
+        if (player != null)
+        agent.SetDestination(player.position);
+    }
+
+    private void AttackPlayer()
+    {
+        agent.SetDestination(transform.position);
+
+        transform.LookAt(player);
+
+        if (!alreadyAttacked)
         {
-            case EnemyState.Patrol:
-                // Patrol back and forth.
-                break;
-            case EnemyState.Chase:
-                if (isAttacking)
-                {
-                    ChasePlayer();
-                }
-                // Chase the player.
-                break;
-            case EnemyState.Attack:
-                isAttacking = true;
-                // Attack the player if within radius.
-                break;
+            alreadyAttacked = true;
+            Invoke(nameof(ResetAttack), timeBetweenAttacks);
         }
     }
 
-    public void ChasePlayer()
+    private void ResetAttack()
     {
-        // Get direction towards the player.
-        Vector3 followDirection = (player.transform.position - transform.position).normalized;
-        transform.position += followDirection * movementSpeed * Time.deltaTime;
-        if (Vector3.Distance(transform.position, player.transform.position) <= attackRadius)
+        alreadyAttacked = false;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Bullet") && canTakeDamage)
         {
-            ChangeState(EnemyState.Attack);
+            StartCoroutine(FlashRed());
         }
     }
 
     IEnumerator FlashRed()
     {
-        material.color = damageColor;
-        yield return new WaitForSeconds(0.3f);
+        health.TakeDamage(20);
+        canTakeDamage = false;
+        originalColor = material.color;
+        material.color = Color.red;
+        yield return new WaitForSeconds(0.1f);
         material.color = originalColor;
+        canTakeDamage = true;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnDeath()
     {
-        if (other.CompareTag("Player"))
-        {
-            player = other.gameObject;
-            ChangeState(EnemyState.Chase);
-        }
+        if (isDead) return;
+        isDead = true;
+
+        health.OnDeath -= OnDeath;
+        Instantiate(cashPrefab, transform.position + Vector3.up * 0.2f, cashPrefab.transform.rotation);
+        Invoke("DestroySelf", 0.05f);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void DestroySelf()
     {
-        if (collision.gameObject.CompareTag("Bullet"))
-        {
-            StartCoroutine(FlashRed());
-            health.TakeDamage(20);
-        }
+        Destroy(gameObject);
     }
-
     private void OnDestroy()
     {
-        Instantiate(cashPrefab, transform.position, Quaternion.identity);
+        StateActions.PlayerSpawned -= SetPlayer;
+    }
+
+    private void SetPlayer(GameObject player)
+    {
+        this.player = player.transform;
     }
 }

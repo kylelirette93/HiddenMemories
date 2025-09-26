@@ -91,13 +91,14 @@ public class PlayerController : MonoBehaviour
 
     private void HandleMovement()
     {
-        bool isMoving = moveInput.magnitude > 0.1f;
+        bool isMoving = Mathf.Abs(moveInput.y) > 0.1f; // Only forward/back
+        bool movingForward = moveInput.y > 0.1f;
 
         // Determine the target FOV and speed based on sprinting and moving
         float targetFov = walkFov;
         float targetSpeed = walkSpeed;
 
-        if (isSprinting && isMoving)
+        if (isSprinting && movingForward)
         {
             targetFov = sprintFov;
             targetSpeed = runSpeed;
@@ -117,6 +118,7 @@ public class PlayerController : MonoBehaviour
         if (context.performed)
         {
             // When the sprint button is pressed and held, set isSprinting to true
+            if (moveInput.y > 0.1f)
             isSprinting = true;
         }
         else if (context.canceled)

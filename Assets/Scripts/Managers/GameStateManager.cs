@@ -1,3 +1,5 @@
+using System;
+using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -12,6 +14,7 @@ public class GameStateManager : MonoBehaviour
     Camera sceneCamera;
     InputManager input;
     bool isPaused = false;
+    public GameObject playerInstance;
     private void Start()
     {
         sceneCamera = GameManager.Instance.sceneCamera;
@@ -83,7 +86,8 @@ public class GameStateManager : MonoBehaviour
     public void SpawnPlayer()
     {
         Vector3 spawnPosition = levelManager.SpawnPoint;
-        Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
+        playerInstance = Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
+        StateActions.PlayerSpawned?.Invoke(playerInstance);
     }
     public void Upgrades()
     {
@@ -150,4 +154,9 @@ public enum GameState
     Upgrades,
     Results,
     GameWin
+}
+
+public static class StateActions
+{
+    public static Action<GameObject> PlayerSpawned;
 }

@@ -38,7 +38,6 @@ public class GameManager : MonoBehaviour
         progressManager = GetComponentInChildren<ProgressManager>();
         upgradeManager = GetComponentInChildren<UpgradeManager>();
         levelManager = GetComponentInChildren<LevelManager>();
-        hud = FindObjectOfType<HUD>();
         #endregion
     }
 }

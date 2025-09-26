@@ -25,6 +25,7 @@ public class PlayerStats : MonoBehaviour
 
     private void Awake()
     {
+        #region Singleton Instance
         // Singleton pattern for accessing stats globally.
         if (Instance == null)
         {
@@ -34,6 +35,8 @@ public class PlayerStats : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        #endregion
+        InteractableActions.AddCash += IncrementCurrency;
     }
 
     private void Start()
@@ -48,5 +51,11 @@ public class PlayerStats : MonoBehaviour
             yield return new WaitForSeconds(2.5f);
             soulHealth--;
         }
+    }
+
+    private void IncrementCurrency(ItemDataSO itemData)
+    {
+        currency += itemData.value;
+        Debug.Log("Currency: " + currency);
     }
 }

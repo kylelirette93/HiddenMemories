@@ -5,6 +5,7 @@ using UnityEngine;
 public class ItemDataSO : ScriptableObject
 {
     public ItemType itemType;
+    public int value;
 }
 
 public enum ItemType
