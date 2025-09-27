@@ -12,11 +12,9 @@ GameObject:
   - component: {fileID: 4509671924903874570}
   - component: {fileID: 6059750439774879347}
   - component: {fileID: 6115365273006050305}
-  - component: {fileID: 4101596442344080101}
   - component: {fileID: 5714174638331498274}
-  - component: {fileID: 5782737838551792587}
   - component: {fileID: 489212120606512781}
-  - component: {fileID: 2787691100401010851}
+  - component: {fileID: 4996286678288620722}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -113,27 +111,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!135 &4101596442344080101
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5102227645899359565}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 2.07095
-  m_Center: {x: 0.1254425, y: 0.31989717, z: 0}
 --- !u!114 &5714174638331498274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -160,18 +137,7 @@ MonoBehaviour:
   playerInSightRange: 0
   playerInAttackRange: 0
   cashPrefab: {fileID: 7452763399633447479, guid: bf83bbcde8f5ea440aa5e356e81af3ab, type: 3}
---- !u!114 &5782737838551792587
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5102227645899359565}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56d9622405bd57e429e44d7224465467, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  bloodParticles: {fileID: 3771408447181565798, guid: cc03c6018cf60c94380b3f67568f9efc, type: 3}
 --- !u!195 &489212120606512781
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -192,32 +158,17 @@ NavMeshAgent:
   m_AutoRepath: 1
   m_Height: 1
   m_BaseOffset: 0.5
-  m_WalkableMask: 4294967295
+  m_WalkableMask: 1
   m_ObstacleAvoidanceType: 4
---- !u!54 &2787691100401010851
-Rigidbody:
+--- !u!114 &4996286678288620722
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5102227645899359565}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 112
-  m_CollisionDetection: 0
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9540474851d1bb49b9a717dd7f9c23c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

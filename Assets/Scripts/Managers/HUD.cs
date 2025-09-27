@@ -6,7 +6,7 @@ public class HUD : MonoBehaviour
 {
     public Slider soulMeterSlider;
     public TextMeshProUGUI currencyText;
-
+    public Slider healthBarSlider;
 
 
     public void Update()
@@ -16,6 +16,5 @@ public class HUD : MonoBehaviour
             soulMeterSlider.value = (float)PlayerStats.Instance.SoulHealth / (float)PlayerStats.Instance.MaxSoulHealth;
             currencyText.text = "$" + PlayerStats.Instance.Currency.ToString();
         }
-
     }
 }

@@ -5,9 +5,6 @@ using UnityEngine;
 public class PlayerStats : MonoBehaviour
 {
     public static PlayerStats Instance { get; private set; }
-    // Player's health.
-    public int PlayerHealth { get { return playerHealth; } set { playerHealth = value; } }
-    int playerHealth = 100;
     // Amount of souls player has(decreases every second).
     public int SoulHealth
     {
@@ -48,13 +45,15 @@ public class PlayerStats : MonoBehaviour
     {
         while (soulHealth > 0)
         {
-            yield return new WaitForSeconds(2.5f);
+            yield return new WaitForSeconds(0.6f);
             soulHealth--;
         }
+        PlayerHealthActions.PlayerDied?.Invoke();
     }
 
     private void IncrementCurrency(ItemDataSO itemData)
     {
+        soulHealth += itemData.value;
         currency += itemData.value;
         Debug.Log("Currency: " + currency);
     }

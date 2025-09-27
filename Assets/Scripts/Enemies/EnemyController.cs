@@ -1,8 +1,8 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
-using DG.Tweening;
-using UnityEngine.InputSystem.Processors;
+using System;
+using Random = UnityEngine.Random;
 
 public class EnemyController : MonoBehaviour
 {
@@ -25,21 +25,22 @@ public class EnemyController : MonoBehaviour
     public float sightRange, attackRange;
     public bool playerInSightRange, playerInAttackRange;
 
-    private Health health;
+    private EnemyHealth health;
     Material material;
     Color originalColor;
     public GameObject cashPrefab;
     bool canTakeDamage = true;
     bool isDead = false;
+    public ParticleSystem bloodParticles;
 
 
     private void Awake()
     {
-        health = GetComponent<Health>();
+        health = GetComponent<EnemyHealth>();
         StateActions.PlayerSpawned += SetPlayer;
         agent = GetComponent<NavMeshAgent>();
         material = GetComponentInChildren<Renderer>().material;
-        health.OnDeath += OnDeath;
+        health.OnEnemyDied += OnDeath;
     }
 
     private void Update()
@@ -100,10 +101,11 @@ public class EnemyController : MonoBehaviour
         alreadyAttacked = false;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.CompareTag("Bullet") && canTakeDamage)
+        if (collision.gameObject.CompareTag("Bullet") && canTakeDamage)
         {
+            ParticleSystem particles = Instantiate(bloodParticles, transform.position, Quaternion.identity);
             StartCoroutine(FlashRed());
         }
     }
@@ -119,17 +121,16 @@ public class EnemyController : MonoBehaviour
         canTakeDamage = true;
     }
 
-    private void OnDeath()
+    public void OnDeath()
     {
         if (isDead) return;
         isDead = true;
-
-        health.OnDeath -= OnDeath;
+        health.OnEnemyDied -= OnDeath;
         Vector3 spawnPos = new Vector3(transform.position.x, 1f, transform.position.z);
         GameObject temp = Instantiate(cashPrefab, spawnPos, cashPrefab.transform.rotation);
         Debug.Log("Enemy's current position: " + transform.position);
         Debug.Log("Game object spawned at: " + spawnPos);
-        temp.transform.SetParent(null);
+        GameManager.Instance.spawnManager.RemoveEnemy(gameObject);
         Destroy(gameObject);
     }
 

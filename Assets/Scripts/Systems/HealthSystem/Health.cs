@@ -3,22 +3,19 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
-    int currentHealth = 100;
-    int maxHealth = 100;
-    public Action OnDeath;
+    public int CurrentHealth { get { return currentHealth; } }  
+    protected int currentHealth = 100;
+    public int MaxHealth { get { return maxHealth; } }
+    protected int maxHealth = 100;
 
-    private void Start()
+    public virtual void Start()
     {
         currentHealth = maxHealth;
     }
 
-    public void TakeDamage(int damage)
+    public virtual void TakeDamage(int damage)
     {
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, 100);
-        if (currentHealth <= 0)
-        {
-            OnDeath?.Invoke();
-        }
     }
 }

@@ -8,6 +8,7 @@ TagManager:
   - EnemySpawn
   - Enemy
   - Bullet
+  - GunSpawn
   layers:
   - Default
   - TransparentFX

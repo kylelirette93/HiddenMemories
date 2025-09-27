@@ -1,6 +1,6 @@
-using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using DG.Tweening;
 
 public class WeaponController : MonoBehaviour
 {
@@ -19,6 +19,7 @@ public class WeaponController : MonoBehaviour
     public GameObject bulletPrefab;
     public Transform firePoint;
     InputManager input;
+    ParticleSystem muzzleFlash;
 
     private void Awake()
     {
@@ -29,6 +30,7 @@ public class WeaponController : MonoBehaviour
 
     private void OnDestroy()
     {
+        input.ShootEvent -= Shoot;
         InteractableActions.AddWeapon -= AddWeapon;
     }
 
@@ -68,6 +70,7 @@ public class WeaponController : MonoBehaviour
             currentWeaponInstance = Instantiate(currentWeapon.weaponPrefab, weaponParent);
             currentWeaponInstance.transform.localPosition = Vector3.zero;
             currentWeaponInstance.transform.localRotation = Quaternion.identity;
+            muzzleFlash = currentWeaponInstance.GetComponentInChildren<ParticleSystem>();
             Transform newFirepoint = currentWeaponInstance.transform.Find("Firepoint");
             newFirepoint.transform.localScale = Vector3.one;
             newFirepoint.transform.localRotation = Quaternion.identity;
@@ -96,12 +99,39 @@ public class WeaponController : MonoBehaviour
             int spreadCount = spread;
             if (fireSound != null)
             {
+                ShootRecoil();
+
                 GameManager.Instance.audioManager.PlaySFX(fireSound);
+                muzzleFlash?.Play();
+            }
+            if (bulletPrefab == null || firePoint == null)
+            {
+                Debug.LogWarning("Bullet prefab or fire point is not assigned.");
+                return;
             }
             GameObject bullet = Instantiate(bulletPrefab, firePoint.position, weaponParent.rotation);
             Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
             bulletRb.linearVelocity = firePoint.forward * bulletSpeed;
         }
+    }
+
+    public void ShootRecoil()
+    {
+        Vector3 originalPos = weaponParent.localPosition;
+        Vector3 originalRot = weaponParent.localEulerAngles;
+
+        float recoilRot = -5f;
+        float recoilBack = -0.3f;
+
+        Sequence recoilSequence = DOTween.Sequence();
+
+        // Rotate up & move back at the same time
+        recoilSequence.Append(weaponParent.DOLocalRotate(new Vector3(recoilRot, 0f, 0f), 0.05f));
+        recoilSequence.Join(weaponParent.DOLocalMoveZ(originalPos.z + recoilBack, 0.05f));
+
+        // Return to original position & rotation
+        recoilSequence.Append(weaponParent.DOLocalRotate(originalRot, 0.1f));
+        recoilSequence.Join(weaponParent.DOLocalMoveZ(originalPos.z, 0.1f));
     }
 
     private void OnDrawGizmos()

@@ -1,0 +1,35 @@
+using System;
+
+public class PlayerHealth : Health
+{
+    
+    public override void Start()
+    {
+        base.Start();
+    }
+
+    public override void TakeDamage(int damage)
+    {
+        currentHealth -= damage;
+        PlayerHealthActions.OnPlayerHealthChanged?.Invoke(currentHealth - damage, maxHealth);
+        currentHealth = Math.Clamp(currentHealth, 0, maxHealth);
+        if (currentHealth <= 0)
+        {
+            Heal(maxHealth);
+            PlayerHealthActions.PlayerDied?.Invoke();
+        }
+    }
+
+    public void Heal(int amount)    
+    {
+        currentHealth += amount;
+        currentHealth = Math.Clamp(currentHealth, 0, maxHealth);
+        PlayerHealthActions.OnPlayerHealthChanged?.Invoke(currentHealth + amount, maxHealth);
+    }
+}
+public static class PlayerHealthActions
+{
+    public static Action<int, int> OnPlayerHealthChanged;
+    // Player died, notify game state manager.
+    public static Action PlayerDied;
+}

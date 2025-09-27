@@ -1,7 +1,8 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using DG.Tweening;
+
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
@@ -34,12 +35,19 @@ public class PlayerController : MonoBehaviour
     Vector2 lookInput;
     [SerializeField]float lookSensitivity = 17f;
     float cameraRotationX = 0f;
+    bool canTakeDamage = true;
+
+    PlayerHealth health;
+
+    [Header("Sound Effects")]
+    public AudioClip oof;
     private void Awake()
     {
         inputManager = GameManager.Instance.inputManager;
         rb = GetComponent<Rigidbody>();
         playerCamera = GetComponentInChildren<Camera>();
         movementSpeed = walkSpeed;
+        health = GetComponent<PlayerHealth>();
     }
 
     private void OnEnable()
@@ -70,6 +78,7 @@ public class PlayerController : MonoBehaviour
     {
         if (isGrounded)
         {
+            if (rb != null)
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
     }
@@ -128,7 +137,38 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-   
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy") && canTakeDamage)
+        {
+            TakeHit();
+            GameManager.Instance.audioManager.PlaySFX(oof);
+            health.TakeDamage(20);
+            canTakeDamage = false;
+            StartCoroutine(DamageCooldown());
+        }
+    }
+
+    private void TakeHit()
+    {
+        Vector3 originalPosition = transform.localPosition;
+
+        float knockbackDistance = 2f;
+
+        Vector3 targetPosition = originalPosition - transform.forward * knockbackDistance;
+
+        Sequence knockbackSequence = DOTween.Sequence();
+
+        knockbackSequence.Append(rb.DOMove(targetPosition, 0.2f).SetUpdate(true).SetEase(Ease.OutQuad));
+
+    }
+
+    IEnumerator DamageCooldown()
+    {
+        yield return new WaitForSeconds(1.5f);
+        canTakeDamage = true;
+    }
+
 
     private void HandleLook()
     {

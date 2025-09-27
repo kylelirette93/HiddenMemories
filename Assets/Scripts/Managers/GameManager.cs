@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public InputManager inputManager;
     public LevelManager levelManager;
     public HUD hud;
+    public SpawnManager spawnManager;
 
     private void Awake()
     {
@@ -38,6 +39,7 @@ public class GameManager : MonoBehaviour
         progressManager = GetComponentInChildren<ProgressManager>();
         upgradeManager = GetComponentInChildren<UpgradeManager>();
         levelManager = GetComponentInChildren<LevelManager>();
+        spawnManager = GetComponentInChildren<SpawnManager>();
         #endregion
     }
 }

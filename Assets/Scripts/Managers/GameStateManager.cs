@@ -1,8 +1,5 @@
 using System;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class GameStateManager : MonoBehaviour
 {
@@ -15,6 +12,7 @@ public class GameStateManager : MonoBehaviour
     InputManager input;
     bool isPaused = false;
     public GameObject playerInstance;
+    
     private void Start()
     {
         sceneCamera = GameManager.Instance.sceneCamera;
@@ -42,19 +40,22 @@ public class GameStateManager : MonoBehaviour
                 uiManager.DisableAllMenuUI();
                 uiManager.EnableMainMenuUI();
                 break;
+            case GameState.Instructions:
+                uiManager.DisableAllMenuUI();
+                uiManager.EnableInstructionsUI();
+                break;
             case GameState.Settings:
                 uiManager.DisableAllMenuUI();
                 uiManager.EnableSettingsUI();
                 break;
             case GameState.Gameplay:
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
+                DisableCursor();
                 uiManager.DisableAllMenuUI();
                 uiManager.EnableGameplayUI();
+                StateActions.Start?.Invoke();
                 break;
             case GameState.Pause:
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
+                EnableCursor();
                 uiManager.DisableAllMenuUI();
                 uiManager.EnablePauseUI();
                 break;
@@ -67,6 +68,7 @@ public class GameStateManager : MonoBehaviour
                 uiManager.EnableUpgradeUI();
                 break;
             case GameState.Results:
+                EnableCursor();
                 uiManager.DisableAllMenuUI();
                 uiManager.EnableResultUI();
                 break;
@@ -77,6 +79,17 @@ public class GameStateManager : MonoBehaviour
         }
     }
 
+    private void EnableCursor()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
+    private void DisableCursor()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
     public void PlayGame()
     {
         sceneCamera.gameObject.SetActive(false);
@@ -88,6 +101,15 @@ public class GameStateManager : MonoBehaviour
         Vector3 spawnPosition = levelManager.SpawnPoint;
         playerInstance = Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
         StateActions.PlayerSpawned?.Invoke(playerInstance);
+        PlayerHealthActions.PlayerDied += HandlePlayerDeath;
+    }
+
+    private void HandlePlayerDeath()
+    {
+        Destroy(playerInstance);
+        sceneCamera.gameObject.SetActive(true);
+        Results();
+        PlayerHealthActions.PlayerDied -= HandlePlayerDeath;
     }
     public void Upgrades()
     {
@@ -116,6 +138,11 @@ public class GameStateManager : MonoBehaviour
         Time.timeScale = 1f;
     }
 
+    public void Instructions()
+    {
+        ChangeState(GameState.Instructions);
+    }
+
     public void GoBack()
     {
         ChangeState(previousState);
@@ -137,16 +164,29 @@ public class GameStateManager : MonoBehaviour
     }
     public void Results()
     {
+        // If we go to results, reset the game.
+        StateActions.Reset?.Invoke();
         ChangeState(GameState.Results);
     }
     public void GameWin()
     {
         ChangeState(GameState.GameWin);
     }
+
+    private void OnDestroy()
+    {
+        StateActions.Reset -= StateActions.Reset;
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
 }
 public enum GameState
 {
     MainMenu,
+    Instructions,
     Settings,
     Gameplay,
     Pause,
@@ -159,4 +199,6 @@ public enum GameState
 public static class StateActions
 {
     public static Action<GameObject> PlayerSpawned;
+    public static Action Reset;
+    public static Action Start;
 }
