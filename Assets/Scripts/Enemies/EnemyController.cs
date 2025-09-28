@@ -126,6 +126,7 @@ public class EnemyController : MonoBehaviour
         if (isDead) return;
         isDead = true;
         health.OnEnemyDied -= OnDeath;
+        PlayerStats.Instance.IncrementSoulHealth();
         Vector3 spawnPos = new Vector3(transform.position.x, 1f, transform.position.z);
         GameObject temp = Instantiate(cashPrefab, spawnPos, cashPrefab.transform.rotation);
         Debug.Log("Enemy's current position: " + transform.position);

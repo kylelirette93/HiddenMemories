@@ -50,9 +50,9 @@ public class GameStateManager : MonoBehaviour
                 break;
             case GameState.Gameplay:
                 DisableCursor();
+                StateActions.Start?.Invoke();
                 uiManager.DisableAllMenuUI();
                 uiManager.EnableGameplayUI();
-                StateActions.Start?.Invoke();
                 break;
             case GameState.Pause:
                 EnableCursor();
@@ -107,7 +107,10 @@ public class GameStateManager : MonoBehaviour
     private void HandlePlayerDeath()
     {
         Destroy(playerInstance);
-        sceneCamera.gameObject.SetActive(true);
+        if (sceneCamera != null)
+        {
+            sceneCamera.gameObject.SetActive(true);
+        }
         Results();
         PlayerHealthActions.PlayerDied -= HandlePlayerDeath;
     }

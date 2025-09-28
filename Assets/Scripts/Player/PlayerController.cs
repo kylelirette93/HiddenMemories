@@ -68,6 +68,14 @@ public class PlayerController : MonoBehaviour
         lookInput = new Vector2(vector.x, vector.y);
     }
 
+    private void Update()
+    {
+        if (transform.position.y <= -10f)
+        {
+            health.TakeDamage(health.CurrentHealth);
+        }
+    }
+
     private void FixedUpdate()
     {
         isGrounded = GroundCheck();

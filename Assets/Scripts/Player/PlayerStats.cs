@@ -1,3 +1,4 @@
+using NUnit.Framework.Interfaces;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -53,8 +54,12 @@ public class PlayerStats : MonoBehaviour
 
     private void IncrementCurrency(ItemDataSO itemData)
     {
-        soulHealth += itemData.value;
         currency += itemData.value;
         Debug.Log("Currency: " + currency);
+    }
+
+    public void IncrementSoulHealth()
+    {
+        soulHealth += 10;
     }
 }

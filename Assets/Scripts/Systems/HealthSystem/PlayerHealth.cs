@@ -6,16 +6,16 @@ public class PlayerHealth : Health
     public override void Start()
     {
         base.Start();
+        PlayerHealthActions.OnPlayerHealthChanged?.Invoke(currentHealth, maxHealth);
     }
 
     public override void TakeDamage(int damage)
     {
         currentHealth -= damage;
-        PlayerHealthActions.OnPlayerHealthChanged?.Invoke(currentHealth - damage, maxHealth);
+        PlayerHealthActions.OnPlayerHealthChanged?.Invoke(currentHealth, maxHealth);
         currentHealth = Math.Clamp(currentHealth, 0, maxHealth);
         if (currentHealth <= 0)
         {
-            Heal(maxHealth);
             PlayerHealthActions.PlayerDied?.Invoke();
         }
     }
@@ -24,7 +24,7 @@ public class PlayerHealth : Health
     {
         currentHealth += amount;
         currentHealth = Math.Clamp(currentHealth, 0, maxHealth);
-        PlayerHealthActions.OnPlayerHealthChanged?.Invoke(currentHealth + amount, maxHealth);
+        PlayerHealthActions.OnPlayerHealthChanged?.Invoke(currentHealth, maxHealth);
     }
 }
 public static class PlayerHealthActions
