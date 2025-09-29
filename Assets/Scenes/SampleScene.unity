@@ -1215,9 +1215,17 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: Instructions
       objectReference: {fileID: 0}
+    - target: {fileID: 889457897345005749, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1192542708536616744, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
       propertyPath: m_Name
       value: GameManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 1936146635840961751, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2343883285817200627, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
       propertyPath: InstructionsPanel
@@ -1298,6 +1306,10 @@ PrefabInstance:
     - target: {fileID: 6172854752210377842, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
       propertyPath: m_Volume
       value: 0.64
+      objectReference: {fileID: 0}
+    - target: {fileID: 6294696879880708336, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -150.07
       objectReference: {fileID: 0}
     - target: {fileID: 6899257064621769845, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
       propertyPath: pistolPickup

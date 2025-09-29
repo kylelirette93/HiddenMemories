@@ -125,7 +125,7 @@ public class GameStateManager : MonoBehaviour
         {
             ResumeGame(); 
         }
-        else
+        else if (!isPaused && currentState == GameState.Gameplay)
         {
             previousState = currentState;
             ChangeState(GameState.Pause);
