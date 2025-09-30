@@ -12,4 +12,8 @@ public class WeaponDataSO : ItemDataSO
     public int spread = 0;
     public GameObject weaponPrefab;
     public AudioClip gun_fire;
+    public Vector3 firePoint;
+    public int index;
+    public GameObject bulletPrefab;
+    public Sprite icon;
 }

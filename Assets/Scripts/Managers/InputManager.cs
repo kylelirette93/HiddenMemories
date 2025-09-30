@@ -29,6 +29,7 @@ public class InputManager : MonoBehaviour, Input.IPlayerActions, UI.IControlsAct
     public event Action<InputAction.CallbackContext> JumpEvent;
     public event Action<InputAction.CallbackContext> SprintEvent;
     public event Action<InputAction.CallbackContext> ShootEvent;
+    public event Action<InputAction.CallbackContext> AimEvent;
     public event Action PauseEvent;
     #endregion
 
@@ -77,5 +78,10 @@ public class InputManager : MonoBehaviour, Input.IPlayerActions, UI.IControlsAct
     public void OnPause(InputAction.CallbackContext context)
     {
         PauseEvent?.Invoke();
+    }
+
+    public void OnAim(InputAction.CallbackContext context)
+    {
+        AimEvent?.Invoke(context);
     }
 }

@@ -13,11 +13,15 @@ MonoBehaviour:
   m_Name: Pistol
   m_EditorClassIdentifier: 
   itemType: 2
+  value: 1
   name: pistol
   powerRate: 0
-  fireRate: 0
-  clipCapacity: 0
-  reloadSpeed: 0
-  spread: 2
+  fireRate: 1
+  clipCapacity: 8
+  reloadSpeed: 0.2
+  spread: 1
   weaponPrefab: {fileID: 897810322435277991, guid: 9edc07da20cc70d499a59dbbbb7908ec, type: 3}
   gun_fire: {fileID: 8300000, guid: c976de4ffd5b0b744a51791a2e5a0495, type: 3}
+  firePoint: {x: 0, y: 3.44, z: 6.89}
+  index: 0
+  bulletPrefab: {fileID: 143548174340775267, guid: 82740ac78dc92cd4883da2fbbd38fff2, type: 3}
