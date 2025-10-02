@@ -14,7 +14,7 @@ public class HUD : MonoBehaviour
         if (PlayerStats.Instance != null)
         {
             soulMeterSlider.value = (float)PlayerStats.Instance.SoulHealth / (float)PlayerStats.Instance.MaxSoulHealth;
-            currencyText.text = "$" + PlayerStats.Instance.Currency.ToString();
+            currencyText.text = "$" + GameManager.Instance.currencyManager.Currency.ToString();
         }
     }
 }

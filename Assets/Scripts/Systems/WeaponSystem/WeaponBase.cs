@@ -1,7 +1,10 @@
 using DG.Tweening;
+using NUnit.Framework;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public class WeaponBase : MonoBehaviour
 {
@@ -9,6 +12,10 @@ public class WeaponBase : MonoBehaviour
     protected WeaponDataSO weaponData;
     public int CurrentAmmo { get { return currentAmmo; } }
     protected int currentAmmo;
+    public int ClipCapacity { get { return clipCapacity; } }
+    protected int clipCapacity;
+    protected int reloadSpeed;
+    protected int fireRate;
     protected float lastShotTime;
     protected InputManager input;
     protected Transform firePoint;
@@ -19,36 +26,43 @@ public class WeaponBase : MonoBehaviour
     protected Transform weaponParent;
     ParticleSystem muzzleFlash;
     protected RectTransform crosshairUI;
-    private void Awake()
+    [SerializeField] protected List<UpgradeDataSO> availableUpgrades = new List<UpgradeDataSO>();
+
+    public virtual void Awake()
     {
         input = GameManager.Instance.inputManager;
         playerCamera = GameObject.Find("Camera").GetComponent<Camera>();
         weaponParent = GameObject.Find("WeaponParent").transform;
         crosshairUI = GameObject.Find("Crosshair").GetComponent<RectTransform>();
     }
-    private void OnEnable()
+    public virtual void OnEnable()
     {
         input.ShootEvent += OnShoot;
     }
 
-    private void OnDestroy()
+    public virtual void OnDestroy()
     {
         input.ShootEvent -= OnShoot;
     }
-    public void Initialize(WeaponDataSO data)
+    public virtual void Initialize(WeaponDataSO data)
     {
         // Weapon is initialized with stats after being instantiated. 
         weaponData = data;
         currentAmmo = weaponData.clipCapacity;
+        reloadSpeed = (int)weaponData.reloadSpeed;
+        clipCapacity = weaponData.clipCapacity;
+        fireRate = (int)weaponData.fireRate;
         fireSound = weaponData.gun_fire;
         fireSound.name = weaponData.name + "_fire";
         bulletPrefab = weaponData.bulletPrefab;
         lastShotTime = -1;
         firePoint = transform.Find("Firepoint");
         muzzleFlash = GetComponentInChildren<ParticleSystem>();
+
+        ApplyAllUpgrades();
     }
 
-    public void Update()
+    public virtual void Update()
     {
         if (weaponData == null || firePoint == null) return;
 
@@ -57,11 +71,11 @@ public class WeaponBase : MonoBehaviour
         crosshairUI.position = new Vector3(Screen.width / 2, Screen.height / 2, 0f);
     }
 
-    private void OnShoot(InputAction.CallbackContext context)
+    protected void OnShoot(InputAction.CallbackContext context)
     {
         if (context.started)
         {
-            if (weaponData != null && Time.time < lastShotTime + (1f / weaponData.fireRate))
+            if (weaponData != null && Time.time < lastShotTime + (1f / fireRate))
             {
                 return;
             }
@@ -77,7 +91,7 @@ public class WeaponBase : MonoBehaviour
                     muzzleFlash?.Play();
                 }
 
-                Debug.Log("Firing weapon: " + weaponData.name + ". Ammo left: " + currentAmmo);
+                Debug.Log("Firing weapon: " + name + ". Ammo left: " + currentAmmo);
 
                 // Gives a little pop effect for crosshair when firing.
                 crosshairUI.DOSizeDelta(new Vector2(60, 60), 0.1f).OnComplete(() =>
@@ -112,20 +126,19 @@ public class WeaponBase : MonoBehaviour
             }
         }
     }
-
     protected IEnumerator Reload()
     {
-        for (int i = currentAmmo; i < weaponData.clipCapacity; i++)
+        for (int i = currentAmmo; i < clipCapacity; i++)
         {
             // Small delay to simulate reloading time.
             // TODO: Add reload sound effect, add reload animation.
-            yield return new WaitForSeconds(1f * weaponData.reloadSpeed);
-            Debug.Log("Reloading... " + (i + 1) + "/" + weaponData.clipCapacity);
+            yield return new WaitForSeconds(1f * reloadSpeed);
+            Debug.Log("Reloading... " + (i + 1) + "/" + clipCapacity);
             currentAmmo++;
         }
     }
 
-    public void ShootRecoil()
+    protected void ShootRecoil()
     {
         Vector3 originalPos = transform.localPosition;
         Vector3 originalRot = transform.localEulerAngles;
@@ -135,12 +148,25 @@ public class WeaponBase : MonoBehaviour
 
         Sequence recoilSequence = DOTween.Sequence();
 
-        // Rotate up & move back at the same time
+        // Rotate up & move back at the same time.
         recoilSequence.Append(transform.DOLocalRotate(new Vector3(recoilRot, 0f, 0f), 0.05f));
         recoilSequence.Join(transform.DOLocalMoveZ(originalPos.z + recoilBack, 0.05f));
 
-        // Return to original position & rotation
+        // Return to original position & rotation.
         recoilSequence.Append(transform.DOLocalRotate(originalRot, 0.1f));
         recoilSequence.Join(transform.DOLocalMoveZ(originalPos.z, 0.1f));
+    }
+
+    protected virtual void ApplyAllUpgrades()
+    {
+        // Check weapon for applicable upgrades and apply them.
+        foreach (var upgrade in availableUpgrades)
+        {
+            int tier = GameManager.Instance.upgradeManager.GetUpgradeTier(upgrade);
+            if (tier > 0)
+            {
+                upgrade.Upgrade(this, tier);
+            }
+        }
     }
 }

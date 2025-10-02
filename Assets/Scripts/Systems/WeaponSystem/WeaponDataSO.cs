@@ -10,6 +10,8 @@ public class WeaponDataSO : ItemDataSO
     public int clipCapacity;
     public float reloadSpeed;
     public int spread = 0;
+    public float recoil = 0;
+    public float bulletSpread = 0;
     public GameObject weaponPrefab;
     public AudioClip gun_fire;
     public Vector3 firePoint;

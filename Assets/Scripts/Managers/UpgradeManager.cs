@@ -1,38 +1,18 @@
-using NUnit.Framework.Constraints;
-using Unity.VisualScripting;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class UpgradeManager : MonoBehaviour
 {
-    WeaponController weaponController;
+    private Dictionary<string, int> purchasedUpgrades = new();
 
-    public void ApplyUpgrade(UpgradeDataSO upgradeData)
+    public int GetUpgradeTier(UpgradeDataSO upgrade)
     {
-        // Get the upgrade data passed. 
-        switch (upgradeData.upgradeType)
-        {
-            case UpgradeType.PowerRate:
-                
-                // Apply power rate here.
-                break;
-            case UpgradeType.ClipCapacity:
-                // Apply capacity here.
-                break;
-            case UpgradeType.MaxHealth:
-                // Apply maximum health here.
-                break;
-            case UpgradeType.FireRate:
-                // Apply fire rate here.
-                break;
-            case UpgradeType.Recoil:
-                // Apply recoil here.
-                break;
-            case UpgradeType.ReloadSpeed:
-                // Apply reload speed here.
-                break;
-            case UpgradeType.BiggerSpread:
-                // Apply spread count here.
-                break;
-        }
+        return purchasedUpgrades.TryGetValue(upgrade.UpgradeID, out int tier) ? tier : 0;
+    }
+    public void PurchaseUpgrade(UpgradeDataSO upgrade)
+    {
+        string id = upgrade.UpgradeID;
+        purchasedUpgrades[id] = purchasedUpgrades.GetValueOrDefault(id, 0) + 1;
+        // Ideally, im gonna save upgrade here wit a binary formatter.
     }
 }

@@ -11,6 +11,6 @@ public class WeaponUI : MonoBehaviour
     {
         if (weaponData == null || weaponInstance == null) return;
         icon.sprite = weaponData.icon;
-        ammoText.text = $"{weaponInstance.CurrentAmmo}/{weaponData.clipCapacity}";
+        ammoText.text = $"{weaponInstance.CurrentAmmo}/{weaponInstance.ClipCapacity}";
     }
 }

@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public LevelManager levelManager;
     public HUD hud;
     public SpawnManager spawnManager;
+    public CurrencyManager currencyManager;
 
     private void Awake()
     {
@@ -40,6 +41,7 @@ public class GameManager : MonoBehaviour
         upgradeManager = GetComponentInChildren<UpgradeManager>();
         levelManager = GetComponentInChildren<LevelManager>();
         spawnManager = GetComponentInChildren<SpawnManager>();
+        currencyManager = GetComponentInChildren<CurrencyManager>();
         #endregion
     }
 }

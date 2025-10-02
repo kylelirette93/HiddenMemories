@@ -16,9 +16,6 @@ public class PlayerStats : MonoBehaviour
     public int MaxSoulHealth { get { return maxSoulHealth; } }
     int maxSoulHealth = 100;
 
-    public int Currency { get { return currency; } set { currency = value; } }
-    int currency = 0;
-
     public event Action<int> OnSoulHealthChanged;
 
     private void Awake()
@@ -34,7 +31,6 @@ public class PlayerStats : MonoBehaviour
             Destroy(gameObject);
         }
         #endregion
-        InteractableActions.AddCash += IncrementCurrency;
     }
 
     private void Start()
@@ -50,12 +46,6 @@ public class PlayerStats : MonoBehaviour
             soulHealth--;
         }
         PlayerHealthActions.PlayerDied?.Invoke();
-    }
-
-    private void IncrementCurrency(ItemDataSO itemData)
-    {
-        currency += itemData.value;
-        Debug.Log("Currency: " + currency);
     }
 
     public void IncrementSoulHealth()

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 738657603213740798}
   - component: {fileID: 8910701665164521500}
   - component: {fileID: 4440158394598352049}
-  - component: {fileID: 2296943115354336393}
+  - component: {fileID: 7251511445243659473}
   m_Layer: 0
   m_Name: Weapon_Pistol
   m_TagString: Untagged
@@ -112,7 +112,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4493585093827132993, guid: 0fd265726fbd47349a2ceb69ec9ab200, type: 3}
---- !u!114 &2296943115354336393
+--- !u!114 &7251511445243659473
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -121,9 +121,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 897810322435277991}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e994129a2cbdd7a4a83c70b8c552c731, type: 3}
+  m_Script: {fileID: 11500000, guid: f0e1f261a8cddd142a96f4fd0b3c115b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  availableUpgrades:
+  - {fileID: 11400000, guid: 4edb95a5b446b6f4bbcfd5247beeebde, type: 2}
 --- !u!1 &6104997954474566265
 GameObject:
   m_ObjectHideFlags: 0
