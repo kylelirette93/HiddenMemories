@@ -56,7 +56,17 @@ public class PlayerController : MonoBehaviour
         inputManager.LookInputEvent += SetLookInput;
         inputManager.JumpEvent += HandleJump;
         inputManager.SprintEvent += HandleSprint;
+        canTakeDamage = true;
     }
+
+    private void OnDisable()
+    {
+        inputManager.MoveInputEvent -= SetMoveInput;
+        inputManager.LookInputEvent -= SetLookInput;
+        inputManager.JumpEvent -= HandleJump;
+        inputManager.SprintEvent -= HandleSprint;
+    }
+    
 
     private void SetMoveInput(Vector2 vector)
     {
@@ -149,25 +159,32 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy") && canTakeDamage)
         {
-            TakeHit();
-            GameManager.Instance.audioManager.PlaySFX(oof);
-            health.TakeDamage(20);
-            canTakeDamage = false;
-            StartCoroutine(DamageCooldown());
+            if (health.CurrentHealth > 0)
+            {
+                TakeHit();
+                GameManager.Instance.audioManager.PlaySFX(oof);
+                health.TakeDamage(20);
+                canTakeDamage = false;
+                if (isActiveAndEnabled)
+                {
+                    StartCoroutine(DamageCooldown());
+                }
+            }        
         }
     }
 
     private void TakeHit()
     {
-        Vector3 originalPosition = transform.localPosition;
+        float knockbackForce = 200f;
 
-        float knockbackDistance = 2f;
+        Vector3 knockbackDirection = -transform.forward;
 
-        Vector3 targetPosition = originalPosition - transform.forward * knockbackDistance;
+        knockbackDirection.y = 0;
+        knockbackDirection.Normalize();
 
-        Sequence knockbackSequence = DOTween.Sequence();
+        rb.angularVelocity = Vector3.zero;
 
-        knockbackSequence.Append(rb.DOMove(targetPosition, 0.2f).SetUpdate(true).SetEase(Ease.OutQuad));
+        rb.AddForce(knockbackDirection * knockbackForce, ForceMode.Impulse);
 
     }
 
@@ -180,9 +197,9 @@ public class PlayerController : MonoBehaviour
 
     private void HandleLook()
     {
-        transform.Rotate(Vector3.up * lookInput.x * lookSensitivity * Time.deltaTime);
+        transform.Rotate(Vector3.up * lookInput.x * lookSensitivity);
 
-        cameraRotationX -= lookInput.y * lookSensitivity * Time.deltaTime;
+        cameraRotationX -= lookInput.y * lookSensitivity;
 
         // Clamp camera rotation to prevent flip effect.
         cameraRotationX = Mathf.Clamp(cameraRotationX, -90f, 90f);

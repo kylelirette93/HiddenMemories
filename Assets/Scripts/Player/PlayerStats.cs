@@ -33,8 +33,9 @@ public class PlayerStats : MonoBehaviour
         #endregion
     }
 
-    private void Start()
+    private void OnEnable()
     {
+        soulHealth = maxSoulHealth;
         StartCoroutine(SoulSubtraction());
     }
 

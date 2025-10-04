@@ -12,6 +12,11 @@ public class Pistol : WeaponBase
         base.OnEnable();
     }
 
+    public override void OnDisable()
+    {
+        base.OnDisable();
+    }
+
     public override void OnDestroy()
     {
         base.OnDestroy();

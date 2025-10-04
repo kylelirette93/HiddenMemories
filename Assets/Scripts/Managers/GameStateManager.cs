@@ -12,6 +12,7 @@ public class GameStateManager : MonoBehaviour
     InputManager input;
     bool isPaused = false;
     public GameObject playerInstance;
+    Quaternion spawnRotation;
     
     private void Start()
     {
@@ -96,17 +97,31 @@ public class GameStateManager : MonoBehaviour
         ChangeState(GameState.Gameplay);
         SpawnPlayer();
     }
+
+
     public void SpawnPlayer()
     {
         Vector3 spawnPosition = levelManager.SpawnPoint;
         playerInstance = Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
+        spawnRotation = playerInstance.transform.rotation;
+        StateActions.PlayerSpawned?.Invoke(playerInstance);
+        PlayerHealthActions.PlayerDied += HandlePlayerDeath;
+    }
+
+    public void ResetPlayer()
+    {
+        sceneCamera.gameObject.SetActive(false);
+        ChangeState(GameState.Gameplay);
+        playerInstance.SetActive(true);
+        playerInstance.transform.position = levelManager.SpawnPoint;
+        playerInstance.transform.rotation = spawnRotation;
         StateActions.PlayerSpawned?.Invoke(playerInstance);
         PlayerHealthActions.PlayerDied += HandlePlayerDeath;
     }
 
     private void HandlePlayerDeath()
     {
-        Destroy(playerInstance);
+        playerInstance.SetActive(false);
         if (sceneCamera != null)
         {
             sceneCamera.gameObject.SetActive(true);

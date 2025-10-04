@@ -10,6 +10,8 @@ public class WeaponUI : MonoBehaviour
     public void UpdateWeaponInfo(WeaponDataSO weaponData, WeaponBase weaponInstance)
     {
         if (weaponData == null || weaponInstance == null) return;
+        icon.enabled = true;
+        ammoText.enabled = true;
         icon.sprite = weaponData.icon;
         ammoText.text = $"{weaponInstance.CurrentAmmo}/{weaponInstance.ClipCapacity}";
     }

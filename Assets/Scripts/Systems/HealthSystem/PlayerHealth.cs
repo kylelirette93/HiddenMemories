@@ -17,6 +17,7 @@ public class PlayerHealth : Health
         if (currentHealth <= 0)
         {
             PlayerHealthActions.PlayerDied?.Invoke();
+            Heal(maxHealth);
         }
     }
 

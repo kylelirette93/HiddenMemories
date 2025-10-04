@@ -11,7 +11,7 @@ public class PlayerHealthBar : MonoBehaviour
 
     private void OnEnable()
     {
-        health = GameObject.FindWithTag("Player").GetComponent<PlayerHealth>();
+        health = FindFirstObjectByType<PlayerHealth>();
     }
 
     private void Start()

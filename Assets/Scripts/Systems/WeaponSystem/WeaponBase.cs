@@ -38,7 +38,14 @@ public class WeaponBase : MonoBehaviour
     public virtual void OnEnable()
     {
         input.ShootEvent += OnShoot;
+        ApplyAllUpgrades();
+        currentAmmo = clipCapacity;
     }
+
+    public virtual void OnDisable()
+    {
+        input.ShootEvent -= OnShoot;
+    }   
 
     public virtual void OnDestroy()
     {

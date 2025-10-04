@@ -8,7 +8,7 @@ public class UpgradeButton : MonoBehaviour
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI costText;
     [SerializeField] private Button button;
-    private void Start()
+    private void OnEnable()
     {
         if (button != null)
         {

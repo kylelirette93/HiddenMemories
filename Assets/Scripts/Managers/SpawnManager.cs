@@ -75,6 +75,7 @@ public class SpawnManager : MonoBehaviour
             if (pickup != null)
             {
                 Destroy(pickup);
+                StateActions.Start -= SpawnGun;
             }
         }
         pickups.Clear();

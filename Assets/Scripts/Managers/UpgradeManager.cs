@@ -13,6 +13,7 @@ public class UpgradeManager : MonoBehaviour
     {
         string id = upgrade.UpgradeID;
         purchasedUpgrades[id] = purchasedUpgrades.GetValueOrDefault(id, 0) + 1;
+        GameManager.Instance.currencyManager.Currency -= upgrade.GetCost(purchasedUpgrades[id] - 1);
         // Ideally, im gonna save upgrade here wit a binary formatter.
     }
 }
