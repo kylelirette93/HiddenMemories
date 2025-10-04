@@ -37,4 +37,10 @@ public class Pistol : WeaponBase
         clipCapacity += amount;
         currentAmmo += amount;
     }
+
+    public void AddFireRate(float amount)
+    {
+        // Add fire rate as percentage.
+        fireRate += (int)(fireRate * amount);
+    }
 }

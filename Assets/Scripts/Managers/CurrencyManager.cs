@@ -14,4 +14,6 @@ public class CurrencyManager : MonoBehaviour
     {
         currency += itemData.value;
     }
+
+    public int GetCurrency() { return currency; }
 }

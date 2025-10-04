@@ -31,24 +31,27 @@ public class UpgradeDataSO : ScriptableObject, IUpgrade
 
     public void Upgrade(WeaponBase weapon, int tier)
     {
-        // Base for applying effect to weapon.
         if (tier <= 0 || tier > maxTier) return;
 
-        // Get value of the upgrade based on tier.
+        // Calculate upgrade value
         float value = 0f;
         for (int i = 0; i < tier; i++)
         {
             value += statValues[i];
         }
 
-        switch (upgradeType)
+        if (weapon is Pistol pistol)
         {
-            case UpgradeType.ClipCapacity:
-                if (weapon is Pistol pistol)
-                {
+            switch (upgradeType)
+            {
+                case UpgradeType.ClipCapacity:
                     pistol.AddClipCapacity((int)value);
-                }
-                break;
+                    break;
+
+                case UpgradeType.FireRate:
+                    pistol.AddFireRate(value);
+                    break;
+            }
         }
     }
 }

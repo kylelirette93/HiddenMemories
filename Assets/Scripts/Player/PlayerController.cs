@@ -28,7 +28,8 @@ public class PlayerController : MonoBehaviour
     float groundCheckDistance = 1.1f;
 
     [Header("Jump Settings")]
-    float jumpForce = 450f;
+    float jumpForce = 20f;
+    bool canJump = true;
 
     [Header("Look Settings")]
     public Vector2 LookInput { get { return lookInput; } }
@@ -94,9 +95,10 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
-        if (isGrounded)
+        if (isGrounded && canJump)
         {
             if (rb != null)
+            rb.angularVelocity = Vector3.zero;
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
     }
@@ -159,9 +161,14 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy") && canTakeDamage)
         {
-            if (health.CurrentHealth > 0)
+            canJump = false;
+            Vector3 toEnemy = (collision.transform.position - transform.position).normalized;
+
+            float dot = Vector3.Dot(transform.forward, toEnemy);
+
+            if (health.CurrentHealth > 0 && dot > 0.7f)
             {
-                TakeHit();
+                TakeHit(collision);
                 GameManager.Instance.audioManager.PlaySFX(oof);
                 health.TakeDamage(20);
                 canTakeDamage = false;
@@ -169,23 +176,32 @@ public class PlayerController : MonoBehaviour
                 {
                     StartCoroutine(DamageCooldown());
                 }
-            }        
+            }
+            else
+            {
+                Debug.Log("Ignore collision, not facing enemy or dead.");
+            }
         }
     }
 
-    private void TakeHit()
+    private void OnCollisionExit(Collision collision)
     {
-        float knockbackForce = 200f;
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            canJump = true;
+        }
+    }
+
+    private void TakeHit(Collision collision)
+    {
+        float knockbackForce = 20f;
 
         Vector3 knockbackDirection = -transform.forward;
-
         knockbackDirection.y = 0;
         knockbackDirection.Normalize();
 
         rb.angularVelocity = Vector3.zero;
-
         rb.AddForce(knockbackDirection * knockbackForce, ForceMode.Impulse);
-
     }
 
     IEnumerator DamageCooldown()

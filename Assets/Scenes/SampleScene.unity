@@ -119,17 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!114 &86101854 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4420142158987245292, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
-  m_PrefabInstance: {fileID: 1473439124}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &193419545
 GameObject:
   m_ObjectHideFlags: 0
@@ -501,6 +490,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 767690a773b65f749974ccd339a09154, type: 3}
+--- !u!114 &654712831 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 845887629172280309, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
+  m_PrefabInstance: {fileID: 1473439124}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &811592652 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 4e0f804481aff8b458ffe65c5334bdeb, type: 3}
@@ -861,6 +861,10 @@ PrefabInstance:
       propertyPath: sceneCamera
       value: 
       objectReference: {fileID: 1708144963}
+    - target: {fileID: 266335019081630798, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -36.1
+      objectReference: {fileID: 0}
     - target: {fileID: 889457897345005749, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -868,26 +872,6 @@ PrefabInstance:
     - target: {fileID: 1192542708536616744, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
       propertyPath: m_Name
       value: GameManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 1936146635840961751, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2767992580951709624, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -322.07
-      objectReference: {fileID: 0}
-    - target: {fileID: 3275256483339898399, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
-      propertyPath: SpawnPoint.x
-      value: 45.87
-      objectReference: {fileID: 0}
-    - target: {fileID: 3275256483339898399, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
-      propertyPath: SpawnPoint.y
-      value: 1.53
-      objectReference: {fileID: 0}
-    - target: {fileID: 3275256483339898399, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
-      propertyPath: SpawnPoint.z
-      value: 20.75
       objectReference: {fileID: 0}
     - target: {fileID: 3591043175417792999, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -933,82 +917,18 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3890833125234843855, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
-      propertyPath: m_UiScaleMode
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4998853107367580292, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5111550606058603121, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
-      propertyPath: healthText
-      value: 
-      objectReference: {fileID: 86101854}
-    - target: {fileID: 5282045258472701272, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5282045258472701272, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6172854752210377842, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
-      propertyPath: m_Volume
-      value: 0.64
-      objectReference: {fileID: 0}
-    - target: {fileID: 6294696879880708336, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -150.07
-      objectReference: {fileID: 0}
-    - target: {fileID: 7014647954659522438, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 5.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 7014647954659522438, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -4.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 7100102577100232216, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7100102577100232216, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8260409381871883454, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
-      propertyPath: audioClips.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8260409381871883454, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
-      propertyPath: 'audioClips.Array.data[1]'
-      value: 
-      objectReference: {fileID: 8300000, guid: ec144aaae72497a47b034be8421e38f7, type: 3}
     - target: {fileID: 8424454859508966415, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ResetPlayer
       objectReference: {fileID: 0}
-    - target: {fileID: 9097903675146225853, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
-      propertyPath: m_Pivot.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9097903675146225853, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9097903675146225853, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9097903675146225853, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 10.950012
-      objectReference: {fileID: 0}
-    - target: {fileID: 9097903675146225853, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
+    - target: {fileID: 9041909226826871231, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
+      propertyPath: currencyTXT
+      value: 
+      objectReference: {fileID: 654712831}
     - target: {fileID: 9116504545179518358, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
       propertyPath: healthBarSlider
       value: 

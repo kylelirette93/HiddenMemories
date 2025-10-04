@@ -14,7 +14,7 @@ public class WeaponBase : MonoBehaviour
     protected int currentAmmo;
     public int ClipCapacity { get { return clipCapacity; } }
     protected int clipCapacity;
-    protected int reloadSpeed;
+    protected float reloadSpeed;
     protected int fireRate;
     protected float lastShotTime;
     protected InputManager input;
@@ -56,7 +56,7 @@ public class WeaponBase : MonoBehaviour
         // Weapon is initialized with stats after being instantiated. 
         weaponData = data;
         currentAmmo = weaponData.clipCapacity;
-        reloadSpeed = (int)weaponData.reloadSpeed;
+        reloadSpeed = weaponData.reloadSpeed;
         clipCapacity = weaponData.clipCapacity;
         fireRate = (int)weaponData.fireRate;
         fireSound = weaponData.gun_fire;
