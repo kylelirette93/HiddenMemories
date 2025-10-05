@@ -39,6 +39,10 @@ public class PlayerStats : MonoBehaviour
         StartCoroutine(SoulSubtraction());
     }
 
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+    }
     IEnumerator SoulSubtraction()
     {
         while (soulHealth > 0)

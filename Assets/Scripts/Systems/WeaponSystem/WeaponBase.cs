@@ -17,6 +17,9 @@ public class WeaponBase : MonoBehaviour
     protected float reloadSpeed;
     protected int fireRate;
     protected float lastShotTime;
+    protected int spreadCount;
+    protected float spreadAngle = 0f;
+    protected int powerRate;
     protected InputManager input;
     protected Transform firePoint;
     protected float bulletSpeed = 200f;
@@ -62,6 +65,9 @@ public class WeaponBase : MonoBehaviour
         fireSound = weaponData.gun_fire;
         fireSound.name = weaponData.name + "_fire";
         bulletPrefab = weaponData.bulletPrefab;
+        spreadCount = weaponData.spread;
+        spreadAngle = weaponData.spreadAngle;
+        powerRate = (int)weaponData.powerRate;
         lastShotTime = -1;
         firePoint = transform.Find("Firepoint");
         muzzleFlash = GetComponentInChildren<ParticleSystem>();
@@ -120,12 +126,27 @@ public class WeaponBase : MonoBehaviour
                     targetPoint = ray.GetPoint(1000f);
                 }
 
-                GameObject bullet = Instantiate(bulletPrefab, firePoint.transform.position, transform.rotation);
-                Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
-                // Direction of bullet is towards the target hit.
-                Vector3 direction = (targetPoint - firePoint.position).normalized;
-                // Fire the bullet with newly calculated direction.
-                bulletRb.linearVelocity = direction * bulletSpeed;
+                Vector3 baseDirection = (targetPoint - firePoint.position).normalized;
+                Quaternion baseRotation = Quaternion.LookRotation(baseDirection);
+
+                for (int i = 0; i < spreadCount; i++)
+                {
+                    float randomAngle = Random.Range(-spreadAngle, spreadAngle);
+                    Quaternion spreadRot = Quaternion.Euler(0, randomAngle, 0f);
+
+                    Quaternion finalRot = baseRotation * spreadRot;
+
+                    GameObject bullet = Instantiate(bulletPrefab, firePoint.position, finalRot);
+                    Bullet bulletScript = bullet.GetComponent<Bullet>();
+                    if (bulletScript != null)
+                    {
+                        bulletScript.Damage = powerRate;
+                    }
+                    Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
+
+                    // Fire the bullet. No need to normalize here as the velocity handles the speed.
+                    bulletRb.linearVelocity = bullet.transform.forward * bulletSpeed;
+                }
             }
             else
             {

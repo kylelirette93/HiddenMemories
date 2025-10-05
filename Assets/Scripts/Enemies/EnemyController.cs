@@ -101,24 +101,10 @@ public class EnemyController : MonoBehaviour
         alreadyAttacked = false;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    public void TakeDamage(int damage)
     {
-        if (collision.gameObject.CompareTag("Bullet") && canTakeDamage)
-        {
-            ParticleSystem particles = Instantiate(bloodParticles, transform.position, Quaternion.identity);
-            StartCoroutine(FlashRed());
-        }
-    }
-
-    IEnumerator FlashRed()
-    {
-        health.TakeDamage(20);
-        canTakeDamage = false;
-        originalColor = material.color;
-        material.color = Color.red;
-        yield return new WaitForSeconds(0.1f);
-        material.color = originalColor;
-        canTakeDamage = true;
+        health.TakeDamage(damage);
+        ParticleSystem particles = Instantiate(bloodParticles, transform.position + new Vector3(0, 0, 0.2f), Quaternion.identity);
     }
 
     public void OnDeath()

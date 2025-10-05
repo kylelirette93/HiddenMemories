@@ -10,21 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 12c0818da31c7e34abe6d5c71ea5a9fe, type: 3}
-  m_Name: Pistol
+  m_Name: Shotgun
   m_EditorClassIdentifier: 
   itemType: 2
   value: 1
-  name: pistol
+  name: shotgun
   powerRate: 1
   fireRate: 1.2
-  clipCapacity: 8
-  reloadSpeed: 0.2
-  spread: 1
-  recoil: 1.5
-  bulletSpread: 0
-  weaponPrefab: {fileID: 897810322435277991, guid: 9edc07da20cc70d499a59dbbbb7908ec, type: 3}
+  clipCapacity: 6
+  reloadSpeed: 0.5
+  spread: 5
+  spreadAngle: 5
+  recoil: 0.5
+  bulletSpread: 5
+  weaponPrefab: {fileID: 6038615681917709824, guid: cb438ac7b6e6264409dcb3a86d97b086, type: 3}
   gun_fire: {fileID: 8300000, guid: c976de4ffd5b0b744a51791a2e5a0495, type: 3}
-  firePoint: {x: 0, y: 3.44, z: 6.89}
+  firePoint: {x: 0, y: 0, z: 0}
   index: 0
   bulletPrefab: {fileID: 143548174340775267, guid: 82740ac78dc92cd4883da2fbbd38fff2, type: 3}
   icon: {fileID: 0}

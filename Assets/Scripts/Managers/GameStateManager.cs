@@ -121,7 +121,10 @@ public class GameStateManager : MonoBehaviour
 
     private void HandlePlayerDeath()
     {
-        playerInstance.SetActive(false);
+        if (playerInstance != null)
+        {
+            playerInstance.SetActive(false);
+        }
         if (sceneCamera != null)
         {
             sceneCamera.gameObject.SetActive(true);
@@ -194,6 +197,7 @@ public class GameStateManager : MonoBehaviour
     private void OnDestroy()
     {
         StateActions.Reset -= StateActions.Reset;
+        PlayerHealthActions.PlayerDied -= HandlePlayerDeath;
     }
 
     public void QuitGame()
