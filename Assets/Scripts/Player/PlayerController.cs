@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour
     [Header("Jump Settings")]
     float jumpForce = 20f;
     bool canJump = true;
+    bool isJumping = false;
 
     [Header("Look Settings")]
     public Vector2 LookInput { get { return lookInput; } }
@@ -58,6 +59,8 @@ public class PlayerController : MonoBehaviour
         inputManager.JumpEvent += HandleJump;
         inputManager.SprintEvent += HandleSprint;
         canTakeDamage = true;
+        isJumping = false;
+        canJump = true;
     }
 
     private void OnDisable()
@@ -85,6 +88,7 @@ public class PlayerController : MonoBehaviour
         {
             health.TakeDamage(health.CurrentHealth);
         }
+        if (!isJumping) rb.angularVelocity = Vector3.zero;
     }
 
     private void FixedUpdate()
@@ -100,6 +104,7 @@ public class PlayerController : MonoBehaviour
             if (rb != null)
             rb.angularVelocity = Vector3.zero;
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            isJumping = true;
         }
     }
 
@@ -113,6 +118,7 @@ public class PlayerController : MonoBehaviour
         if (Physics.Raycast(transform.position, Vector3.down, groundCheckDistance))
         {
             // Something is below player.
+            isJumping = false;
             return true;
         }
         return false;
@@ -194,13 +200,14 @@ public class PlayerController : MonoBehaviour
 
     private void TakeHit(Collision collision)
     {
-        float knockbackForce = 20f;
+        float knockbackForce = 200;
 
         Vector3 knockbackDirection = -transform.forward;
         knockbackDirection.y = 0;
         knockbackDirection.Normalize();
 
         rb.angularVelocity = Vector3.zero;
+        rb.linearVelocity = Vector3.zero;
         rb.AddForce(knockbackDirection * knockbackForce, ForceMode.Impulse);
     }
 

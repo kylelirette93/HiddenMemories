@@ -31,6 +31,7 @@ public class InputManager : MonoBehaviour, Input.IPlayerActions, UI.IControlsAct
     public event Action<InputAction.CallbackContext> ShootEvent;
     public event Action<InputAction.CallbackContext> AimEvent;
     public event Action PauseEvent;
+    public event Action<Vector2> ScrollWeaponEvent;
     #endregion
 
     void OnEnable()
@@ -83,5 +84,14 @@ public class InputManager : MonoBehaviour, Input.IPlayerActions, UI.IControlsAct
     public void OnAim(InputAction.CallbackContext context)
     {
         AimEvent?.Invoke(context);
+    }
+
+    public void OnScroll(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            Vector2 scrollValue = context.ReadValue<Vector2>();
+            ScrollWeaponEvent?.Invoke(scrollValue);
+        }
     }
 }

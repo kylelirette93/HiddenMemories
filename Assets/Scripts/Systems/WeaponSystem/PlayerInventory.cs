@@ -22,7 +22,7 @@ public class PlayerInventory : MonoBehaviour
         {
             availableWeapons.Add(_currentWeapon);
             weaponManager.EquipWeapon(_currentWeapon);
-            Debug.Log("Added weapon " + weapon);
+            Debug.Log("Successfully added weapon: " + weapon.name);
         }
     }
 }

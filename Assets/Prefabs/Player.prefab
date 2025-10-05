@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4008847702600484901}
   - component: {fileID: 7362137656932837887}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeaponController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,6 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponParent: {fileID: 1517083301410642802}
   inventory: {fileID: 8728870632474938723}
+  inputManager: {fileID: 6191897652414406528}
 --- !u!1 &347424874990701841
 GameObject:
   m_ObjectHideFlags: 0
@@ -63,7 +64,7 @@ GameObject:
   - component: {fileID: 3805943951045519155}
   - component: {fileID: 7366290030729473400}
   - component: {fileID: 8728870632474938723}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -257,7 +258,7 @@ GameObject:
   - component: {fileID: 8978606852999658630}
   - component: {fileID: 6680910231798076446}
   - component: {fileID: 6482809729985416238}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -394,7 +395,7 @@ GameObject:
   - component: {fileID: 2149917421359712355}
   - component: {fileID: 1929391132350773796}
   - component: {fileID: 6968581201554435677}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: InteractionManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -460,7 +461,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7490184047526198679}
   - component: {fileID: 6191897652414406528}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: InputManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -503,7 +504,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1517083301410642802}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeaponParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
