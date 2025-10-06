@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public int Damage;
+    public float Damage;
     Rigidbody rb;
     ParticleSystem impactParticles;
 
@@ -22,7 +22,7 @@ public class Bullet : MonoBehaviour
             EnemyController enemy = collision.gameObject.GetComponent<EnemyController>();
             if (enemy != null)
             {
-                enemy.TakeDamage(Damage * 10);
+                enemy.TakeDamage((int)Damage * 10);
             }
             Destroy(gameObject, 0.2f);
         }

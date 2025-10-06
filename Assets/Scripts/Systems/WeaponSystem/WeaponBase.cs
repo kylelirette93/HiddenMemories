@@ -19,7 +19,8 @@ public class WeaponBase : MonoBehaviour
     protected float lastShotTime;
     protected int spreadCount;
     protected float spreadAngle = 0f;
-    protected int powerRate;
+    protected float powerRate;
+    protected float recoil;
     protected InputManager input;
     protected Transform firePoint;
     protected float bulletSpeed = 200f;
@@ -163,6 +164,7 @@ public class WeaponBase : MonoBehaviour
             yield return new WaitForSeconds(1f * reloadSpeed);
             Debug.Log("Reloading... " + (i + 1) + "/" + clipCapacity);
             currentAmmo++;
+            currentAmmo = Mathf.Clamp(currentAmmo, 0, clipCapacity);
         }
     }
 

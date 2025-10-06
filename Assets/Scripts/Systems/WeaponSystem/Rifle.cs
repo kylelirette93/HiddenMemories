@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Shotgun : WeaponBase
+public class Rifle : WeaponBase
 {
     public override void Awake()
     {
@@ -32,21 +32,14 @@ public class Shotgun : WeaponBase
         base.Update();
     }
 
-
-    public void AddClipCapacity(int amount)
-    {
-        clipCapacity += amount;
-        currentAmmo += amount;
-    }
-
     public void AddPowerRate(float amount)
     {
-        // Add fire rate as percentage.
         powerRate += amount;
     }
 
-    public void ReduceRecoil(float amount)
+    public void ReduceReloadSpeed(float amount)
     {
-        recoil -= amount;
+        // Add fire rate as percentage.
+        reloadSpeed -= amount;
     }
 }

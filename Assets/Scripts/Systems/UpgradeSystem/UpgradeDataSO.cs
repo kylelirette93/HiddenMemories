@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "UpgradeData", menuName = "ScriptableObjects/UpgradeDataSO", order = 1)]
@@ -53,11 +54,42 @@ public class UpgradeDataSO : ScriptableObject, IUpgrade
                     break;
             }
         }
+        else if (weapon is Shotgun shotgun)
+        {
+            switch (upgradeType)
+            {
+                case UpgradeType.ClipCapacity:
+                    shotgun.AddClipCapacity((int)value);
+                    break;
+                case UpgradeType.PowerRate:
+                    shotgun.AddPowerRate(value);
+                    break;
+                case UpgradeType.Recoil:
+                    shotgun.ReduceRecoil(value);
+                    break;
+            }
+        }
+        else if (weapon is Rifle rifle)
+        {
+            switch (upgradeType)
+            {
+                case UpgradeType.PowerRate:
+                    rifle.AddPowerRate(value);
+                    break;
+                case UpgradeType.ReloadSpeed:
+                    rifle.ReduceReloadSpeed(value);
+                    break;
+            }
+        }
     }
 }
 
 public enum UpgradeType
 {
     ClipCapacity,
-    FireRate
+    FireRate,
+    Recoil,
+    PowerRate,
+    ReloadSpeed,
+    Health
 }
