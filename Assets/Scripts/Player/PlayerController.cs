@@ -227,7 +227,9 @@ public class PlayerController : MonoBehaviour
         // Clamp camera rotation to prevent flip effect.
         cameraRotationX = Mathf.Clamp(cameraRotationX, -90f, 90f);
 
-        playerCamera.transform.localRotation = Quaternion.Euler(cameraRotationX, 0f, 0f);
+        Quaternion targetRotation = Quaternion.Euler(cameraRotationX, 0f, 0f);
+
+        playerCamera.transform.localRotation = Quaternion.Slerp(playerCamera.transform.rotation, targetRotation, 1f / Time.smoothDeltaTime);
     }
 
     private void HandleJump(InputAction.CallbackContext context)

@@ -28,4 +28,4 @@ MonoBehaviour:
   firePoint: {x: 0, y: 0, z: 0}
   index: 1
   bulletPrefab: {fileID: 143548174340775267, guid: 82740ac78dc92cd4883da2fbbd38fff2, type: 3}
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: cdab9d98889656f4a805cffa40fc823e, type: 3}

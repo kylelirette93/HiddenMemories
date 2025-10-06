@@ -13,6 +13,7 @@ public class UpgradeButton : MonoBehaviour
         if (button != null)
         {
             button.onClick.AddListener(OnPurchaseClicked);
+            GameManager.Instance.upgradeManager.AddButton(this);
         }
         UpdateUI();
     }
