@@ -72,6 +72,7 @@ public class WeaponManager : MonoBehaviour
 
     public void EquipWeaponByIndex(int index)
     {
+        if (equippedWeapon != null && equippedWeapon.IsReloading) return;
         if (inventory == null || inventory.availableWeapons.Count == 0)
         {
             Debug.LogWarning("No weapons available in inventory.");
@@ -93,6 +94,7 @@ public class WeaponManager : MonoBehaviour
         currentWeaponInstance.transform.localPosition = Vector3.zero;
         currentWeaponInstance.transform.localRotation = Quaternion.identity;
         currentWeaponIndex = index;
+
 
         WeaponBase weaponBase = currentWeaponInstance.GetComponent<WeaponBase>();
         if (weaponBase != null)

@@ -30,6 +30,8 @@ public class WeaponBase : MonoBehaviour
     protected Transform weaponParent;
     ParticleSystem muzzleFlash;
     protected RectTransform crosshairUI;
+    public bool IsReloading { get { return isReloading; } }
+    protected bool isReloading = false;
     [SerializeField] protected List<UpgradeDataSO> availableUpgrades = new List<UpgradeDataSO>();
 
     public virtual void Awake()
@@ -159,6 +161,7 @@ public class WeaponBase : MonoBehaviour
     {
         for (int i = currentAmmo; i < clipCapacity; i++)
         {
+            isReloading = true;
             // Small delay to simulate reloading time.
             // TODO: Add reload sound effect, add reload animation.
             yield return new WaitForSeconds(1f * reloadSpeed);
@@ -166,6 +169,7 @@ public class WeaponBase : MonoBehaviour
             currentAmmo++;
             currentAmmo = Mathf.Clamp(currentAmmo, 0, clipCapacity);
         }
+        isReloading = false;
     }
 
     protected void ShootRecoil()
