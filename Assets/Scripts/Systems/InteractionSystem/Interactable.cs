@@ -29,7 +29,11 @@ public class Interactable : MonoBehaviour
                     // Add cash.
                     InteractableActions.AddCash?.Invoke(itemData);
                 }
-                    break;
+                else if (itemData.itemType == ItemType.Key)
+                {
+                    InteractableActions.AddKey?.Invoke(itemData);
+                }
+                break;
         }
     }
 }
@@ -44,6 +48,7 @@ public static class InteractableActions
     // Action when an item is picked up.
     public static Action<ItemDataSO> AddWeapon;
     public static Action<ItemDataSO> AddCash;
+    public static Action<ItemDataSO> AddKey;
 } 
 
 

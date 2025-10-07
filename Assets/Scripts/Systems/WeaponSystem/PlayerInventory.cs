@@ -5,15 +5,18 @@ public class PlayerInventory : MonoBehaviour
 {
    public List<WeaponDataSO> availableWeapons = new List<WeaponDataSO>();
    public WeaponManager weaponManager;
+    public List<KeyDataSO> Keys = new List<KeyDataSO>();
 
     private void Awake()
     {
         InteractableActions.AddWeapon += AddWeapon;
+        InteractableActions.AddKey += AddKey;
     }
 
     private void OnDestroy()
     {
         InteractableActions.AddWeapon -= AddWeapon;
+        InteractableActions.AddKey -= AddKey;
     }
 
     private void AddWeapon(ItemDataSO weapon)
@@ -23,6 +26,15 @@ public class PlayerInventory : MonoBehaviour
             availableWeapons.Add(_currentWeapon);
             weaponManager.EquipWeapon(_currentWeapon);
             Debug.Log("Successfully added weapon: " + weapon.name);
+        }
+    }
+
+    private void AddKey(ItemDataSO key)
+    {
+        if (key is KeyDataSO Key)
+        {
+            Keys.Add(Key);
+            Debug.Log(Keys);
         }
     }
 }

@@ -15,7 +15,7 @@ MonoBehaviour:
   itemType: 2
   value: 1
   name: pistol
-  powerRate: 1
+  powerRate: 2
   fireRate: 1.2
   clipCapacity: 8
   reloadSpeed: 0.2

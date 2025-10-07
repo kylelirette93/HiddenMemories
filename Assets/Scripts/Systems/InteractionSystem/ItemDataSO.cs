@@ -13,5 +13,6 @@ public enum ItemType
     HealthPotion,
     Ammo,
     Weapon,
-    Cash
+    Cash,
+    Key
 }

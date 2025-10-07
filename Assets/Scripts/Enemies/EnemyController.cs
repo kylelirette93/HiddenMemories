@@ -125,4 +125,11 @@ public class EnemyController : MonoBehaviour
     {
         this.player = player.transform;
     }
+
+    private void OnDrawGizmos()
+    {
+        {
+
+        }
+    }
 }
