@@ -10,12 +10,13 @@ public class WeaponBase : MonoBehaviour
 {
     // Base properties for all weapons.
     protected WeaponDataSO weaponData;
+    protected PlayerController playerController;
     public int CurrentAmmo { get { return currentAmmo; } }
     protected int currentAmmo;
     public int ClipCapacity { get { return clipCapacity; } }
     protected int clipCapacity;
     protected float reloadSpeed;
-    protected int fireRate;
+    protected float fireRate;
     protected float lastShotTime;
     protected int spreadCount;
     protected float spreadAngle = 0f;
@@ -32,15 +33,21 @@ public class WeaponBase : MonoBehaviour
     protected RectTransform crosshairUI;
     public bool IsReloading { get { return isReloading; } }
     protected bool isReloading = false;
+
+    protected Vector2 targetRecoil;
+    protected Vector2 currentRecoil;
+    protected float recoilRecoverySpeed = 8f;
     [SerializeField] protected List<UpgradeDataSO> availableUpgrades = new List<UpgradeDataSO>();
 
     public virtual void Awake()
     {
         input = GameManager.Instance.inputManager;
+        playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
         playerCamera = GameObject.Find("Camera").GetComponent<Camera>();
         weaponParent = GameObject.Find("WeaponParent").transform;
         crosshairUI = GameObject.Find("Crosshair").GetComponent<RectTransform>();
     }
+
     public virtual void OnEnable()
     {
         input.ShootEvent += OnShoot;
@@ -64,18 +71,32 @@ public class WeaponBase : MonoBehaviour
         currentAmmo = weaponData.clipCapacity;
         reloadSpeed = weaponData.reloadSpeed;
         clipCapacity = weaponData.clipCapacity;
-        fireRate = (int)weaponData.fireRate;
+        fireRate = weaponData.fireRate;
         fireSound = weaponData.gun_fire;
         fireSound.name = weaponData.name + "_fire";
         bulletPrefab = weaponData.bulletPrefab;
         spreadCount = weaponData.spread;
         spreadAngle = weaponData.spreadAngle;
         powerRate = (int)weaponData.powerRate;
+        recoil = weaponData.recoil;
         lastShotTime = -1;
         firePoint = transform.Find("Firepoint");
         muzzleFlash = GetComponentInChildren<ParticleSystem>();
 
+        ResetToBaseStats();
         ApplyAllUpgrades();
+    }
+
+    protected void ResetToBaseStats()
+    {
+        clipCapacity = weaponData.clipCapacity;
+        currentAmmo = clipCapacity;
+        reloadSpeed = weaponData.reloadSpeed;
+        fireRate = weaponData.fireRate;
+        spreadCount = weaponData.spread;
+        spreadAngle = weaponData.spreadAngle;
+        powerRate = (int)weaponData.powerRate;
+        recoil = weaponData.recoil;
     }
 
     public virtual void Update()
@@ -89,7 +110,7 @@ public class WeaponBase : MonoBehaviour
 
     protected void OnShoot(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (context.started && !isReloading)
         {
             if (weaponData != null && Time.time < lastShotTime + (1f / fireRate))
             {
@@ -102,7 +123,7 @@ public class WeaponBase : MonoBehaviour
 
                 if (fireSound != null)
                 {
-                    ShootRecoil();
+                    ApplyShootRecoil();
                     GameManager.Instance.audioManager.PlaySFX(fireSound);
                     muzzleFlash?.Play();
                 }
@@ -172,13 +193,18 @@ public class WeaponBase : MonoBehaviour
         isReloading = false;
     }
 
-    protected void ShootRecoil()
+    protected void ApplyShootRecoil()
     {
+        playerController.DisableLook();
         Vector3 originalPos = transform.localPosition;
         Vector3 originalRot = transform.localEulerAngles;
 
         float recoilRot = -5f;
         float recoilBack = -0.3f;
+
+        // Create recoil based on stats, and store previous rotation of camera.
+        float cameraRecoil = recoil * 2f;
+        Vector3 cameraOriginalRot = playerCamera.transform.localEulerAngles;
 
         Sequence recoilSequence = DOTween.Sequence();
 
@@ -186,13 +212,20 @@ public class WeaponBase : MonoBehaviour
         recoilSequence.Append(transform.DOLocalRotate(new Vector3(recoilRot, 0f, 0f), 0.05f));
         recoilSequence.Join(transform.DOLocalMoveZ(originalPos.z + recoilBack, 0.05f));
 
+        recoilSequence.Join(playerCamera.transform.DOLocalRotate(new Vector3(-cameraRecoil, cameraRecoil, 0f), 0.1f, RotateMode.LocalAxisAdd));
+
         // Return to original position & rotation.
         recoilSequence.Append(transform.DOLocalRotate(originalRot, 0.1f));
         recoilSequence.Join(transform.DOLocalMoveZ(originalPos.z, 0.1f));
+
+        recoilSequence.Join(playerCamera.transform.DOLocalRotate(new Vector3(cameraRecoil, -cameraRecoil, 0f), 0.15f, RotateMode.LocalAxisAdd)).SetEase(Ease.OutQuad);
+
+        recoilSequence.OnComplete(() => playerController.EnableLook());
     }
 
     protected virtual void ApplyAllUpgrades()
     {
+        ResetToBaseStats();
         // Check weapon for applicable upgrades and apply them.
         foreach (var upgrade in availableUpgrades)
         {

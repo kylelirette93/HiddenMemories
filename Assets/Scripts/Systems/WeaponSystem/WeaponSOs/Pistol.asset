@@ -15,13 +15,13 @@ MonoBehaviour:
   itemType: 2
   value: 1
   name: pistol
-  powerRate: 2
+  powerRate: 3
   fireRate: 1.2
   clipCapacity: 8
   reloadSpeed: 0.2
   spread: 1
   spreadAngle: 0
-  recoil: 1.5
+  recoil: 1
   bulletSpread: 0
   weaponPrefab: {fileID: 897810322435277991, guid: 9edc07da20cc70d499a59dbbbb7908ec, type: 3}
   gun_fire: {fileID: 8300000, guid: c976de4ffd5b0b744a51791a2e5a0495, type: 3}

@@ -3,11 +3,11 @@ using UnityEngine;
 public class Door : MonoBehaviour
 {
     public KeyDataSO keyToUnlock;
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
-            PlayerInventory inventory = other.gameObject.GetComponent<PlayerInventory>();
+            PlayerInventory inventory = collision.gameObject.GetComponent<PlayerInventory>();
             if (inventory.Keys.Contains(keyToUnlock))
             {
                 Destroy(gameObject);

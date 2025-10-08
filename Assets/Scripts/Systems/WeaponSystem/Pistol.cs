@@ -1,3 +1,4 @@
+using UnityEditor.UIElements;
 using UnityEngine;
 
 public class Pistol : WeaponBase
@@ -41,6 +42,6 @@ public class Pistol : WeaponBase
     public void AddFireRate(float amount)
     {
         // Add fire rate as percentage.
-        fireRate += (int)(fireRate * amount);
+        fireRate -= amount;
     }
 }

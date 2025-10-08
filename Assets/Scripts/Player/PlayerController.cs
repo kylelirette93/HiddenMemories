@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
     bool isJumping = false;
 
     [Header("Look Settings")]
+    bool canLook = true;
     public Vector2 LookInput { get { return lookInput; } }
     Vector2 lookInput;
     [SerializeField]float lookSensitivity = 17f;
@@ -50,6 +51,16 @@ public class PlayerController : MonoBehaviour
         playerCamera = GetComponentInChildren<Camera>();
         movementSpeed = walkSpeed;
         health = GetComponent<PlayerHealth>();
+    }
+
+    public void EnableLook()
+    {
+        canLook = true;
+    }
+    public void DisableLook()
+    {
+        // Disable looking for gun recoil.
+        canLook = false;
     }
 
     private void OnEnable()
@@ -220,6 +231,7 @@ public class PlayerController : MonoBehaviour
 
     private void HandleLook()
     {
+        if (!canLook) return;
         transform.Rotate(Vector3.up * lookInput.x * lookSensitivity);
 
         cameraRotationX -= lookInput.y * lookSensitivity;
