@@ -61,9 +61,9 @@ GameObject:
   - component: {fileID: 2274223902015245602}
   - component: {fileID: 1873606171932451362}
   - component: {fileID: 8365478163498029002}
-  - component: {fileID: 3805943951045519155}
   - component: {fileID: 7366290030729473400}
   - component: {fileID: 8728870632474938723}
+  - component: {fileID: 5693070304497241503}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -208,18 +208,6 @@ MonoBehaviour:
   isMoving: 0
   lookSensitivity: 0.25
   oof: {fileID: 8300000, guid: ec144aaae72497a47b034be8421e38f7, type: 3}
---- !u!114 &3805943951045519155
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 347424874990701841}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86d0c50246c0301468ca820e54fa8ae2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &7366290030729473400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -246,6 +234,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   availableWeapons: []
   weaponManager: {fileID: 7362137656932837887}
+  Keys: []
+--- !u!114 &5693070304497241503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 347424874990701841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86d0c50246c0301468ca820e54fa8ae2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  availableUpgrades:
+  - {fileID: 11400000, guid: 92a4626d5379e88488098ab704f1158c, type: 2}
 --- !u!1 &979874487357618731
 GameObject:
   m_ObjectHideFlags: 0

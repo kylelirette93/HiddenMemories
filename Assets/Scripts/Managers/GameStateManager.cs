@@ -74,6 +74,8 @@ public class GameStateManager : MonoBehaviour
                 uiManager.EnableResultUI();
                 break;
             case GameState.GameWin:
+                Time.timeScale = 0f;
+                EnableCursor();
                 uiManager.DisableAllMenuUI();
                 uiManager.EnableGameWinUI();
                 break;
@@ -191,6 +193,7 @@ public class GameStateManager : MonoBehaviour
     }
     public void GameWin()
     {
+        StateActions.Reset?.Invoke();
         ChangeState(GameState.GameWin);
     }
 

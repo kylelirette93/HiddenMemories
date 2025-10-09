@@ -1,12 +1,15 @@
+using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+[DefaultExecutionOrder(-1)]
 
 public class PlayerStats : MonoBehaviour
 {
-    public static PlayerStats Instance { get; private set; }
     // Amount of souls player has(decreases every second).
+    public static PlayerStats Instance;
     public int SoulHealth
     {
         get => soulHealth;
@@ -18,13 +21,17 @@ public class PlayerStats : MonoBehaviour
 
     public event Action<int> OnSoulHealthChanged;
 
+    public int MaxHealth { get { return maxHealth; } }
+    int maxHealth = 100;
+    public List<UpgradeDataSO> availableUpgrades = new List<UpgradeDataSO>();
+
     private void Awake()
     {
-        #region Singleton Instance
-        // Singleton pattern for accessing stats globally.
+        #region Singleton
         if (Instance == null)
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -32,9 +39,9 @@ public class PlayerStats : MonoBehaviour
         }
         #endregion
     }
-
     private void OnEnable()
     {
+        ApplyUpgrades();
         soulHealth = maxSoulHealth;
         StartCoroutine(SoulSubtraction());
     }
@@ -56,5 +63,23 @@ public class PlayerStats : MonoBehaviour
     public void IncrementSoulHealth()
     {
         soulHealth += 10;
+    }
+
+    public void AddMaxHealth(int amount)
+    {
+        maxHealth += amount;
+        Debug.Log("Max Health increased to: " + maxHealth);
+    }
+
+    public void ApplyUpgrades()
+    {
+        foreach (var upgrade in availableUpgrades)
+        {
+            int tier = GameManager.Instance.upgradeManager.GetUpgradeTier(upgrade);
+            if (tier > 0)
+            {
+                upgrade.Upgrade(null, tier);
+            }
+        }
     }
 }

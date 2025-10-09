@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 5487822787445551188}
   - component: {fileID: 8630317743318836383}
   - component: {fileID: 1452714178278047704}
-  - component: {fileID: 2863228338590091732}
   - component: {fileID: -8338656044446990203}
   m_Layer: 0
   m_Name: ShotgunPickup
@@ -107,27 +106,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   itemData: {fileID: 11400000, guid: b7682ece8a37d0442bc7c1e302cd9480, type: 2}
---- !u!135 &2863228338590091732
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7987102532977667543}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 4.293612
-  m_Center: {x: 0.036151122, y: 2.622, z: -2.4021378}
 --- !u!33 &-8338656044446990203
 MeshFilter:
   m_ObjectHideFlags: 0

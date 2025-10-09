@@ -1,12 +1,24 @@
 using System;
+using UnityEngine;
 
+[DefaultExecutionOrder(1)]
 public class PlayerHealth : Health
 {
-    
+    PlayerStats playerStats;
+    private void Awake()
+    {
+        playerStats = GetComponent<PlayerStats>();
+    }
+    public void OnEnable()
+    {
+        maxHealth = playerStats.MaxHealth;
+        PlayerHealthActions.OnPlayerHealthChanged?.Invoke(maxHealth, maxHealth);
+    }
     public override void Start()
     {
         base.Start();
-        PlayerHealthActions.OnPlayerHealthChanged?.Invoke(currentHealth, maxHealth);
+        maxHealth = playerStats.MaxHealth;
+        PlayerHealthActions.OnPlayerHealthChanged?.Invoke(maxHealth, maxHealth);
     }
 
     public override void TakeDamage(int damage)

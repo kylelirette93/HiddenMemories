@@ -1,10 +1,9 @@
 using DG.Tweening;
-using NUnit.Framework;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
 
 public class WeaponBase : MonoBehaviour
 {
@@ -37,7 +36,11 @@ public class WeaponBase : MonoBehaviour
     protected Vector2 targetRecoil;
     protected Vector2 currentRecoil;
     protected float recoilRecoverySpeed = 8f;
+    public List<UpgradeDataSO> AvailableUpgrades { get { return availableUpgrades; } }
     [SerializeField] protected List<UpgradeDataSO> availableUpgrades = new List<UpgradeDataSO>();
+
+    public bool IsUnlocked { get { return isUnlocked; } }
+    protected bool isUnlocked = false;
 
     public virtual void Awake()
     {
@@ -66,6 +69,7 @@ public class WeaponBase : MonoBehaviour
     }
     public virtual void Initialize(WeaponDataSO data)
     {
+        UnlockWeapon();
         // Weapon is initialized with stats after being instantiated. 
         weaponData = data;
         currentAmmo = weaponData.clipCapacity;
@@ -85,6 +89,12 @@ public class WeaponBase : MonoBehaviour
 
         ResetToBaseStats();
         ApplyAllUpgrades();
+    }
+
+    public void UnlockWeapon()
+    {
+        isUnlocked = true;
+        WeaponActions.UnlockWeapon?.Invoke(this);
     }
 
     protected void ResetToBaseStats()
@@ -155,7 +165,7 @@ public class WeaponBase : MonoBehaviour
 
                 for (int i = 0; i < spreadCount; i++)
                 {
-                    float randomAngle = Random.Range(-spreadAngle, spreadAngle);
+                    float randomAngle = UnityEngine.Random.Range(-spreadAngle, spreadAngle);
                     Quaternion spreadRot = Quaternion.Euler(0, randomAngle, 0f);
 
                     Quaternion finalRot = baseRotation * spreadRot;
@@ -236,4 +246,9 @@ public class WeaponBase : MonoBehaviour
             }
         }
     }
+}
+
+public static class WeaponActions
+{
+    public static Action<WeaponBase> UnlockWeapon;
 }

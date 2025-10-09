@@ -1,3 +1,4 @@
+using System.Net;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,14 +9,38 @@ public class UpgradeButton : MonoBehaviour
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI costText;
     [SerializeField] private Button button;
+    public WeaponBase weapon;
+    UpgradeManager upgradeManager;
     private void OnEnable()
     {
-        if (button != null)
+        upgradeManager = GameManager.Instance.upgradeManager;
+        if (weapon == null)
         {
+            // this is a health upgrade.
             button.onClick.AddListener(OnPurchaseClicked);
             GameManager.Instance.upgradeManager.AddButton(this);
         }
-        UpdateUI();
+        else
+        {
+            foreach (var weapon in upgradeManager.unlockedWeapons)
+            {
+                if (weapon.AvailableUpgrades.Contains(upgrade))
+                {
+                    this.weapon = weapon;
+                    break;
+                }
+            }
+            if (button != null && weapon.IsUnlocked)
+            {
+                button.onClick.AddListener(OnPurchaseClicked);
+                GameManager.Instance.upgradeManager.AddButton(this);
+            }
+            else
+            {
+                transform.parent.gameObject.SetActive(false);
+            }
+        }
+            UpdateUI();
     }
 
     private void OnPurchaseClicked()

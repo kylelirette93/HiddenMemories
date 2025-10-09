@@ -11,7 +11,12 @@ public class UIManager : MonoBehaviour
     public GameObject UpgradesPanel;
     public GameObject ResultsPanel;
     public GameObject GameWinPanel;
+    public HUD hud;
 
+    private void Awake()
+    {
+        hud = GameplayPanel.GetComponentInChildren<HUD>();
+    }
     public void DisableAllMenuUI()
     {
         // Disable all UI panels.

@@ -20,14 +20,14 @@ public class UpgradeDataSO : ScriptableObject, IUpgrade
     }
     public void Purchase()
     {
-        if (GameManager.Instance.currencyManager.Currency >= GetCost(GameManager.Instance.upgradeManager.GetUpgradeTier(this)))
+        int currentTier = GameManager.Instance.upgradeManager.GetUpgradeTier(this);
+        int cost = GetCost(currentTier);
+
+        if (GameManager.Instance.currencyManager.Currency < cost)
         {
-            GameManager.Instance.upgradeManager.PurchaseUpgrade(this);
+            return;
         }
-        else
-        {
-            Debug.Log("Not enough currency to purchase upgrade: " + upgradeID);
-        }
+        GameManager.Instance.upgradeManager.PurchaseUpgrade(this);
     }
 
     public void Upgrade(WeaponBase weapon, int tier)
@@ -81,6 +81,15 @@ public class UpgradeDataSO : ScriptableObject, IUpgrade
                     break;
             }
         }
+        else if (weapon is null) 
+        {
+            switch (upgradeType)
+            {
+                case UpgradeType.MaxHealth:
+                    PlayerStats.Instance.AddMaxHealth((int)value);
+                    break;
+            }
+        }
     }
 }
 
@@ -91,5 +100,5 @@ public enum UpgradeType
     Recoil,
     PowerRate,
     ReloadSpeed,
-    Health
+    MaxHealth
 }

@@ -1,22 +1,27 @@
+using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour
 {
    public List<WeaponDataSO> availableWeapons = new List<WeaponDataSO>();
    public WeaponManager weaponManager;
-    public List<KeyDataSO> Keys = new List<KeyDataSO>();
+   public List<KeyDataSO> Keys = new List<KeyDataSO>();
+    UIManager uiManager;
 
     private void Awake()
     {
         InteractableActions.AddWeapon += AddWeapon;
         InteractableActions.AddKey += AddKey;
+        uiManager = GameManager.Instance.uiManager;
     }
 
     private void OnDestroy()
     {
         InteractableActions.AddWeapon -= AddWeapon;
         InteractableActions.AddKey -= AddKey;
+        StopAllCoroutines();
     }
 
     private void AddWeapon(ItemDataSO weapon)
@@ -34,7 +39,7 @@ public class PlayerInventory : MonoBehaviour
         if (key is KeyDataSO Key)
         {
             Keys.Add(Key);
-            Debug.Log(Keys);
+            uiManager.hud.InitiatePopup("Key added to inventory!");
         }
     }
 }

@@ -10,6 +10,7 @@ public class Door : MonoBehaviour
             PlayerInventory inventory = collision.gameObject.GetComponent<PlayerInventory>();
             if (inventory.Keys.Contains(keyToUnlock))
             {
+                GameManager.Instance.uiManager.hud.InitiatePopup("Door opened with key");
                 Destroy(gameObject);
             }
         }

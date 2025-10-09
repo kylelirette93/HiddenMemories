@@ -7,6 +7,7 @@ public class CurrencyManager : MonoBehaviour
 
     private void Awake()
     {
+        currency = 100;
         InteractableActions.AddCash += IncrementCurrency;
     }
 

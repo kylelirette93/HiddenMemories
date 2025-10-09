@@ -12,6 +12,10 @@ public class PlayerHealthBar : MonoBehaviour
     private void OnEnable()
     {
         health = FindFirstObjectByType<PlayerHealth>();
+        InitializeHealthBar();
+        InitializeHealthText();
+        PlayerHealthActions.OnPlayerHealthChanged += UpdateHealthBar;
+        PlayerHealthActions.OnPlayerHealthChanged += UpdateHealthText;
     }
 
     private void Start()
