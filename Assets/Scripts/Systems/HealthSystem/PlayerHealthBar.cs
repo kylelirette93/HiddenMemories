@@ -18,6 +18,12 @@ public class PlayerHealthBar : MonoBehaviour
         PlayerHealthActions.OnPlayerHealthChanged += UpdateHealthText;
     }
 
+    private void OnDisable()
+    {
+        PlayerHealthActions.OnPlayerHealthChanged -= UpdateHealthBar;
+        PlayerHealthActions.OnPlayerHealthChanged -= UpdateHealthText;
+    }
+
     private void Start()
     {
         InitializeHealthBar();

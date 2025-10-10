@@ -23,6 +23,7 @@ public class PlayerStats : MonoBehaviour
 
     public int MaxHealth { get { return maxHealth; } }
     int maxHealth = 100;
+    int baseHealth = 100;
     public List<UpgradeDataSO> availableUpgrades = new List<UpgradeDataSO>();
 
     private void Awake()
@@ -70,9 +71,14 @@ public class PlayerStats : MonoBehaviour
         maxHealth += amount;
         Debug.Log("Max Health increased to: " + maxHealth);
     }
+    public void ResetToBaseStat()
+    {
+        maxHealth = baseHealth;
+    }
 
     public void ApplyUpgrades()
     {
+        ResetToBaseStat();
         foreach (var upgrade in availableUpgrades)
         {
             int tier = GameManager.Instance.upgradeManager.GetUpgradeTier(upgrade);

@@ -90,10 +90,13 @@ public class WeaponManager : MonoBehaviour
         if (currentWeaponInstance != null) Destroy(currentWeaponInstance);
 
         WeaponDataSO weaponToEquip = inventory.availableWeapons[index];
-        currentWeaponInstance = Instantiate(weaponToEquip.weaponPrefab, weaponParent);
-        currentWeaponInstance.transform.localPosition = Vector3.zero;
-        currentWeaponInstance.transform.localRotation = Quaternion.identity;
-        currentWeaponIndex = index;
+        if (weaponToEquip != null && weaponParent != null && currentWeaponInstance == null)
+        {
+            currentWeaponInstance = Instantiate(weaponToEquip.weaponPrefab, weaponParent);
+            currentWeaponInstance.transform.localPosition = Vector3.zero;
+            currentWeaponInstance.transform.localRotation = Quaternion.identity;
+            currentWeaponIndex = index;
+        }
 
 
         WeaponBase weaponBase = currentWeaponInstance.GetComponent<WeaponBase>();

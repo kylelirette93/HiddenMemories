@@ -99,6 +99,7 @@ public class WeaponBase : MonoBehaviour
 
     protected void ResetToBaseStats()
     {
+        if (weaponData == null) return;
         clipCapacity = weaponData.clipCapacity;
         currentAmmo = clipCapacity;
         reloadSpeed = weaponData.reloadSpeed;

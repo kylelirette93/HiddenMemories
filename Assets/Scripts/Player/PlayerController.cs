@@ -22,8 +22,8 @@ public class PlayerController : MonoBehaviour
     public bool isMoving;
     Vector2 moveInput;
     float movementSpeed;
-    float walkSpeed = 4f;
-    float runSpeed = 8f;
+    float walkSpeed = 3f;
+    float runSpeed = 20f;
     bool isGrounded = false;
     float groundCheckDistance = 1.1f;
 
@@ -59,8 +59,7 @@ public class PlayerController : MonoBehaviour
     }
     public void DisableLook()
     {
-        // Disable looking for gun recoil.
-        canLook = false;
+        canLook = false;     
     }
 
     private void OnEnable()
@@ -69,6 +68,7 @@ public class PlayerController : MonoBehaviour
         inputManager.LookInputEvent += SetLookInput;
         inputManager.JumpEvent += HandleJump;
         inputManager.SprintEvent += HandleSprint;
+        inputManager.PauseEvent += DisableLook;
         canTakeDamage = true;
         isJumping = false;
         canJump = true;
@@ -80,6 +80,15 @@ public class PlayerController : MonoBehaviour
         inputManager.LookInputEvent -= SetLookInput;
         inputManager.JumpEvent -= HandleJump;
         inputManager.SprintEvent -= HandleSprint;
+        if (rb != null)
+        {
+            moveInput = Vector2.zero;
+            lookInput = Vector2.zero;
+            movementSpeed = walkSpeed;
+            // Reset player's velocity when enabled again.
+            rb.angularVelocity = Vector3.zero;
+            rb.linearVelocity = Vector3.zero;
+        }
     }
     
 

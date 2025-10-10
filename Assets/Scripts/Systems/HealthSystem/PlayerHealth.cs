@@ -14,11 +14,10 @@ public class PlayerHealth : Health
         maxHealth = playerStats.MaxHealth;
         PlayerHealthActions.OnPlayerHealthChanged?.Invoke(maxHealth, maxHealth);
     }
+
     public override void Start()
     {
         base.Start();
-        maxHealth = playerStats.MaxHealth;
-        PlayerHealthActions.OnPlayerHealthChanged?.Invoke(maxHealth, maxHealth);
     }
 
     public override void TakeDamage(int damage)

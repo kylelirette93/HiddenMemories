@@ -1,4 +1,5 @@
 using System;
+using System.Data;
 using UnityEngine;
 
 public class GameStateManager : MonoBehaviour
@@ -10,15 +11,22 @@ public class GameStateManager : MonoBehaviour
     LevelManager levelManager;
     Camera sceneCamera;
     InputManager input;
+    SpawnManager spawnManager;
     bool isPaused = false;
     public GameObject playerInstance;
+    public Transform initialSpawn;
     Quaternion spawnRotation;
+    PlayerController playerController;
+    // Whether or not game needs initialized, i.e spawning etc.
+    bool gameInitialized = false;
+    bool playerSpawned = false;
     
     private void Start()
     {
         sceneCamera = GameManager.Instance.sceneCamera;
         uiManager = GameManager.Instance.uiManager;
         levelManager = GameManager.Instance.levelManager;
+        spawnManager = GameManager.Instance.spawnManager;
         if (uiManager != null)
         {
             currentState = GameState.MainMenu;
@@ -50,6 +58,7 @@ public class GameStateManager : MonoBehaviour
                 uiManager.EnableSettingsUI();
                 break;
             case GameState.Gameplay:
+                Time.timeScale = 1;
                 DisableCursor();
                 StateActions.Start?.Invoke();
                 uiManager.DisableAllMenuUI();
@@ -74,7 +83,6 @@ public class GameStateManager : MonoBehaviour
                 uiManager.EnableResultUI();
                 break;
             case GameState.GameWin:
-                Time.timeScale = 0f;
                 EnableCursor();
                 uiManager.DisableAllMenuUI();
                 uiManager.EnableGameWinUI();
@@ -95,9 +103,21 @@ public class GameStateManager : MonoBehaviour
     }
     public void PlayGame()
     {
-        sceneCamera.gameObject.SetActive(false);
+        if (sceneCamera.isActiveAndEnabled)
+        {
+            sceneCamera.gameObject.SetActive(false);
+        }
         ChangeState(GameState.Gameplay);
-        SpawnPlayer();
+
+        if (!playerSpawned)
+        {
+            SpawnPlayer();
+            playerSpawned = true;
+        }
+        else
+        {
+            ResetPlayer();
+        }
     }
 
 
@@ -108,6 +128,7 @@ public class GameStateManager : MonoBehaviour
         spawnRotation = playerInstance.transform.rotation;
         StateActions.PlayerSpawned?.Invoke(playerInstance);
         PlayerHealthActions.PlayerDied += HandlePlayerDeath;
+        playerController = playerInstance.GetComponent<PlayerController>();
     }
 
     public void ResetPlayer()
@@ -156,6 +177,7 @@ public class GameStateManager : MonoBehaviour
 
     public void ResumeGame()     
     {
+        playerController.EnableLook();
         ChangeState(GameState.Gameplay);
         isPaused = false;
         Time.timeScale = 1f;
@@ -194,12 +216,19 @@ public class GameStateManager : MonoBehaviour
     public void GameWin()
     {
         StateActions.Reset?.Invoke();
+        if (playerInstance != null)
+        {
+            Destroy(playerInstance);
+            playerSpawned = false;
+        }
+        if (sceneCamera != null)
+        {
+            sceneCamera.gameObject.SetActive(true);
+        }
         ChangeState(GameState.GameWin);
     }
-
     private void OnDestroy()
     {
-        StateActions.Reset -= StateActions.Reset;
         PlayerHealthActions.PlayerDied -= HandlePlayerDeath;
     }
 

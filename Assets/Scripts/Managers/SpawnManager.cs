@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
@@ -24,6 +23,14 @@ public class SpawnManager : MonoBehaviour
         {
             spawnPoints[i] = spawnPointObjects[i].transform;
         }
+    }
+
+    private void OnDestroy()
+    {
+        StateActions.Reset -= DespawnEnemies;
+        StateActions.Reset -= DespawnObjects;
+        StateActions.Start -= SpawnEnemies;
+        StateActions.Start -= SpawnGun;
     }
 
     private void SpawnGun()
@@ -54,6 +61,7 @@ public class SpawnManager : MonoBehaviour
         {
             spawnedEnemies.Remove(enemy);
         }
+        Destroy(enemy);
     }
 
     public void DespawnEnemies()
@@ -75,19 +83,11 @@ public class SpawnManager : MonoBehaviour
             if (pickup != null)
             {
                 Destroy(pickup);
-                StateActions.Start -= SpawnGun;
             }
         }
         pickups.Clear();
     }
 
-    private void OnDestroy()
-    {
-        StateActions.Reset -= DespawnEnemies;
-        StateActions.Reset -= DespawnObjects;
-        StateActions.Start -= SpawnEnemies;
-        StateActions.Start -= SpawnGun;
-    }
     public void SpawnEnemy(Transform spawn)
     {
         GameObject enemy = Instantiate(enemyPrefab, spawn.position, Quaternion.identity);

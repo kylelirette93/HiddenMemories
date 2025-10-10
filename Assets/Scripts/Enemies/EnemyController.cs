@@ -118,7 +118,6 @@ public class EnemyController : MonoBehaviour
         Debug.Log("Enemy's current position: " + transform.position);
         Debug.Log("Game object spawned at: " + spawnPos);
         GameManager.Instance.spawnManager.RemoveEnemy(gameObject);
-        Destroy(gameObject);
     }
 
     private void SetPlayer(GameObject player)
