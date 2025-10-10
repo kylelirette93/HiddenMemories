@@ -90,7 +90,7 @@ public class WeaponManager : MonoBehaviour
         if (currentWeaponInstance != null) Destroy(currentWeaponInstance);
 
         WeaponDataSO weaponToEquip = inventory.availableWeapons[index];
-        if (weaponToEquip != null && weaponParent != null && currentWeaponInstance == null)
+        if (weaponToEquip != null && weaponParent != null)
         {
             currentWeaponInstance = Instantiate(weaponToEquip.weaponPrefab, weaponParent);
             currentWeaponInstance.transform.localPosition = Vector3.zero;

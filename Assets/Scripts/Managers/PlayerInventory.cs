@@ -17,7 +17,7 @@ public class PlayerInventory : MonoBehaviour
         uiManager = GameManager.Instance.uiManager;
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         InteractableActions.AddWeapon -= AddWeapon;
         InteractableActions.AddKey -= AddKey;

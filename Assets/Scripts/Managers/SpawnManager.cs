@@ -82,6 +82,7 @@ public class SpawnManager : MonoBehaviour
         {
             if (pickup != null)
             {
+                StateActions.Start -= SpawnGun;
                 Destroy(pickup);
             }
         }
