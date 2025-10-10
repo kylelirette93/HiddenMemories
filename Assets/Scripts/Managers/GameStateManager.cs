@@ -53,6 +53,10 @@ public class GameStateManager : MonoBehaviour
                 uiManager.DisableAllMenuUI();
                 uiManager.EnableInstructionsUI();
                 break;
+            case GameState.Controls:
+                uiManager.DisableAllMenuUI();
+                uiManager.EnableControlsUI();
+                break;
             case GameState.Settings:
                 uiManager.DisableAllMenuUI();
                 uiManager.EnableSettingsUI();
@@ -60,7 +64,11 @@ public class GameStateManager : MonoBehaviour
             case GameState.Gameplay:
                 Time.timeScale = 1;
                 DisableCursor();
-                StateActions.Start?.Invoke();
+                if (!gameInitialized)
+                {
+                    StateActions.Start?.Invoke();
+                    gameInitialized = true;
+                }
                 uiManager.DisableAllMenuUI();
                 uiManager.EnableGameplayUI();
                 break;
@@ -203,6 +211,11 @@ public class GameStateManager : MonoBehaviour
         ChangeState(GameState.Settings);
     }
 
+    public void Controls()
+    {
+        ChangeState(GameState.Controls);
+    }
+
     public void Options()
     {
         ChangeState(GameState.Options);
@@ -212,6 +225,7 @@ public class GameStateManager : MonoBehaviour
         // If we go to results, reset the game.
         StateActions.Reset?.Invoke();
         ChangeState(GameState.Results);
+        gameInitialized = false;
     }
     public void GameWin()
     {
@@ -230,6 +244,7 @@ public class GameStateManager : MonoBehaviour
             sceneCamera.gameObject.SetActive(true);
         }
         ChangeState(GameState.GameWin);
+        gameInitialized = false;
     }
     private void OnDestroy()
     {
@@ -245,6 +260,7 @@ public enum GameState
 {
     MainMenu,
     Instructions,
+    Controls,
     Settings,
     Gameplay,
     Pause,

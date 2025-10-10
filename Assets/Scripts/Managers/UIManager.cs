@@ -4,6 +4,7 @@ public class UIManager : MonoBehaviour
 {
     public GameObject MainMenuPanel;
     public GameObject InstructionsPanel;
+    public GameObject ControlsPanel;
     public GameObject SettingsPanel;
     public GameObject GameplayPanel;
     public GameObject PausePanel;
@@ -22,6 +23,7 @@ public class UIManager : MonoBehaviour
         // Disable all UI panels.
         MainMenuPanel.SetActive(false);
         InstructionsPanel.SetActive(false);
+        ControlsPanel.SetActive(false);
         SettingsPanel.SetActive(false);
         GameplayPanel.SetActive(false);
         PausePanel.SetActive(false);
@@ -41,6 +43,12 @@ public class UIManager : MonoBehaviour
     {
         DisableAllMenuUI();
         InstructionsPanel.SetActive(true);
+    }
+
+    public void EnableControlsUI()
+    {
+        DisableAllMenuUI();
+        ControlsPanel.SetActive(true);
     }
 
     public void EnableSettingsUI()
