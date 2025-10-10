@@ -6,16 +6,18 @@ public class SpawnManager : MonoBehaviour
     public GameObject enemyPrefab;
     public GameObject gunPickupPrefab;
     public Transform[] spawnPoints;
-    public Transform pistolPickup;
+    public Transform[] gunSpawns;
+    public GameObject[] guns;
     public List<GameObject> pickups = new List<GameObject>();
     public List<GameObject> spawnedEnemies = new List<GameObject>();
+    public GameObject[] keys;
 
     private void Start()
     {
         StateActions.Reset += DespawnEnemies;
         StateActions.Reset += DespawnObjects;
         StateActions.Start += SpawnEnemies;
-        StateActions.Start += SpawnGun;
+        StateActions.Start += SpawnGuns;
 
         GameObject[] spawnPointObjects = GameObject.FindGameObjectsWithTag("EnemySpawn");
         spawnPoints = new Transform[spawnPointObjects.Length];
@@ -30,17 +32,23 @@ public class SpawnManager : MonoBehaviour
         StateActions.Reset -= DespawnEnemies;
         StateActions.Reset -= DespawnObjects;
         StateActions.Start -= SpawnEnemies;
-        StateActions.Start -= SpawnGun;
+        StateActions.Start -= SpawnGuns;
     }
 
-    private void SpawnGun()
+    public void RebindGunSpawnEvent()
+    {
+        StateActions.Start += SpawnGuns;
+    }
+    public void SpawnGuns()
     {
         pickups.Clear();
-        pistolPickup = GameObject.FindGameObjectWithTag("GunSpawn")?.transform;
-        if (pistolPickup != null && gunPickupPrefab != null)
+        for (int i = 0; i < gunSpawns.Length; i++)
         {
-            GameObject gun = Instantiate(gunPickupPrefab, pistolPickup.position, Quaternion.identity);
-            pickups.Add(gun);
+            if (guns[i] != null)
+            {
+                GameObject gun = Instantiate(guns[i], gunSpawns[i].position, Quaternion.identity);
+                pickups.Add(gun);
+            }
         }
     }
     public void SpawnEnemies()
@@ -82,11 +90,19 @@ public class SpawnManager : MonoBehaviour
         {
             if (pickup != null)
             {
-                StateActions.Start -= SpawnGun;
+                StateActions.Start -= SpawnGuns;
                 Destroy(pickup);
             }
         }
         pickups.Clear();
+    }
+
+    public void RespawnKeys()
+    {
+        for (int i = 0; i < keys.Length; i++)
+        {
+            GameObject key = Instantiate(keys[i]);
+        }
     }
 
     public void SpawnEnemy(Transform spawn)

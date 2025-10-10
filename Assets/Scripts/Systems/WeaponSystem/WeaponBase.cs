@@ -41,6 +41,7 @@ public class WeaponBase : MonoBehaviour
 
     public bool IsUnlocked { get { return isUnlocked; } }
     protected bool isUnlocked = false;
+    bool isShootingHeld = false;
 
     public virtual void Awake()
     {
@@ -114,80 +115,88 @@ public class WeaponBase : MonoBehaviour
     {
         if (weaponData == null || firePoint == null) return;
 
+        if (isShootingHeld && !isReloading)
+        {
+            HandleShooting();
+        }
+
         // Set crosshair in center of screen.
         crosshairUI.sizeDelta = new Vector2(40, 40);
         crosshairUI.position = new Vector3(Screen.width / 2, Screen.height / 2, 0f);
     }
 
-    protected void OnShoot(InputAction.CallbackContext context)
+    protected void HandleShooting()
     {
-        if (context.started && !isReloading)
+        if (weaponData != null && Time.time < lastShotTime + (1f / fireRate))
         {
-            if (weaponData != null && Time.time < lastShotTime + (1f / fireRate))
+            return;
+        }
+        if (currentAmmo > 0)
+        {
+            lastShotTime = Time.time;
+            currentAmmo--;
+
+            if (fireSound != null)
             {
-                return;
+                ApplyShootRecoil();
+                GameManager.Instance.audioManager.PlaySFX(fireSound);
+                muzzleFlash?.Play();
             }
-            if (currentAmmo > 0)
+
+            Debug.Log("Firing weapon: " + name + ". Ammo left: " + currentAmmo);
+
+            // Gives a little pop effect for crosshair when firing.
+            crosshairUI.DOSizeDelta(new Vector2(60, 60), 0.1f).OnComplete(() =>
             {
-                lastShotTime = Time.time;
-                currentAmmo--;
+                crosshairUI.DOSizeDelta(new Vector2(40, 40), 0.8f);
+            });
 
-                if (fireSound != null)
-                {
-                    ApplyShootRecoil();
-                    GameManager.Instance.audioManager.PlaySFX(fireSound);
-                    muzzleFlash?.Play();
-                }
+            // Cast a ray from center of screen.
+            Ray ray = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
+            Vector3 targetPoint;
 
-                Debug.Log("Firing weapon: " + name + ". Ammo left: " + currentAmmo);
-
-                // Gives a little pop effect for crosshair when firing.
-                crosshairUI.DOSizeDelta(new Vector2(60, 60), 0.1f).OnComplete(() =>
-                {
-                    crosshairUI.DOSizeDelta(new Vector2(40, 40), 0.8f);
-                });
-
-                // Cast a ray from center of screen.
-                Ray ray = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
-                Vector3 targetPoint;
-
-                if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
-                {
-                    targetPoint = hit.point;
-                }
-                else
-                {
-                    // If nothing gets hit, set it to a point far away.
-                    targetPoint = ray.GetPoint(1000f);
-                }
-
-                Vector3 baseDirection = (targetPoint - firePoint.position).normalized;
-                Quaternion baseRotation = Quaternion.LookRotation(baseDirection);
-
-                for (int i = 0; i < spreadCount; i++)
-                {
-                    float randomAngle = UnityEngine.Random.Range(-spreadAngle, spreadAngle);
-                    Quaternion spreadRot = Quaternion.Euler(0, randomAngle, 0f);
-
-                    Quaternion finalRot = baseRotation * spreadRot;
-
-                    GameObject bullet = Instantiate(bulletPrefab, firePoint.position, finalRot);
-                    Bullet bulletScript = bullet.GetComponent<Bullet>();
-                    if (bulletScript != null)
-                    {
-                        bulletScript.Damage = powerRate;
-                    }
-                    Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
-
-                    // Fire the bullet. No need to normalize here as the velocity handles the speed.
-                    bulletRb.linearVelocity = bullet.transform.forward * bulletSpeed;
-                }
+            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
+            {
+                targetPoint = hit.point;
             }
             else
             {
-                StartCoroutine(Reload());
+                // If nothing gets hit, set it to a point far away.
+                targetPoint = ray.GetPoint(1000f);
+            }
+
+            Vector3 baseDirection = (targetPoint - firePoint.position).normalized;
+            Quaternion baseRotation = Quaternion.LookRotation(baseDirection);
+
+            for (int i = 0; i < spreadCount; i++)
+            {
+                float randomAngle = UnityEngine.Random.Range(-spreadAngle, spreadAngle);
+                Quaternion spreadRot = Quaternion.Euler(0, randomAngle, 0f);
+
+                Quaternion finalRot = baseRotation * spreadRot;
+
+                GameObject bullet = Instantiate(bulletPrefab, firePoint.position, finalRot);
+                Bullet bulletScript = bullet.GetComponent<Bullet>();
+                if (bulletScript != null)
+                {
+                    bulletScript.Damage = powerRate;
+                }
+                Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
+
+                // Fire the bullet. No need to normalize here as the velocity handles the speed.
+                bulletRb.linearVelocity = bullet.transform.forward * bulletSpeed;
             }
         }
+        else
+        {
+            StartCoroutine(Reload());
+        }
+    }
+
+    protected void OnShoot(InputAction.CallbackContext context)
+    {
+        if (context.started) isShootingHeld = true;
+        if (context.canceled) isShootingHeld = false;
     }
     protected IEnumerator Reload()
     {

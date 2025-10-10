@@ -216,6 +216,10 @@ public class GameStateManager : MonoBehaviour
     public void GameWin()
     {
         StateActions.Reset?.Invoke();
+        // Rebind event to spawn guns before game restarts.
+        spawnManager.RebindGunSpawnEvent();
+        spawnManager.RespawnKeys();
+        GameManager.Instance.upgradeManager.ClearUpgrades();
         if (playerInstance != null)
         {
             Destroy(playerInstance);

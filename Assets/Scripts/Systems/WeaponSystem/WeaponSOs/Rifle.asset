@@ -16,12 +16,12 @@ MonoBehaviour:
   value: 1
   name: rifle
   powerRate: 10
-  fireRate: 1
-  clipCapacity: 5
-  reloadSpeed: 2
+  fireRate: 10
+  clipCapacity: 25
+  reloadSpeed: 0.2
   spread: 1
   spreadAngle: 0
-  recoil: 1
+  recoil: 0.2
   bulletSpread: 0
   weaponPrefab: {fileID: 6646739322383903588, guid: 2b758decf246f8d48a7db63f64c14303, type: 3}
   gun_fire: {fileID: 8300000, guid: c976de4ffd5b0b744a51791a2e5a0495, type: 3}

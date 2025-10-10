@@ -50,6 +50,12 @@ public class UpgradeManager : MonoBehaviour
         }
     }
 
+    public void ClearUpgrades()
+    {
+        purchasedUpgrades.Clear();
+        UpdateAllButtons();
+    }
+
     public void AddButton(UpgradeButton button)
     {
         upgradeButtons.Add(button);
