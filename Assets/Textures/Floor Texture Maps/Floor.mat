@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-3789640461571861048
+--- !u!114 &-5471702237432759619
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43,11 +43,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: 18727c047bdb5f24f9b9449f903c994b, type: 3}
-        m_Scale: {x: 16, y: 16}
-        m_Offset: {x: 0, y: 0}
+        m_Texture: {fileID: 2800000, guid: 91a38120717fd7145a7db39238d2b9e0, type: 3}
+        m_Scale: {x: 20, y: 20}
+        m_Offset: {x: 1, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 8d91f5a541cd7944588f0b9ea55147fd, type: 3}
+        m_Texture: {fileID: 2800000, guid: deea35ea7d7d10c458c83e2b49988059, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -67,19 +67,19 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 18727c047bdb5f24f9b9449f903c994b, type: 3}
-        m_Scale: {x: 16, y: 16}
-        m_Offset: {x: 0, y: 0}
+        m_Texture: {fileID: 2800000, guid: 91a38120717fd7145a7db39238d2b9e0, type: 3}
+        m_Scale: {x: 20, y: 20}
+        m_Offset: {x: 1, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: 2800000, guid: 2a12f4c3c310bd14ea8fe9e53d7afcbf, type: 3}
+        m_Texture: {fileID: 2800000, guid: 336650f787977fa42b7ef82e38dd39e2, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
-        m_Texture: {fileID: 2800000, guid: ce67ba45df1417d4f96ed19e26df4f32, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6549a5bded03ea94baa1a6ba8cf93d5b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
-        m_Texture: {fileID: 2800000, guid: c58589337d356dd4db2918332f4f9e25, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6bdd7c23dca44964c8088759bb7217d7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
@@ -105,7 +105,7 @@ Material:
     - _AlphaToMask: 0
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
-    - _BumpScale: 3
+    - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _Cull: 2
@@ -120,10 +120,10 @@ Material:
     - _GlossyReflections: 0
     - _Metallic: 0
     - _OcclusionStrength: 1
-    - _Parallax: 0.0366
+    - _Parallax: 0.08
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _Smoothness: 0.42
+    - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
