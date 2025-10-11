@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class InputManager : MonoBehaviour, Input.IPlayerActions, UI.IControlsActions
+public class InputManager : MonoBehaviour, Input.IPlayerActions
 {
     Input input;
     UI uiInput;
@@ -11,11 +11,8 @@ public class InputManager : MonoBehaviour, Input.IPlayerActions, UI.IControlsAct
         try
         {
             input = new Input();
-            uiInput = new UI();
             input.Player.SetCallbacks(this);
-            uiInput.Controls.SetCallbacks(this);
             input.Player.Enable();
-            uiInput.Controls.Enable();
         }
         catch (System.Exception ex)
         {
@@ -74,11 +71,6 @@ public class InputManager : MonoBehaviour, Input.IPlayerActions, UI.IControlsAct
     public void OnShoot(InputAction.CallbackContext context)
     {
         ShootEvent?.Invoke(context);
-    }
-
-    public void OnPause(InputAction.CallbackContext context)
-    {
-        PauseEvent?.Invoke();
     }
 
     public void OnAim(InputAction.CallbackContext context)

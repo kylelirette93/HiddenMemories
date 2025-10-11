@@ -21,6 +21,7 @@ public class UpgradeManager : MonoBehaviour
 
     private void OnWeaponUnlocked(WeaponBase weapon)
     {
+        // Only want to display weapons that are unlocked with upgrade UI.
         if (!unlockedWeapons.Contains(weapon))
         {
             unlockedWeapons.Add(weapon);

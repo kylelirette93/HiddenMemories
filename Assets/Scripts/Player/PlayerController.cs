@@ -7,40 +7,41 @@ using DG.Tweening;
 public class PlayerController : MonoBehaviour
 {
     // References.
-    private InputManager inputManager;
+    InputManager inputManager;
     Rigidbody rb;   
+    Coroutine fovChangeCoroutine;
     Camera playerCamera;
+    PlayerHealth health;
 
     [Header("Camera Settings")]
-    Coroutine fovChangeCoroutine;
-    float fovTransitionSpeed = 3.6f;
-    float walkFov = 60f;
-    float sprintFov = 75f;
+    [SerializeField] float fovTransitionSpeed = 3.6f;
+    [SerializeField] float walkFov = 60f;
+    [SerializeField] float sprintFov = 75f;
 
     [Header("Movement Settings")]
-    bool isSprinting = false;
-    public bool isMoving;
     Vector2 moveInput;
-    float movementSpeed;
-    float walkSpeed = 3f;
-    float runSpeed = 20f;
-    bool isGrounded = false;
-    float groundCheckDistance = 1.1f;
+    [SerializeField] bool isSprinting = false;
+    public bool isMoving;
+    [SerializeField] float movementSpeed;
+    [SerializeField] float walkSpeed = 3f;
+    [SerializeField] float runSpeed = 20f;
+    [SerializeField] bool isGrounded = false;
+    [SerializeField] float groundCheckDistance = 1.1f;
+    private bool isGamepadSprint = false;
 
-    [Header("Jump Settings")]
+    /*[Header("Jump Settings")]
     float jumpForce = 20f;
     bool canJump = true;
-    bool isJumping = false;
+    bool isJumping = false;*/
 
     [Header("Look Settings")]
-    bool canLook = true;
+    Transform cameraHolder;
+    [SerializeField] bool canLook = true;
     public Vector2 LookInput { get { return lookInput; } }
     Vector2 lookInput;
-    [SerializeField]float lookSensitivity = 17f;
+    [SerializeField] float lookSensitivity = 17f;
     float cameraRotationX = 0f;
     bool canTakeDamage = true;
-
-    PlayerHealth health;
 
     [Header("Sound Effects")]
     public AudioClip oof;
@@ -48,6 +49,7 @@ public class PlayerController : MonoBehaviour
     {
         inputManager = GameManager.Instance.inputManager;
         rb = GetComponent<Rigidbody>();
+        cameraHolder = GameObject.Find("CameraHolder").transform;
         playerCamera = GetComponentInChildren<Camera>();
         movementSpeed = walkSpeed;
         health = GetComponent<PlayerHealth>();
@@ -66,19 +68,15 @@ public class PlayerController : MonoBehaviour
     {
         inputManager.MoveInputEvent += SetMoveInput;
         inputManager.LookInputEvent += SetLookInput;
-        inputManager.JumpEvent += HandleJump;
         inputManager.SprintEvent += HandleSprint;
         inputManager.PauseEvent += DisableLook;
         canTakeDamage = true;
-        isJumping = false;
-        canJump = true;
     }
 
     private void OnDisable()
     {
         inputManager.MoveInputEvent -= SetMoveInput;
         inputManager.LookInputEvent -= SetLookInput;
-        inputManager.JumpEvent -= HandleJump;
         inputManager.SprintEvent -= HandleSprint;
         if (rb != null)
         {
@@ -108,24 +106,18 @@ public class PlayerController : MonoBehaviour
         {
             health.TakeDamage(health.CurrentHealth);
         }
-        if (!isJumping) rb.angularVelocity = Vector3.zero;
+
+        if (isSprinting && isGamepadSprint && moveInput.y <= 0.1f)
+        {
+            isSprinting = false;
+            isGamepadSprint = false;
+        }
     }
 
     private void FixedUpdate()
     {
         isGrounded = GroundCheck();
         HandleMovement();
-    }
-
-    private void Jump()
-    {
-        if (isGrounded && canJump)
-        {
-            if (rb != null)
-            rb.angularVelocity = Vector3.zero;
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            isJumping = true;
-        }
     }
 
     private void LateUpdate()
@@ -138,7 +130,6 @@ public class PlayerController : MonoBehaviour
         if (Physics.Raycast(transform.position, Vector3.down, groundCheckDistance))
         {
             // Something is below player.
-            isJumping = false;
             return true;
         }
         return false;
@@ -170,24 +161,28 @@ public class PlayerController : MonoBehaviour
 
     private void HandleSprint(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        bool isGamepad = context.control.device is Gamepad;
+        if (context.started)
         {
             // When the sprint button is pressed and held, set isSprinting to true
             if (moveInput.y > 0.1f)
             isSprinting = true;
+            isGamepadSprint = isGamepad;
         }
         else if (context.canceled)
         {
-            // When the sprint button is released, set isSprinting to false
-            isSprinting = false;
+            if (!isGamepad)
+            {
+                isSprinting = false;
+            }
         }
+
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Enemy") && canTakeDamage)
         {
-            canJump = false;
             Vector3 toEnemy = (collision.transform.position - transform.position).normalized;
 
             float dot = Vector3.Dot(transform.forward, toEnemy);
@@ -209,15 +204,6 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Enemy"))
-        {
-            canJump = true;
-        }
-    }
-
     private void TakeHit(Collision collision)
     {
         float knockbackForce = 200;
@@ -241,23 +227,16 @@ public class PlayerController : MonoBehaviour
     private void HandleLook()
     {
         if (!canLook) return;
-        transform.Rotate(Vector3.up * lookInput.x * lookSensitivity);
 
-        cameraRotationX -= lookInput.y * lookSensitivity;
+        float horizontalLook = lookInput.x * lookSensitivity;
+        float verticalLook = lookInput.y * lookSensitivity;
 
-        // Clamp camera rotation to prevent flip effect.
-        cameraRotationX = Mathf.Clamp(cameraRotationX, -90f, 90f);
+        transform.Rotate(Vector3.up * horizontalLook);
+        Vector3 angles = cameraHolder.localEulerAngles;
+        float newRotX = angles.x - verticalLook;
+        newRotX = (newRotX > 180) ? newRotX - 360 : newRotX;
+        newRotX = Mathf.Clamp(newRotX, -60f, 60f);
 
-        Quaternion targetRotation = Quaternion.Euler(cameraRotationX, 0f, 0f);
-
-        playerCamera.transform.localRotation = Quaternion.Slerp(playerCamera.transform.rotation, targetRotation, 1f / Time.smoothDeltaTime);
-    }
-
-    private void HandleJump(InputAction.CallbackContext context)
-    {
-       if (context.performed)
-        {
-            Jump();
-        }
+        cameraHolder.localEulerAngles = new Vector3(newRotX, 0f, 0f);
     }
 }

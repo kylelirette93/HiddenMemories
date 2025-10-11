@@ -24,7 +24,7 @@ MonoBehaviour:
   recoil: 4
   bulletSpread: 5
   weaponPrefab: {fileID: 6038615681917709824, guid: cb438ac7b6e6264409dcb3a86d97b086, type: 3}
-  gun_fire: {fileID: 8300000, guid: c976de4ffd5b0b744a51791a2e5a0495, type: 3}
+  gun_fire: {fileID: 8300000, guid: edb622633c48e794298804c4ea7dea39, type: 3}
   firePoint: {x: 0, y: 0, z: 0}
   index: 1
   bulletPrefab: {fileID: 143548174340775267, guid: 82740ac78dc92cd4883da2fbbd38fff2, type: 3}

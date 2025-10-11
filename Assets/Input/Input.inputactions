@@ -127,9 +127,75 @@
                     "isPartOfComposite": true
                 },
                 {
+                    "name": "2D Vector",
+                    "id": "12c4ef03-5b2f-4db9-955d-a31bdb28dd67",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "b55121fd-dc03-4cca-95fb-48a0af383f30",
+                    "path": "<DualSenseGamepadHID>/leftStick/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "7a983985-3dfa-4aea-9b9b-514f196c08bc",
+                    "path": "<DualSenseGamepadHID>/leftStick/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "cc1ea90e-c58e-4c54-acbc-92b42d36eaee",
+                    "path": "<DualSenseGamepadHID>/leftStick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "6a46bfbc-4952-488e-896b-23f8be043dce",
+                    "path": "<DualSenseGamepadHID>/leftStick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "",
                     "id": "c327ca0c-c81a-47e8-9ce1-68af96c559c4",
                     "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a22aae79-fd90-4697-8e98-6e2ca470fd5e",
+                    "path": "<DualSenseGamepadHID>/rightStick",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -161,8 +227,30 @@
                 },
                 {
                     "name": "",
+                    "id": "c1e8a006-901b-44cc-bc6c-eae20c5d6fea",
+                    "path": "<DualSenseGamepadHID>/leftStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Sprint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "bd55df7f-7c04-457b-859d-90af26785fac",
                     "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Shoot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "20119ada-0293-46c9-b91e-c81ddd074613",
+                    "path": "<DualSenseGamepadHID>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -183,8 +271,30 @@
                 },
                 {
                     "name": "",
+                    "id": "6784ab1b-13de-4631-8ee9-e815cc7e5a3c",
+                    "path": "<DualSenseGamepadHID>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Aim",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "8e00b5eb-97ae-4783-8029-82b67dad1a0e",
                     "path": "<Mouse>/scroll",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Scroll",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "994a9f3d-56b4-4119-ad39-dfd82b9efa99",
+                    "path": "<DualSenseGamepadHID>/dpad",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

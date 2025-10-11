@@ -7,41 +7,45 @@ using UnityEngine.InputSystem;
 
 public class WeaponBase : MonoBehaviour
 {
-    // Base properties for all weapons.
+    #region References
     protected WeaponDataSO weaponData;
     protected PlayerController playerController;
-    public int CurrentAmmo { get { return currentAmmo; } }
-    protected int currentAmmo;
-    public int ClipCapacity { get { return clipCapacity; } }
-    protected int clipCapacity;
-    protected float reloadSpeed;
-    protected float fireRate;
-    protected float lastShotTime;
-    protected int spreadCount;
-    protected float spreadAngle = 0f;
-    protected float powerRate;
-    protected float recoil;
     protected InputManager input;
     protected Transform firePoint;
-    protected float bulletSpeed = 200f;
     protected AudioClip fireSound;
     protected Camera playerCamera;
     protected GameObject bulletPrefab;
     protected Transform weaponParent;
-    ParticleSystem muzzleFlash;
+    protected ParticleSystem muzzleFlash;
     protected RectTransform crosshairUI;
+    #endregion
+    public int CurrentAmmo { get { return currentAmmo; } }
+    [SerializeField] protected int currentAmmo;
+    public int ClipCapacity { get { return clipCapacity; } }
+
+    [Header("Weapon Stats")]
+    [SerializeField] protected int clipCapacity;
+    [SerializeField] protected float reloadSpeed;
+    [SerializeField] protected float fireRate;
+    [SerializeField] protected float lastShotTime;
+    [SerializeField] protected int spreadCount;
+    [SerializeField] protected float spreadAngle = 0f;
+    [SerializeField] protected float powerRate;
+    [SerializeField] protected float recoil;
+    [SerializeField] protected float bulletSpeed = 200f;
+    protected Sequence recoilSequence;
+
+    [Header("Weapon Upgrades")]
+    public List<UpgradeDataSO> AvailableUpgrades { get { return availableUpgrades; } }
+    [SerializeField] protected List<UpgradeDataSO> availableUpgrades = new List<UpgradeDataSO>();
+    public bool IsUnlocked { get { return isUnlocked; } }
+    protected bool isUnlocked = false;
+
+    // Shooting variables.
     public bool IsReloading { get { return isReloading; } }
     protected bool isReloading = false;
 
-    protected Vector2 targetRecoil;
-    protected Vector2 currentRecoil;
-    protected float recoilRecoverySpeed = 8f;
-    public List<UpgradeDataSO> AvailableUpgrades { get { return availableUpgrades; } }
-    [SerializeField] protected List<UpgradeDataSO> availableUpgrades = new List<UpgradeDataSO>();
-
-    public bool IsUnlocked { get { return isUnlocked; } }
-    protected bool isUnlocked = false;
-    bool isShootingHeld = false;
+    protected bool isShootingHeld = false;
 
     public virtual void Awake()
     {
@@ -53,6 +57,7 @@ public class WeaponBase : MonoBehaviour
 
     public virtual void OnEnable()
     {
+        isShootingHeld = false;
         crosshairUI = GameObject.Find("Crosshair").GetComponent<RectTransform>();
         input.ShootEvent += OnShoot;
         ApplyAllUpgrades();
@@ -61,7 +66,11 @@ public class WeaponBase : MonoBehaviour
 
     public virtual void OnDisable()
     {
-        crosshairUI.sizeDelta = Vector2.zero;
+        if (crosshairUI != null)
+        {
+            // When a game restarts, reset the crosshair.
+            crosshairUI.sizeDelta = Vector2.zero;
+        }
         input.ShootEvent -= OnShoot;
     }   
 
@@ -112,8 +121,21 @@ public class WeaponBase : MonoBehaviour
         recoil = weaponData.recoil;
     }
 
+    // Last state this frame.
+    GameState lastFrameState;
     public virtual void Update()
     {
+        GameState currentState = GameManager.Instance.gameStateManager.currentState;
+
+        // Check if it just entered gameplay.
+        if (lastFrameState != GameState.Gameplay && currentState == GameState.Gameplay)
+        {
+            // If so reset shoot state.
+            isShootingHeld = false;
+        }
+        // Update the last state this frame.
+        lastFrameState = currentState;
+
         if (weaponData == null || firePoint == null) return;
 
         if (isShootingHeld && !isReloading)
@@ -224,10 +246,12 @@ public class WeaponBase : MonoBehaviour
         float recoilBack = -0.3f;
 
         // Create recoil based on stats, and store previous rotation of camera.
-        float cameraRecoil = recoil * 2f;
+        float cameraRecoil = recoil * 1.5f;
         Vector3 cameraOriginalRot = playerCamera.transform.localEulerAngles;
 
-        Sequence recoilSequence = DOTween.Sequence();
+        recoilSequence = DOTween.Sequence();
+
+
 
         // Rotate up & move back at the same time.
         recoilSequence.Append(transform.DOLocalRotate(new Vector3(recoilRot, 0f, 0f), 0.05f));

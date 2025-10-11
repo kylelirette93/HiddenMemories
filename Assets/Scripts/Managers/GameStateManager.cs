@@ -1,5 +1,4 @@
 using System;
-using System.Data;
 using UnityEngine;
 
 public class GameStateManager : MonoBehaviour
@@ -20,7 +19,25 @@ public class GameStateManager : MonoBehaviour
     // Whether or not game needs initialized, i.e spawning etc.
     bool gameInitialized = false;
     bool playerSpawned = false;
-    
+    UI uiInput;
+
+    private void Awake()
+    {
+        if (uiInput == null) uiInput = new UI();
+
+        if (uiInput != null) uiInput.Controls.Pause.performed += ctx => PauseGame();
+    }
+
+    private void OnEnable()
+    {
+        uiInput.Controls.Enable();
+    }
+
+    private void OnDisable()
+    {
+        uiInput.Controls.Disable();
+    }
+
     private void Start()
     {
         sceneCamera = GameManager.Instance.sceneCamera;
@@ -30,11 +47,6 @@ public class GameStateManager : MonoBehaviour
         if (uiManager != null)
         {
             currentState = GameState.MainMenu;
-        }
-        input = GameManager.Instance.inputManager;
-        if (input != null)
-        {
-            input.PauseEvent += PauseGame;
         }
     }
 
@@ -73,6 +85,8 @@ public class GameStateManager : MonoBehaviour
                 uiManager.EnableGameplayUI();
                 break;
             case GameState.Pause:
+                playerController.DisableLook();
+                Time.timeScale = 0f;
                 EnableCursor();
                 uiManager.DisableAllMenuUI();
                 uiManager.EnablePauseUI();
@@ -172,14 +186,14 @@ public class GameStateManager : MonoBehaviour
     {
         if (isPaused)
         {
-            ResumeGame(); 
+            playerController.EnableLook();
+            ResumeGame();
         }
         else if (!isPaused && currentState == GameState.Gameplay)
         {
             previousState = currentState;
             ChangeState(GameState.Pause);
             isPaused = true;
-            Time.timeScale = 0f;
         }
     }
 
