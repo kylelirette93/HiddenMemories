@@ -11,6 +11,11 @@ public class HUD : MonoBehaviour
     public Slider healthBarSlider;
     public TextMeshProUGUI popupText;
 
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+    }
+
 
     public void Update()
     {

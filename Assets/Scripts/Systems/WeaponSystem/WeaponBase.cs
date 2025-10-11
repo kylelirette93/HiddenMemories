@@ -49,11 +49,11 @@ public class WeaponBase : MonoBehaviour
         playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
         playerCamera = GameObject.Find("Camera").GetComponent<Camera>();
         weaponParent = GameObject.Find("WeaponParent").transform;
-        crosshairUI = GameObject.Find("Crosshair").GetComponent<RectTransform>();
     }
 
     public virtual void OnEnable()
     {
+        crosshairUI = GameObject.Find("Crosshair").GetComponent<RectTransform>();
         input.ShootEvent += OnShoot;
         ApplyAllUpgrades();
         currentAmmo = clipCapacity;
@@ -61,6 +61,7 @@ public class WeaponBase : MonoBehaviour
 
     public virtual void OnDisable()
     {
+        crosshairUI.sizeDelta = Vector2.zero;
         input.ShootEvent -= OnShoot;
     }   
 

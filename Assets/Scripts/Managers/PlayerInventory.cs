@@ -10,7 +10,7 @@ public class PlayerInventory : MonoBehaviour
    public List<KeyDataSO> Keys = new List<KeyDataSO>();
     UIManager uiManager;
 
-    private void Awake()
+    private void OnEnable()
     {
         InteractableActions.AddWeapon += AddWeapon;
         InteractableActions.AddKey += AddKey;

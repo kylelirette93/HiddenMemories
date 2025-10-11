@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
@@ -35,19 +36,27 @@ public class SpawnManager : MonoBehaviour
         StateActions.Start -= SpawnGuns;
     }
 
+    public void ClearPickups()
+    {
+        pickups.Clear();
+    }
+
     public void RebindGunSpawnEvent()
     {
         StateActions.Start += SpawnGuns;
     }
     public void SpawnGuns()
     {
-        pickups.Clear();
-        for (int i = 0; i < gunSpawns.Length; i++)
-        {
-            if (guns[i] != null)
+        // Only spawn guns if none in scene.
+        if (pickups.Count == 0)
+        { 
+            for (int i = 0; i < gunSpawns.Length; i++)
             {
-                GameObject gun = Instantiate(guns[i], gunSpawns[i].position, Quaternion.identity);
-                pickups.Add(gun);
+                if (guns[i] != null)
+                {
+                    GameObject gun = Instantiate(guns[i], gunSpawns[i].position, Quaternion.identity);
+                    pickups.Add(gun);
+                }
             }
         }
     }
@@ -86,22 +95,25 @@ public class SpawnManager : MonoBehaviour
 
     public void DespawnObjects()
     {
-        foreach (GameObject pickup in pickups)
+        for (int i = pickups.Count - 1; i >= 0; i--)
         {
-            if (pickup != null)
+            if (pickups[i] == null)
             {
-                StateActions.Start -= SpawnGuns;
-                Destroy(pickup);
+                // If a gun was picked up, don't try to respawn it.
+                pickups.RemoveAt(i);
             }
         }
-        pickups.Clear();
+        if (pickups.Count == 0)
+        {
+            StateActions.Start -= SpawnGuns;
+        }
     }
 
     public void RespawnKeys()
     {
         for (int i = 0; i < keys.Length; i++)
         {
-            GameObject key = Instantiate(keys[i]);
+            GameObject key = Instantiate(keys[i], keys[i].transform.position, Quaternion.identity);
         }
     }
 

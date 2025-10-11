@@ -223,14 +223,16 @@ public class GameStateManager : MonoBehaviour
     public void Results()
     {
         // If we go to results, reset the game.
+        gameInitialized = false;
         StateActions.Reset?.Invoke();
         ChangeState(GameState.Results);
-        gameInitialized = false;
     }
     public void GameWin()
     {
         StateActions.Reset?.Invoke();
         // Rebind event to spawn guns before game restarts.
+        gameInitialized = false;
+        spawnManager.ClearPickups();
         spawnManager.RebindGunSpawnEvent();
         spawnManager.RespawnKeys();
         GameManager.Instance.upgradeManager.ClearUpgrades();
@@ -244,7 +246,6 @@ public class GameStateManager : MonoBehaviour
             sceneCamera.gameObject.SetActive(true);
         }
         ChangeState(GameState.GameWin);
-        gameInitialized = false;
     }
     private void OnDestroy()
     {
