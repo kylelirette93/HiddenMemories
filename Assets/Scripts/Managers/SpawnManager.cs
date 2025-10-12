@@ -8,6 +8,7 @@ public class SpawnManager : MonoBehaviour
     public Transform[] spawnPoints;
     public Transform[] gunSpawns;
     public GameObject[] guns;
+    public GameObject[] doors;
     public List<GameObject> pickups = new List<GameObject>();
     public List<GameObject> spawnedEnemies = new List<GameObject>();
     public GameObject[] keys;
@@ -112,7 +113,15 @@ public class SpawnManager : MonoBehaviour
     {
         for (int i = 0; i < keys.Length; i++)
         {
-            GameObject key = Instantiate(keys[i], keys[i].transform.position, Quaternion.identity);
+            GameObject key = Instantiate(keys[i], keys[i].transform.position, doors[i].transform.rotation);
+        }
+    }
+
+    public void RespawnDoors()
+    {
+        for (int i = 0; i < doors.Length; i++)
+        {
+            GameObject door = Instantiate(doors[i], doors[i].transform.position, Quaternion.identity);
         }
     }
 

@@ -259,6 +259,7 @@ public class GameStateManager : MonoBehaviour
         spawnManager.ClearPickups();
         spawnManager.RebindGunSpawnEvent();
         spawnManager.RespawnKeys();
+        spawnManager.RespawnDoors();
         GameManager.Instance.upgradeManager.ClearUpgrades();
         if (playerInstance != null)
         {
