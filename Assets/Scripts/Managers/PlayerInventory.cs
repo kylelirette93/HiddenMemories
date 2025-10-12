@@ -15,15 +15,6 @@ public class PlayerInventory : MonoBehaviour
         InteractableActions.AddWeapon += AddWeapon;
         InteractableActions.AddKey += AddKey;
         uiManager = GameManager.Instance.uiManager;
-        RestoreWeapons();
-    }
-
-    private void RestoreWeapons()
-    {
-        foreach (var weapon in availableWeapons)
-        {
-            weaponManager.EquipWeapon(weapon);
-        }
     }
 
     private void OnDisable()
@@ -39,6 +30,8 @@ public class PlayerInventory : MonoBehaviour
         {
             availableWeapons.Add(_currentWeapon);
             weaponManager.EquipWeapon(_currentWeapon);
+            _currentWeapon.IsUnlocked = true;
+            WeaponActions.UnlockWeapon?.Invoke(_currentWeapon);
             Debug.Log("Successfully added weapon: " + weapon.name);
         }
     }

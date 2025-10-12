@@ -7,7 +7,7 @@ public class UpgradeManager : MonoBehaviour
     private Dictionary<string, int> purchasedUpgrades = new();
     public TextMeshProUGUI currencyTXT;
     public List<UpgradeButton> upgradeButtons = new List<UpgradeButton>();
-    public List<WeaponBase> unlockedWeapons = new List<WeaponBase>();
+    public List<WeaponDataSO> unlockedWeapons = new List<WeaponDataSO>();
 
     private void Awake()
     {
@@ -19,12 +19,12 @@ public class UpgradeManager : MonoBehaviour
         WeaponActions.UnlockWeapon -= OnWeaponUnlocked;
     }
 
-    private void OnWeaponUnlocked(WeaponBase weapon)
+    private void OnWeaponUnlocked(WeaponDataSO weaponData)
     {
         // Only want to display weapons that are unlocked with upgrade UI.
-        if (!unlockedWeapons.Contains(weapon))
+        if (!unlockedWeapons.Contains(weaponData))
         {
-            unlockedWeapons.Add(weapon);
+            unlockedWeapons.Add(weaponData);
         }
     }
 

@@ -23,9 +23,13 @@ MonoBehaviour:
   spreadAngle: 0
   recoil: 0.005
   bulletSpread: 0
+  IsUnlocked: 0
   weaponPrefab: {fileID: 6646739322383903588, guid: 2b758decf246f8d48a7db63f64c14303, type: 3}
   gun_fire: {fileID: 8300000, guid: c976de4ffd5b0b744a51791a2e5a0495, type: 3}
   firePoint: {x: 0, y: 1, z: 0}
   index: 2
   bulletPrefab: {fileID: 143548174340775267, guid: 82740ac78dc92cd4883da2fbbd38fff2, type: 3}
   icon: {fileID: 21300000, guid: 57b6aba83f3366c44808d2603add09a3, type: 3}
+  AvailableUpgrades:
+  - {fileID: 11400000, guid: 8a5ed0e2490582f449c37dcc41543c30, type: 2}
+  - {fileID: 11400000, guid: a867bbface03de3428c26dcc2dfe97ab, type: 2}

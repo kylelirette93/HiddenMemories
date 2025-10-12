@@ -37,10 +37,9 @@ public class WeaponBase : MonoBehaviour
     protected Sequence recoilSequence;
 
     [Header("Weapon Upgrades")]
-    public List<UpgradeDataSO> AvailableUpgrades { get { return availableUpgrades; } }
-    [SerializeField] protected List<UpgradeDataSO> availableUpgrades = new List<UpgradeDataSO>();
-    public bool IsUnlocked { get { return isUnlocked; } }
+    public bool IsUnlocked { get { return isUnlocked; } set { isUnlocked = value; } }
     protected bool isUnlocked = false;
+    protected bool isInitialized = false;
 
     // Shooting variables.
     public bool IsReloading { get { return isReloading; } }
@@ -62,7 +61,10 @@ public class WeaponBase : MonoBehaviour
         isShootingHeld = false;
         crosshairUI = GameObject.Find("Crosshair").GetComponent<RectTransform>();
         input.ShootEvent += OnShoot;
-        ApplyAllUpgrades();
+        if (isInitialized)
+        {
+            ApplyAllUpgrades();
+        }
         currentAmmo = clipCapacity;
     }
 
@@ -82,9 +84,9 @@ public class WeaponBase : MonoBehaviour
     }
     public virtual void Initialize(WeaponDataSO data)
     {
-        UnlockWeapon();
         // Weapon is initialized with stats after being instantiated. 
         weaponData = data;
+        isInitialized = true;
         currentAmmo = weaponData.clipCapacity;
         reloadSpeed = weaponData.reloadSpeed;
         clipCapacity = weaponData.clipCapacity;
@@ -102,12 +104,6 @@ public class WeaponBase : MonoBehaviour
 
         ResetToBaseStats();
         ApplyAllUpgrades();
-    }
-
-    public void UnlockWeapon()
-    {
-        isUnlocked = true;
-        WeaponActions.UnlockWeapon?.Invoke(this);
     }
 
     protected void ResetToBaseStats()
@@ -274,12 +270,15 @@ public class WeaponBase : MonoBehaviour
     {
         ResetToBaseStats();
         // Check weapon for applicable upgrades and apply them.
-        foreach (var upgrade in availableUpgrades)
+        foreach (var upgrade in weaponData.AvailableUpgrades)
         {
-            int tier = GameManager.Instance.upgradeManager.GetUpgradeTier(upgrade);
-            if (tier > 0)
+            if (weaponData.IsUnlocked)
             {
-                upgrade.Upgrade(this, tier);
+                int tier = GameManager.Instance.upgradeManager.GetUpgradeTier(upgrade);
+                if (tier > 0)
+                {
+                    upgrade.Upgrade(this, tier);
+                }
             }
         }
     }
@@ -287,5 +286,5 @@ public class WeaponBase : MonoBehaviour
 
 public static class WeaponActions
 {
-    public static Action<WeaponBase> UnlockWeapon;
+    public static Action<WeaponDataSO> UnlockWeapon;
 }

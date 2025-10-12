@@ -10,6 +10,7 @@ public class WeaponManager : MonoBehaviour
     private int currentWeaponIndex = -1;
     private GameObject currentWeaponInstance;
     private WeaponDataSO weaponData;
+    public WeaponBase EquippedWeapon { get { return equippedWeapon; } }
     private WeaponBase equippedWeapon;
     private WeaponUI weaponUI;
     public InputManager inputManager;

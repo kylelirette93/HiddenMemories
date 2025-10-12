@@ -9,16 +9,23 @@ public class UpgradeButton : MonoBehaviour
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI costText;
     [SerializeField] private Button button;
-    public WeaponBase weapon;
+    public WeaponDataSO weapon;
     UpgradeManager upgradeManager;
+    bool isInitialized = false;
     private void OnEnable()
     {
+        // Prevent adding numerous buttons.
+        if (isInitialized) return;
         upgradeManager = GameManager.Instance.upgradeManager;
         if (weapon == null)
         {
             // this is a health upgrade.
             button.onClick.AddListener(OnPurchaseClicked);
-            GameManager.Instance.upgradeManager.AddButton(this);
+            if (!upgradeManager.upgradeButtons.Contains(this))
+            {
+                upgradeManager.AddButton(this);
+            }
+            isInitialized = true;
         }
         else
         {
@@ -30,10 +37,14 @@ public class UpgradeButton : MonoBehaviour
                     break;
                 }
             }
-            if (button != null && weapon.IsUnlocked)
+            if (button != null && this.weapon != null && upgradeManager.unlockedWeapons.Contains(this.weapon))
             {
                 button.onClick.AddListener(OnPurchaseClicked);
-                GameManager.Instance.upgradeManager.AddButton(this);
+                if (!upgradeManager.upgradeButtons.Contains(this))
+                {
+                    upgradeManager.AddButton(this);
+                }
+                isInitialized = true;
             }
             else
             {
@@ -41,6 +52,12 @@ public class UpgradeButton : MonoBehaviour
             }
         }
             UpdateUI();
+    }
+
+    private void OnDisable()
+    {
+        button.onClick.RemoveListener(OnPurchaseClicked);
+        isInitialized = false;
     }
 
     private void OnPurchaseClicked()
