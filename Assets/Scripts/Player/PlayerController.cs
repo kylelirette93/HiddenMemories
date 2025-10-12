@@ -80,8 +80,10 @@ public class PlayerController : MonoBehaviour
         inputManager.SprintEvent -= HandleSprint;
         if (rb != null)
         {
+            cameraRotationX = 0f;
             moveInput = Vector2.zero;
             lookInput = Vector2.zero;
+            if (cameraHolder != null) cameraHolder.localEulerAngles = Vector3.zero;
             movementSpeed = walkSpeed;
             // Reset player's velocity when enabled again.
             rb.angularVelocity = Vector3.zero;

@@ -15,6 +15,15 @@ public class PlayerInventory : MonoBehaviour
         InteractableActions.AddWeapon += AddWeapon;
         InteractableActions.AddKey += AddKey;
         uiManager = GameManager.Instance.uiManager;
+        RestoreWeapons();
+    }
+
+    private void RestoreWeapons()
+    {
+        foreach (var weapon in availableWeapons)
+        {
+            weaponManager.EquipWeapon(weapon);
+        }
     }
 
     private void OnDisable()

@@ -14,6 +14,7 @@ public class WeaponBase : MonoBehaviour
     protected Transform firePoint;
     protected AudioClip fireSound;
     protected Camera playerCamera;
+    protected Transform cameraHolder;
     protected GameObject bulletPrefab;
     protected Transform weaponParent;
     protected ParticleSystem muzzleFlash;
@@ -52,6 +53,7 @@ public class WeaponBase : MonoBehaviour
         input = GameManager.Instance.inputManager;
         playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
         playerCamera = GameObject.Find("Camera").GetComponent<Camera>();
+        cameraHolder = GameObject.Find("CameraHolder").transform;
         weaponParent = GameObject.Find("WeaponParent").transform;
     }
 
@@ -247,7 +249,7 @@ public class WeaponBase : MonoBehaviour
 
         // Create recoil based on stats, and store previous rotation of camera.
         float cameraRecoil = recoil * 1.5f;
-        Vector3 cameraOriginalRot = playerCamera.transform.localEulerAngles;
+        Vector3 cameraOriginalRot = cameraHolder.localEulerAngles;
 
         recoilSequence = DOTween.Sequence();
 
@@ -257,13 +259,13 @@ public class WeaponBase : MonoBehaviour
         recoilSequence.Append(transform.DOLocalRotate(new Vector3(recoilRot, 0f, 0f), 0.05f));
         recoilSequence.Join(transform.DOLocalMoveZ(originalPos.z + recoilBack, 0.05f));
 
-        recoilSequence.Join(playerCamera.transform.DOLocalRotate(new Vector3(-cameraRecoil, cameraRecoil, 0f), 0.1f, RotateMode.LocalAxisAdd));
+        recoilSequence.Join(cameraHolder.transform.DOLocalRotate(new Vector3(-cameraRecoil, cameraRecoil, 0f), 0.1f, RotateMode.LocalAxisAdd));
 
         // Return to original position & rotation.
         recoilSequence.Append(transform.DOLocalRotate(originalRot, 0.1f));
         recoilSequence.Join(transform.DOLocalMoveZ(originalPos.z, 0.1f));
 
-        recoilSequence.Join(playerCamera.transform.DOLocalRotate(new Vector3(cameraRecoil, -cameraRecoil, 0f), 0.15f, RotateMode.LocalAxisAdd)).SetEase(Ease.OutQuad);
+        recoilSequence.Join(cameraHolder.transform.DOLocalRotate(new Vector3(cameraRecoil, -cameraRecoil, 0f), 0.15f, RotateMode.LocalAxisAdd)).SetEase(Ease.OutQuad);
 
         recoilSequence.OnComplete(() => playerController.EnableLook());
     }

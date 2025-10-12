@@ -61,6 +61,10 @@ public class GameStateManager : MonoBehaviour
                 uiManager.DisableAllMenuUI();
                 uiManager.EnableMainMenuUI();
                 break;
+            case GameState.Credits:
+                uiManager.DisableAllMenuUI();
+                uiManager.EnableCreditsUI();
+                break;
             case GameState.Instructions:
                 uiManager.DisableAllMenuUI();
                 uiManager.EnableInstructionsUI();
@@ -155,11 +159,12 @@ public class GameStateManager : MonoBehaviour
 
     public void ResetPlayer()
     {
+        Debug.Log("Resetting player");
         sceneCamera.gameObject.SetActive(false);
         ChangeState(GameState.Gameplay);
-        playerInstance.SetActive(true);
         playerInstance.transform.position = levelManager.SpawnPoint;
         playerInstance.transform.rotation = spawnRotation;
+        playerInstance.SetActive(true);
         StateActions.PlayerSpawned?.Invoke(playerInstance);
         PlayerHealthActions.PlayerDied += HandlePlayerDeath;
     }
@@ -220,6 +225,11 @@ public class GameStateManager : MonoBehaviour
         ChangeState(GameState.MainMenu);
     }
 
+    public void Credits()
+    {
+        ChangeState(GameState.Credits);
+    }
+
     public void Settings()
     {
         ChangeState(GameState.Settings);
@@ -274,6 +284,7 @@ public class GameStateManager : MonoBehaviour
 public enum GameState
 {
     MainMenu,
+    Credits,
     Instructions,
     Controls,
     Settings,
