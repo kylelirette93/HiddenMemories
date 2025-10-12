@@ -15,6 +15,12 @@ public class PlayerHealth : Health
         PlayerHealthActions.OnPlayerHealthChanged?.Invoke(maxHealth, maxHealth);
     }
 
+    private void OnDisable()
+    {
+        currentHealth = playerStats.MaxHealth;
+        PlayerHealthActions.OnPlayerHealthChanged?.Invoke(currentHealth, maxHealth);
+    }
+
     public override void Start()
     {
         base.Start();
