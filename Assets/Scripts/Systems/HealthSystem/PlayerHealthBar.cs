@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
+[DefaultExecutionOrder(2)]
 public class PlayerHealthBar : MonoBehaviour
 {
     public Slider playerHealthBar;

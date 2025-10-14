@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class UpgradeButton : MonoBehaviour
 {
+    public UpgradeDataSO Upgrade => upgrade;
     [SerializeField] private UpgradeDataSO upgrade;
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI costText;
@@ -37,13 +38,13 @@ public class UpgradeButton : MonoBehaviour
                     break;
                 }
             }
+            if (!upgradeManager.upgradeButtons.Contains(this))
+            {
+                upgradeManager.AddButton(this);
+            }
             if (button != null && this.weapon != null && upgradeManager.unlockedWeapons.Contains(this.weapon))
             {
                 button.onClick.AddListener(OnPurchaseClicked);
-                if (!upgradeManager.upgradeButtons.Contains(this))
-                {
-                    upgradeManager.AddButton(this);
-                }
                 isInitialized = true;
             }
             else

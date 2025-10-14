@@ -26,6 +26,19 @@ public class UpgradeManager : MonoBehaviour
         {
             unlockedWeapons.Add(weaponData);
         }
+
+        foreach (var button in upgradeButtons)
+        {
+            // Check if button was picked up on new run, if so the button would already be disabled.
+            // So need to reenable it to update it's UI.
+            if (!button.gameObject.activeInHierarchy && weaponData.AvailableUpgrades.Contains(button.Upgrade))
+            {
+                AddButton(button);
+                button.transform.parent.gameObject.SetActive(true);
+                button.weapon = weaponData;
+                button.UpdateUI();
+            } 
+        }
     }
 
     public int GetUpgradeTier(UpgradeDataSO upgrade)
@@ -64,7 +77,7 @@ public class UpgradeManager : MonoBehaviour
 
     public void UpdateAllButtons()
     {
-        foreach (UpgradeButton button in upgradeButtons)
+        foreach (var button in upgradeButtons)
         {
             if (button != null) button.UpdateUI();
         }
