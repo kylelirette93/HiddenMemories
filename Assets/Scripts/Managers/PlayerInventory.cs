@@ -73,6 +73,15 @@ public class PlayerInventory : MonoBehaviour, IDataPersistence
                     Debug.Log("Successfully loaded weapon: " + weaponToUnlock.name);
                 }
             }
+            foreach (string keyID in inventoryData.keyIDs)
+            {
+                KeyDataSO keyToAdd = Resources.Load<KeyDataSO>("ScriptableObjects/Keys/" + keyID);
+                if (keyToAdd != null && !Keys.Contains(keyToAdd))
+                {
+                    Keys.Add(keyToAdd);
+                    Debug.Log("Successfully loaded key: " + keyToAdd.name);
+                }
+            }
         }
     }
 

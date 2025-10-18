@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemType: 2
   value: 1
-  name: pistol
+  name: Pistol
   powerRate: 3
   fireRate: 1.2
   clipCapacity: 8

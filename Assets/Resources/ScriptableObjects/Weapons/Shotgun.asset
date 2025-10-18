@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemType: 2
   value: 1
-  name: shotgun
+  name: Shotgun
   powerRate: 1
   fireRate: 1.2
   clipCapacity: 6
