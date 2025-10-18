@@ -27,13 +27,17 @@ public class DataPersistenceManager : MonoBehaviour
     {
         this.dataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
         this.dataPersistenceObjects = FindAllDataPersistenceObjects();
-        LoadGame();
     }
 
     public bool DoesSaveDataExist()
     {
         bool doesExist = dataHandler.DoesFileExist();
         return doesExist;
+    }
+
+    public GameData GetGameData()
+    {
+        return this.gameData;
     }
 
     public void NewGame()
@@ -82,6 +86,22 @@ public class DataPersistenceManager : MonoBehaviour
         IEnumerable<IDataPersistence> dataPersistenceObjects = FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Include, FindObjectsSortMode.None)
             .OfType<IDataPersistence>();
         return new List<IDataPersistence>(dataPersistenceObjects);
+    }
+
+    public void RegisterDataPersistenceObject(IDataPersistence obj)
+    {
+        if (!dataPersistenceObjects.Contains(obj))
+        {
+            dataPersistenceObjects.Add(obj);
+        }
+    }
+
+    public void UnregisterDataPersistenceObject(IDataPersistence obj)
+    {
+        if (dataPersistenceObjects.Contains(obj))
+        {
+            dataPersistenceObjects.Remove(obj);
+        }
     }
 }
 

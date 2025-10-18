@@ -18,7 +18,6 @@ public class SpawnManager : MonoBehaviour
         StateActions.Reset += DespawnEnemies;
         StateActions.Reset += DespawnObjects;
         StateActions.Start += SpawnEnemies;
-        StateActions.Start += SpawnGuns;
 
         GameObject[] spawnPointObjects = GameObject.FindGameObjectsWithTag("EnemySpawn");
         spawnPoints = new Transform[spawnPointObjects.Length];
@@ -33,7 +32,6 @@ public class SpawnManager : MonoBehaviour
         StateActions.Reset -= DespawnEnemies;
         StateActions.Reset -= DespawnObjects;
         StateActions.Start -= SpawnEnemies;
-        StateActions.Start -= SpawnGuns;
     }
 
     public void ClearPickups()
@@ -50,10 +48,17 @@ public class SpawnManager : MonoBehaviour
         // Only spawn guns if none in scene.
         if (pickups.Count == 0)
         { 
+            GameData data = GameManager.Instance.dataPersistenceManager.GetGameData();
             for (int i = 0; i < gunSpawns.Length; i++)
             {
                 if (guns[i] != null)
                 {
+                    Interactable interactable = guns[i].GetComponent<Interactable>();
+                    if (data != null && data.inventoryData.Count > 0 && data.inventoryData[0].weaponIDs.Contains(interactable.itemData.name))
+                    {
+                        // Player already has this gun, don't spawn it.
+                        continue;
+                    }
                     GameObject gun = Instantiate(guns[i], gunSpawns[i].position, Quaternion.identity);
                     pickups.Add(gun);
                 }
@@ -99,13 +104,32 @@ public class SpawnManager : MonoBehaviour
         {
             if (pickups[i] == null)
             {
-                // If a gun was picked up, don't try to respawn it.
+                // If a gun was picked up, don't try to respawn it, this is merely across scenes.
                 pickups.RemoveAt(i);
             }
         }
         if (pickups.Count == 0)
         {
             StateActions.Start -= SpawnGuns;
+        }
+    }
+
+    public void SpawnKeys()
+    {
+        for (int i = 0; i < keys.Length; i++)
+        {
+            if (keys[i] != null)
+            {
+                GameData data = GameManager.Instance.dataPersistenceManager.GetGameData();
+                KeyDataSO keyData = keys[i].GetComponent<Interactable>().itemData as KeyDataSO;
+                if (data != null && data.inventoryData.Count > 0 && data.inventoryData[0].keyIDs.Contains(keyData.name))
+                {
+                    // Player already has this key, don't respawn it.
+                    continue;
+                }
+                Debug.Log("Spawning key: " + keys[i].name);
+                GameObject key = Instantiate(keys[i], keys[i].transform.position, keys[i].transform.rotation);
+            }
         }
     }
 

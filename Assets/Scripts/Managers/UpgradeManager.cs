@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class UpgradeManager : MonoBehaviour
+public class UpgradeManager : MonoBehaviour, IDataPersistence
 {
     private Dictionary<string, int> purchasedUpgrades = new();
     public TextMeshProUGUI currencyTXT;
@@ -82,4 +82,43 @@ public class UpgradeManager : MonoBehaviour
             if (button != null) button.UpdateUI();
         }
     }
+
+    public void LoadData(GameData data)
+    {
+        purchasedUpgrades = new Dictionary<string, int>();
+
+        // Convert each UpgradeData back into dictionary entries
+        foreach (UpgradeData upgradeData in data.purchasedUpgrades)
+        {
+            purchasedUpgrades[upgradeData.upgradeID] = upgradeData.tier;
+        }
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        if (data.purchasedUpgrades == null)
+        {
+            data.purchasedUpgrades = new List<UpgradeData>();
+        }
+        else
+        {
+            data.purchasedUpgrades.Clear();
+        }
+
+        foreach (var kvp in purchasedUpgrades)
+        {
+            // Create a NEW UpgradeData for EACH entry
+            UpgradeData upgradeData = new UpgradeData();
+            upgradeData.upgradeID = kvp.Key;
+            upgradeData.tier = kvp.Value;
+            data.purchasedUpgrades.Add(upgradeData);
+        }
+    }
+}
+
+[System.Serializable]
+public class UpgradeData
+{
+    public string upgradeID;
+    public int tier;
 }

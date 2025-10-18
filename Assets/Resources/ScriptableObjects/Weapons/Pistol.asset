@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12c0818da31c7e34abe6d5c71ea5a9fe, type: 3}
+  m_Name: Pistol
+  m_EditorClassIdentifier: 
+  itemType: 2
+  value: 1
+  name: pistol
+  powerRate: 3
+  fireRate: 1.2
+  clipCapacity: 8
+  reloadSpeed: 0.2
+  spread: 1
+  spreadAngle: 0
+  recoil: 1
+  bulletSpread: 0
+  IsUnlocked: 1
+  weaponPrefab: {fileID: 897810322435277991, guid: 9edc07da20cc70d499a59dbbbb7908ec, type: 3}
+  gun_fire: {fileID: 8300000, guid: c976de4ffd5b0b744a51791a2e5a0495, type: 3}
+  firePoint: {x: 0, y: 3.44, z: 6.89}
+  index: 0
+  bulletPrefab: {fileID: 143548174340775267, guid: 82740ac78dc92cd4883da2fbbd38fff2, type: 3}
+  icon: {fileID: 21300000, guid: 9afe306c57d44aa4fbe4c8f65fcd44c3, type: 3}
+  AvailableUpgrades:
+  - {fileID: 11400000, guid: 4edb95a5b446b6f4bbcfd5247beeebde, type: 2}
+  - {fileID: 11400000, guid: 0c9f0359ebda473499523ee7ab75c5ab, type: 2}

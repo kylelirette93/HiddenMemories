@@ -144,6 +144,9 @@ public class GameStateManager : MonoBehaviour
         {
             ResetPlayer();
         }
+        GameManager.Instance.dataPersistenceManager.LoadGame();
+        spawnManager.SpawnGuns();
+        spawnManager.SpawnKeys();
     }
 
 

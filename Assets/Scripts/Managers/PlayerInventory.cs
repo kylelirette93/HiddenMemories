@@ -3,13 +3,23 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class PlayerInventory : MonoBehaviour
+public class PlayerInventory : MonoBehaviour, IDataPersistence
 {
    public List<WeaponDataSO> availableWeapons = new List<WeaponDataSO>();
    public WeaponManager weaponManager;
    public List<KeyDataSO> Keys = new List<KeyDataSO>();
     UIManager uiManager;
 
+    private void Awake()
+    {
+        // Player Inventory gets instantiated after, but must be saveable.
+        GameManager.Instance.dataPersistenceManager.RegisterDataPersistenceObject(this);
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.Instance.dataPersistenceManager.UnregisterDataPersistenceObject(this);
+    }
     private void OnEnable()
     {
         InteractableActions.AddWeapon += AddWeapon;
@@ -44,4 +54,59 @@ public class PlayerInventory : MonoBehaviour
             uiManager.hud.InitiatePopup("Key added to inventory!");
         }
     }
+
+    public void LoadData(GameData data)
+    {
+        Debug.Log("PlayerInventory.LoadData() called! Inventory data count: " + data.inventoryData.Count);
+        foreach (var inventoryData in data.inventoryData)
+        {
+            foreach (string weaponID in inventoryData.weaponIDs)
+            {
+                WeaponDataSO weaponToUnlock = Resources.Load<WeaponDataSO>("ScriptableObjects/Weapons/" + weaponID);
+
+                if (weaponToUnlock != null && !availableWeapons.Contains(weaponToUnlock))
+                {
+                    availableWeapons.Add(weaponToUnlock);
+                    weaponToUnlock.IsUnlocked = true;
+                    weaponManager.EquipWeapon(weaponToUnlock);
+                    WeaponActions.UnlockWeapon?.Invoke(weaponToUnlock);
+                    Debug.Log("Successfully loaded weapon: " + weaponToUnlock.name);
+                }
+            }
+        }
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        Debug.Log("PlayerInventory.SaveData() called! Available weapons: " + availableWeapons.Count);
+        data.inventoryData.Clear();
+
+        InventoryData inventoryData = new InventoryData();
+        inventoryData.weaponIDs = new List<string>();
+        inventoryData.keyIDs = new List<string>();
+
+        foreach (var weapon in availableWeapons)
+        {
+            Debug.Log($"Weapon: {weapon.name}, IsUnlocked: {weapon.IsUnlocked}");
+            if (weapon.IsUnlocked)
+            {
+                inventoryData.weaponIDs.Add(weapon.name);
+                Debug.Log("Added weapon to save: " + weapon.name);
+            }
+        }
+        foreach (var key in Keys)
+        {
+            inventoryData.keyIDs.Add(key.name);
+            Debug.Log("Added key to save: " + key.name);
+        }
+        data.inventoryData.Add(inventoryData);
+    }
+   
+}
+
+[System.Serializable]
+public class InventoryData
+{
+    public List<string> weaponIDs;
+    public List<string> keyIDs;
 }
