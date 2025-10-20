@@ -6,44 +6,40 @@ using Random = UnityEngine.Random;
 
 public class EnemyController : MonoBehaviour
 {
-    public NavMeshAgent agent;
+    protected NavMeshAgent agent;
 
-    Transform player;
+    [SerializeField] protected Transform player;
 
     // Patroling.
-    Vector3 walkPoint;
-    bool walkPointSet;
-    public float walkPointRange;
+    protected Vector3 walkPoint;
+    protected bool walkPointSet;
+    protected float walkPointRange;
 
-    public LayerMask whatIsGround, whatIsPlayer;
+    [SerializeField] protected LayerMask whatIsGround, whatIsPlayer;
 
     // Attacking
-    public float timeBetweenAttacks;
-    bool alreadyAttacked;
+    [SerializeField] protected float timeBetweenAttacks;
+    protected bool alreadyAttacked;
 
     // Attack State variables
-    public float sightRange, attackRange;
-    public bool playerInSightRange, playerInAttackRange;
+    [SerializeField] protected float sightRange, attackRange;
+    protected bool playerInSightRange, playerInAttackRange;
 
-    private EnemyHealth health;
-    Material material;
-    Color originalColor;
-    public GameObject cashPrefab;
-    bool canTakeDamage = true;
-    bool isDead = false;
-    public ParticleSystem bloodParticles;
+    protected EnemyHealth health;
+    [SerializeField] protected GameObject cashPrefab;
+    protected bool canTakeDamage = true;
+    protected bool isDead = false;
+    [SerializeField] protected ParticleSystem bloodParticles;
 
-
-    private void Awake()
+    protected void Awake()
     {
         health = GetComponent<EnemyHealth>();
         StateActions.PlayerSpawned += SetPlayer;
         agent = GetComponent<NavMeshAgent>();
-        material = GetComponentInChildren<Renderer>().material;
         health.OnEnemyDied += OnDeath;
     }
 
-    private void Update()
+    protected void Update()
     {
         // Check if player is in sight or attack range.
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
@@ -53,7 +49,7 @@ public class EnemyController : MonoBehaviour
         if (playerInSightRange && !playerInAttackRange) ChasePlayer();
         if (playerInAttackRange && playerInSightRange) AttackPlayer();
     }
-    private void Patroling()
+    protected void Patroling()
     {
         if (!walkPointSet) SearchWalkPoint();
 
@@ -66,7 +62,7 @@ public class EnemyController : MonoBehaviour
             walkPointSet = false;
     }
 
-    private void SearchWalkPoint()
+    protected void SearchWalkPoint()
     {
         float randomZ = Random.Range(-walkPointRange, walkPointRange);
         float randomX = Random.Range(-walkPointRange, walkPointRange);
@@ -77,13 +73,13 @@ public class EnemyController : MonoBehaviour
             walkPointSet = true;
     }
 
-    private void ChasePlayer()
+    protected void ChasePlayer()
     {
         if (player != null)
         agent.SetDestination(player.position);
     }
 
-    private void AttackPlayer()
+    public virtual void AttackPlayer()
     {
         agent.SetDestination(transform.position);
 
@@ -91,23 +87,25 @@ public class EnemyController : MonoBehaviour
 
         if (!alreadyAttacked)
         {
+            PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
+            playerHealth.TakeDamage(5);
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
         }
     }
 
-    private void ResetAttack()
+    protected void ResetAttack()
     {
         alreadyAttacked = false;
     }
 
-    public void TakeDamage(int damage)
+    public virtual void TakeDamage(int damage)
     {
         health.TakeDamage(damage);
         ParticleSystem particles = Instantiate(bloodParticles, transform.position + new Vector3(0, 0, 0.2f), Quaternion.identity);
     }
 
-    public void OnDeath()
+    protected void OnDeath()
     {
         if (isDead) return;
         isDead = true;
@@ -120,15 +118,8 @@ public class EnemyController : MonoBehaviour
         GameManager.Instance.spawnManager.RemoveEnemy(gameObject);
     }
 
-    private void SetPlayer(GameObject player)
+    protected void SetPlayer(GameObject player)
     {
         this.player = player.transform;
-    }
-
-    private void OnDrawGizmos()
-    {
-        {
-
-        }
     }
 }

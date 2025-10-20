@@ -1584,6 +1584,10 @@ PrefabInstance:
       propertyPath: m_Colors.m_HighlightedColor.r
       value: 0.6901961
       objectReference: {fileID: 0}
+    - target: {fileID: 5739226254561146322, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
+      propertyPath: m_Color.a
+      value: 0.6313726
+      objectReference: {fileID: 0}
     - target: {fileID: 6867229410715476842, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
       propertyPath: weapon
       value: 

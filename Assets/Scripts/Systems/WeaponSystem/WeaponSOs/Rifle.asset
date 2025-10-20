@@ -21,11 +21,11 @@ MonoBehaviour:
   reloadSpeed: 0.2
   spread: 1
   spreadAngle: 0
-  recoil: 0.005
+  recoil: 0.01
   bulletSpread: 0
-  IsUnlocked: 0
+  IsUnlocked: 1
   weaponPrefab: {fileID: 6646739322383903588, guid: 2b758decf246f8d48a7db63f64c14303, type: 3}
-  gun_fire: {fileID: 8300000, guid: c976de4ffd5b0b744a51791a2e5a0495, type: 3}
+  gun_fire: {fileID: 8300000, guid: 392965b94ed1c0d4e82b96365cf007d1, type: 3}
   firePoint: {x: 0, y: 1, z: 0}
   index: 2
   bulletPrefab: {fileID: 143548174340775267, guid: 82740ac78dc92cd4883da2fbbd38fff2, type: 3}

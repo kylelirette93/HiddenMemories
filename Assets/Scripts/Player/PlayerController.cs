@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     Rigidbody rb;   
     Coroutine fovChangeCoroutine;
     Camera playerCamera;
-    PlayerHealth health;
+    public PlayerHealth health;
 
     [Header("Camera Settings")]
     [SerializeField] float fovTransitionSpeed = 3.6f;
