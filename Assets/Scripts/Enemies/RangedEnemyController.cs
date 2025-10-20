@@ -6,6 +6,8 @@ using Random = UnityEngine.Random;
 
 public class RangedEnemyController : EnemyController
 {
+    public ParticleSystem vomitParticles;
+
     public override void AttackPlayer()
     {
         // Gonna fire a projectile here.
@@ -15,11 +17,16 @@ public class RangedEnemyController : EnemyController
 
         if (!alreadyAttacked)
         {
-            PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
-            playerHealth.TakeDamage(5);
+            vomitParticles.Play();
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
         }
+    }
+
+    public void DealDamageToPlayer()
+    {
+        PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
+        playerHealth.TakeDamage(5);
     }
 
     public override void TakeDamage(int damage)
