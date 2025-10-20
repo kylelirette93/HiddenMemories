@@ -191,7 +191,6 @@ public class PlayerController : MonoBehaviour
 
             if (health.CurrentHealth > 0 && dot > 0.7f)
             {
-                TakeHit(collision);
                 GameManager.Instance.audioManager.PlaySFX(oof);
                 health.TakeDamage(20);
                 canTakeDamage = false;
@@ -205,18 +204,6 @@ public class PlayerController : MonoBehaviour
                 Debug.Log("Ignore collision, not facing enemy or dead.");
             }
         }
-    }
-    private void TakeHit(Collision collision)
-    {
-        float knockbackForce = 200;
-
-        Vector3 knockbackDirection = -transform.forward;
-        knockbackDirection.y = 0;
-        knockbackDirection.Normalize();
-
-        rb.angularVelocity = Vector3.zero;
-        rb.linearVelocity = Vector3.zero;
-        rb.AddForce(knockbackDirection * knockbackForce, ForceMode.Impulse);
     }
 
     IEnumerator DamageCooldown()
