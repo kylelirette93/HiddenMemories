@@ -236,7 +236,6 @@ public class WeaponBase : MonoBehaviour
 
     protected void ApplyShootRecoil()
     {
-        playerController.DisableLook();
         Vector3 originalPos = transform.localPosition;
         Vector3 originalRot = transform.localEulerAngles;
 
@@ -244,7 +243,7 @@ public class WeaponBase : MonoBehaviour
         float recoilBack = -0.3f;
 
         // Create recoil based on stats, and store previous rotation of camera.
-        float cameraRecoil = recoil * 1.5f;
+        float cameraRecoil = (recoil / playerController.LookInput.y) * 1.5f;
         Vector3 cameraOriginalRot = cameraHolder.localEulerAngles;
 
         recoilSequence = DOTween.Sequence();
@@ -258,15 +257,13 @@ public class WeaponBase : MonoBehaviour
         recoilSequence.Join(cameraHolder.transform.DOLocalRotate(new Vector3(-cameraRecoil, cameraRecoil, 0f), 0.1f, RotateMode.LocalAxisAdd));
 
         // Return to original position & rotation.
-        recoilSequence.Append(transform.DOLocalRotate(originalRot, 0.1f));
-        recoilSequence.Join(transform.DOLocalMoveZ(originalPos.z, 0.1f));
+        recoilSequence.Append(transform.DOLocalRotate(originalRot, 0.05f));
+        recoilSequence.Join(transform.DOLocalMoveZ(originalPos.z, 0.05f));
 
         recoilSequence.Join(cameraHolder.transform.DOLocalRotate(new Vector3(cameraRecoil, -cameraRecoil, 0f), 0.15f, RotateMode.LocalAxisAdd)).SetEase(Ease.OutQuad);
-
-        recoilSequence.OnComplete(() => playerController.EnableLook());
     }
 
-    protected virtual void ApplyAllUpgrades()
+    protected void ApplyAllUpgrades()
     {
         ResetToBaseStats();
         // Check weapon for applicable upgrades and apply them.
