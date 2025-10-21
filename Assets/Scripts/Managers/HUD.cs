@@ -30,11 +30,11 @@ public class HUD : MonoBehaviour
         }
     }
 
-    public void AddKeyToHud()
+    /*public void AddKeyToHud()
     {
         keysCollected++;
         keyText.text = keysCollected.ToString();
-    }
+    }*/
     public void InitiatePopup(string text)
     {
         StartCoroutine(ShowPopupText(text));
