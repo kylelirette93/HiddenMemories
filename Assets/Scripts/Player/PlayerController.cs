@@ -2,6 +2,8 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using DG.Tweening;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
@@ -45,6 +47,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Sound Effects")]
     public AudioClip oof;
+
     private void Awake()
     {
         inputManager = GameManager.Instance.inputManager;
@@ -191,8 +194,8 @@ public class PlayerController : MonoBehaviour
 
             if (health.CurrentHealth > 0 && dot > 0.7f)
             {
-                GameManager.Instance.audioManager.PlaySFX(oof);
                 health.TakeDamage(20);
+                GameManager.Instance.audioManager.PlaySFX(oof);
                 canTakeDamage = false;
                 if (isActiveAndEnabled)
                 {

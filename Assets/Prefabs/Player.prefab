@@ -231,6 +231,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4d29976cc512b04f972ae3a0608c9cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageColor: {r: 1, g: 0, b: 0, a: 0}
+  maxIntensity: 0.6
+  fadeDuration: 1
 --- !u!114 &8728870632474938723
 MonoBehaviour:
   m_ObjectHideFlags: 0

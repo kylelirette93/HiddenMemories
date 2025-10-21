@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -27,7 +28,7 @@ public class UpgradeManager : MonoBehaviour, IDataPersistence
             unlockedWeapons.Add(weaponData);
         }
 
-        foreach (var button in upgradeButtons)
+        foreach (var button in upgradeButtons.ToList())
         {
             // Check if button was picked up on new run, if so the button would already be disabled.
             // So need to reenable it to update it's UI.
