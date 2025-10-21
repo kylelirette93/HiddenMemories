@@ -9,6 +9,7 @@ public class PlayerInventory : MonoBehaviour, IDataPersistence
    public WeaponManager weaponManager;
    public List<KeyDataSO> Keys = new List<KeyDataSO>();
     UIManager uiManager;
+    HUD hud;
 
     private void Awake()
     {
@@ -52,6 +53,7 @@ public class PlayerInventory : MonoBehaviour, IDataPersistence
         {
             Keys.Add(Key);
             uiManager.hud.InitiatePopup("Key added to inventory!");
+            uiManager.hud.AddKeyToHud();
         }
     }
 
