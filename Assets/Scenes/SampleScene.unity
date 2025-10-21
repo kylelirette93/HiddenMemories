@@ -359,7 +359,7 @@ GameObject:
   - component: {fileID: 250792967}
   m_Layer: 0
   m_Name: RangedEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -473,9 +473,9 @@ MonoBehaviour:
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 64
-  timeBetweenAttacks: 1
+  timeBetweenAttacks: 3
   sightRange: 20
-  attackRange: 4
+  attackRange: 2
   cashPrefab: {fileID: 7452763399633447479, guid: bf83bbcde8f5ea440aa5e356e81af3ab, type: 3}
   bloodParticles: {fileID: 3771408447181565798, guid: cc03c6018cf60c94380b3f67568f9efc, type: 3}
   vomitParticles: {fileID: 634321197}
@@ -489,7 +489,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 1.5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -1027,7 +1027,7 @@ ParticleSystem:
   emitterVelocityMode: 1
   looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -1083,7 +1083,7 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 0
+  moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
   randomSeed: 0
@@ -4787,12 +4787,12 @@ ParticleSystem:
     radiusScale: 1
     collidesWith:
       serializedVersion: 2
-      m_Bits: 584
+      m_Bits: 64
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
     collisionMessages: 1
-    collidesWithDynamic: 0
+    collidesWithDynamic: 1
     interiorCollisions: 0
   TriggerModule:
     enabled: 0
@@ -5760,7 +5760,7 @@ Transform:
   m_GameObject: {fileID: 634321195}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.596, y: 0.082, z: 0.506}
+  m_LocalPosition: {x: -0.596, y: 0.082, z: 0.584}
   m_LocalScale: {x: 0.5, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5775,7 +5775,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 634321195}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1158bacb7f04949408a6a5d76abbfd3f, type: 3}
+  m_Script: {fileID: 11500000, guid: 07f9185de40678b4f96108f714d776d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &637751706
@@ -6529,7 +6529,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2271464206946777792, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 14.709961
+      value: 14.70993
       objectReference: {fileID: 0}
     - target: {fileID: 2420510483655845796, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
       propertyPath: weapon

@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - Bullet
   - GunSpawn
+  - PlayerCam
   layers:
   - Default
   - TransparentFX

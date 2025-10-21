@@ -205,6 +205,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55951e5197c87414f8648ed68e280122, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: {fileID: 0}
   fovTransitionSpeed: 3.6
   walkFov: 60
   sprintFov: 75
@@ -273,7 +274,7 @@ GameObject:
   - component: {fileID: 6482809729985416238}
   m_Layer: 9
   m_Name: Camera
-  m_TagString: Untagged
+  m_TagString: PlayerCam
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
