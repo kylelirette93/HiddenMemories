@@ -9,6 +9,7 @@ public class UpgradeManager : MonoBehaviour, IDataPersistence
     public TextMeshProUGUI currencyTXT;
     public List<UpgradeButton> upgradeButtons = new List<UpgradeButton>();
     public List<WeaponDataSO> unlockedWeapons = new List<WeaponDataSO>();
+    public AudioClip purchaseSound;
 
     private void Awake()
     {

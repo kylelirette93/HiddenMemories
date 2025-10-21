@@ -9,6 +9,7 @@ public class PlayerInventory : MonoBehaviour, IDataPersistence
    public WeaponManager weaponManager;
    public List<KeyDataSO> Keys = new List<KeyDataSO>();
     UIManager uiManager;
+    HUD hud;
 
     private void Awake()
     {
@@ -52,6 +53,8 @@ public class PlayerInventory : MonoBehaviour, IDataPersistence
         {
             Keys.Add(Key);
             uiManager.hud.InitiatePopup("Key added to inventory!");
+
+            //uiManager.hud.AddKeyToHud(); Note to Kyle. Commented out for now, until I have a key image. 
         }
     }
 
@@ -76,6 +79,7 @@ public class PlayerInventory : MonoBehaviour, IDataPersistence
             foreach (string keyID in inventoryData.keyIDs)
             {
                 KeyDataSO keyToAdd = Resources.Load<KeyDataSO>("ScriptableObjects/Keys/" + keyID);
+                Debug.Log(keyToAdd);
                 if (keyToAdd != null && !Keys.Contains(keyToAdd))
                 {
                     Keys.Add(keyToAdd);
@@ -83,6 +87,12 @@ public class PlayerInventory : MonoBehaviour, IDataPersistence
                 }
             }
         }
+    }
+
+    public string Trim(string stringToTrim)
+    {
+        string wordsToTrim = "(KeyDataSO)";
+        return stringToTrim.Replace(wordsToTrim, "");
     }
 
     public void SaveData(ref GameData data)
@@ -105,6 +115,7 @@ public class PlayerInventory : MonoBehaviour, IDataPersistence
         }
         foreach (var key in Keys)
         {
+            key.name = Trim(key.name);
             inventoryData.keyIDs.Add(key.name);
             Debug.Log("Added key to save: " + key.name);
         }

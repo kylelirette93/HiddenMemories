@@ -11,6 +11,10 @@ public class HUD : MonoBehaviour
     public Slider healthBarSlider;
     public TextMeshProUGUI popupText;
 
+    [Header("Key Display")]
+    public int keysCollected;
+    public TextMeshProUGUI keyText;
+
     private void OnDisable()
     {
         StopAllCoroutines();
@@ -26,6 +30,11 @@ public class HUD : MonoBehaviour
         }
     }
 
+    /*public void AddKeyToHud()
+    {
+        keysCollected++;
+        keyText.text = keysCollected.ToString();
+    }*/
     public void InitiatePopup(string text)
     {
         StartCoroutine(ShowPopupText(text));
