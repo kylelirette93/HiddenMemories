@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 public class Door : MonoBehaviour
@@ -8,7 +9,8 @@ public class Door : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             PlayerInventory inventory = collision.gameObject.GetComponent<PlayerInventory>();
-            if (inventory.Keys.Contains(keyToUnlock))
+            bool hasKey = inventory.Keys.Any(key => key.itemName == keyToUnlock.itemName);
+            if (hasKey)
             {
                 GameManager.Instance.uiManager.hud.InitiatePopup("Door opened with key");
                 Destroy(gameObject);
