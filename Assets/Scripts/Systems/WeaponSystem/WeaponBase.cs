@@ -243,18 +243,7 @@ public class WeaponBase : MonoBehaviour
         float recoilRot = -5f;
         float recoilBack = -0.3f;
 
-        float cameraRecoil;
-        float lookInputY = playerController.LookInput.y;
-
-        // Create recoil based on stats, and store previous rotation of camera.
-        if (Mathf.Approximately(lookInputY, 0f))
-        {
-            cameraRecoil = recoil;
-        }
-        else
-        {
-            cameraRecoil = (recoil / lookInputY) * 1.5f;
-        }
+        float cameraRecoil = recoil * 1.5f;
         Vector3 cameraOriginalRot = cameraHolder.localEulerAngles;
 
         recoilSequence = DOTween.Sequence();

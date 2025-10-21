@@ -3,7 +3,6 @@ using System.Linq;
 using NUnit.Framework;
 using System.Collections.Generic;
 
-[DefaultExecutionOrder(-20)]
 public class DataPersistenceManager : MonoBehaviour
 {
     [Header("File storage config")]
@@ -21,10 +20,7 @@ public class DataPersistenceManager : MonoBehaviour
             Debug.LogError("Multiple instances of data persistence manager detected.");
         }
         instance = this;
-    }
 
-    private void Start()
-    {
         this.dataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
         this.dataPersistenceObjects = FindAllDataPersistenceObjects();
     }
@@ -68,6 +64,7 @@ public class DataPersistenceManager : MonoBehaviour
         // Save data to a file using data handler.
         foreach (IDataPersistence dataPersistenceObj in dataPersistenceObjects)
         {
+            if (dataPersistenceObj != null)
             dataPersistenceObj.SaveData(ref gameData);
         }
 
@@ -75,9 +72,19 @@ public class DataPersistenceManager : MonoBehaviour
         dataHandler.Save(gameData);
     }
 
+    public void NewGamePlusSaveClear()
+    {
+        gameData.inventoryData.Clear();
+        gameData.doorsOpened = new List<bool> { false, false };
+        PlayerInventory playerInventory = FindFirstObjectByType<PlayerInventory>();
+        playerInventory.Keys.Clear();
+    }
+
+
     private void OnApplicationQuit()
     {
         // Auto save on quit.
+        if (GameManager.Instance.gameStateManager.currentState != GameState.MainMenu)
         SaveGame();
     }
 

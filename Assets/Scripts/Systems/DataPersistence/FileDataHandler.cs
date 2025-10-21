@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.IO;
+[DefaultExecutionOrder(-30)]
 public class FileDataHandler
 {
     private string dataDirPath = "";

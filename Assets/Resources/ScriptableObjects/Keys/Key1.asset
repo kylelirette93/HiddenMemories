@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: Key1
   m_EditorClassIdentifier: 
   itemType: 4
+  itemName: Key1
   value: 0

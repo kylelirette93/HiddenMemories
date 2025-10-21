@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class GameStateManager : MonoBehaviour
+public class GameStateManager : MonoBehaviour, IDataPersistence
 {
     public GameState currentState;
     GameState previousState;
@@ -20,7 +20,7 @@ public class GameStateManager : MonoBehaviour
     bool gameInitialized = false;
     bool playerSpawned = false;
     UI uiInput;
-
+    int timesWon = 0;
     private void Awake()
     {
         if (uiInput == null) uiInput = new UI();
@@ -256,14 +256,16 @@ public class GameStateManager : MonoBehaviour
     }
     public void GameWin()
     {
+        timesWon++;
+        GameManager.Instance.dataPersistenceManager.SaveGame();
+        // Clear some data for a new game plus run.
+        GameManager.Instance.dataPersistenceManager.NewGamePlusSaveClear();
         StateActions.Reset?.Invoke();
         // Rebind event to spawn guns before game restarts.
         gameInitialized = false;
         spawnManager.ClearPickups();
-        spawnManager.RebindGunSpawnEvent();
         spawnManager.RespawnKeys();
         spawnManager.RespawnDoors();
-        GameManager.Instance.upgradeManager.ClearUpgrades();
         if (playerInstance != null)
         {
             Destroy(playerInstance);
@@ -283,6 +285,17 @@ public class GameStateManager : MonoBehaviour
     public void QuitGame()
     {
         Application.Quit();
+    }
+
+    public void LoadData(GameData data)
+    {
+        timesWon = data.timesWon;
+        Debug.Log(timesWon);
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.timesWon = timesWon;
     }
 }
 public enum GameState

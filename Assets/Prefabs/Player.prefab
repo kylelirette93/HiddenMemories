@@ -212,7 +212,7 @@ MonoBehaviour:
   isSprinting: 0
   isMoving: 0
   movementSpeed: 0
-  walkSpeed: 3
+  walkSpeed: 10
   runSpeed: 7
   isGrounded: 0
   groundCheckDistance: 1.1

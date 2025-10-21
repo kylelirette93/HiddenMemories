@@ -122,3 +122,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyToUnlock: {fileID: 11400000, guid: 30392537a67dcbf4883460484abe3ac0, type: 2}
+  doorNumber: 0
