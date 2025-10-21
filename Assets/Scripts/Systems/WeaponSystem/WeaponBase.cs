@@ -58,6 +58,7 @@ public class WeaponBase : MonoBehaviour
 
     public virtual void OnEnable()
     {
+        isReloading = false;
         isShootingHeld = false;
         crosshairUI = GameObject.Find("Crosshair").GetComponent<RectTransform>();
         input.ShootEvent += OnShoot;

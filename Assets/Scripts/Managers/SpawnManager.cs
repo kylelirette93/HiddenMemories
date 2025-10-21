@@ -125,7 +125,7 @@ public class SpawnManager : MonoBehaviour
                 if (data != null && data.inventoryData.Count > 0 && data.inventoryData[0].keyIDs.Contains(keyData.name))
                 {
                     // Player already has this key, don't respawn it.
-                    continue;
+                    break;
                 }
                 Debug.Log("Spawning key: " + keys[i].name);
                 GameObject key = Instantiate(keys[i], keys[i].transform.position, keys[i].transform.rotation);

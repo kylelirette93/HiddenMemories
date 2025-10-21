@@ -139,7 +139,7 @@ MonoBehaviour:
   nameText: {fileID: 5972760281405627502}
   costText: {fileID: 1733287385800426374}
   button: {fileID: 8172475581063522147}
-  weapon: {fileID: 6388437525514498338, guid: cb438ac7b6e6264409dcb3a86d97b086, type: 3}
+  weapon: {fileID: 0}
 --- !u!1 &110734868516468909
 GameObject:
   m_ObjectHideFlags: 0
@@ -963,6 +963,7 @@ MonoBehaviour:
   - {fileID: 7987102532977667543, guid: 4c6e612b75116254e8bc03d1f74b764f, type: 3}
   - {fileID: 7987102532977667543, guid: 408f44a1949247d4fb81243ff06e3e84, type: 3}
   - {fileID: 8122070183236858338, guid: b08d544e88c40364b84a635bf3689ee6, type: 3}
+  doors: []
   pickups: []
   spawnedEnemies: []
   keys:
@@ -2528,6 +2529,7 @@ MonoBehaviour:
   hud: {fileID: 9116504545179518358}
   spawnManager: {fileID: 0}
   currencyManager: {fileID: 0}
+  dataPersistenceManager: {fileID: 0}
 --- !u!1 &1231002015855767211
 GameObject:
   m_ObjectHideFlags: 0
@@ -4791,7 +4793,7 @@ MonoBehaviour:
   nameText: {fileID: 7794517498842472504}
   costText: {fileID: 1156575191405036121}
   button: {fileID: 1502299159514498375}
-  weapon: {fileID: 7251511445243659473, guid: 9edc07da20cc70d499a59dbbbb7908ec, type: 3}
+  weapon: {fileID: 0}
 --- !u!1 &2600011993472237197
 GameObject:
   m_ObjectHideFlags: 0
@@ -6337,7 +6339,7 @@ MonoBehaviour:
   nameText: {fileID: 7668419116403622785}
   costText: {fileID: 8880597324565025307}
   button: {fileID: 6326469215040194538}
-  weapon: {fileID: 6388437525514498338, guid: cb438ac7b6e6264409dcb3a86d97b086, type: 3}
+  weapon: {fileID: 0}
 --- !u!1 &3978757798075345328
 GameObject:
   m_ObjectHideFlags: 0
@@ -7248,7 +7250,7 @@ MonoBehaviour:
   nameText: {fileID: 4568162840795295021}
   costText: {fileID: 3370826677007298430}
   button: {fileID: 5312980903758407983}
-  weapon: {fileID: 8683704335196545093, guid: 2b758decf246f8d48a7db63f64c14303, type: 3}
+  weapon: {fileID: 0}
 --- !u!1 &4502158283738440301
 GameObject:
   m_ObjectHideFlags: 0
@@ -7388,7 +7390,7 @@ MonoBehaviour:
   nameText: {fileID: 8730512956481659028}
   costText: {fileID: 1192704249159146081}
   button: {fileID: 4474384241114335623}
-  weapon: {fileID: 6388437525514498338, guid: cb438ac7b6e6264409dcb3a86d97b086, type: 3}
+  weapon: {fileID: 0}
 --- !u!1 &4598134199523709730
 GameObject:
   m_ObjectHideFlags: 0
@@ -10373,7 +10375,7 @@ MonoBehaviour:
   nameText: {fileID: 4693676168497196147}
   costText: {fileID: 7723465158787880276}
   button: {fileID: 5249085088599375902}
-  weapon: {fileID: 8683704335196545093, guid: 2b758decf246f8d48a7db63f64c14303, type: 3}
+  weapon: {fileID: 0}
 --- !u!1 &6015657797437694381
 GameObject:
   m_ObjectHideFlags: 0
@@ -11402,7 +11404,7 @@ MonoBehaviour:
   nameText: {fileID: 5392226383145300882}
   costText: {fileID: 229332654535983069}
   button: {fileID: 344406132810256329}
-  weapon: {fileID: 7251511445243659473, guid: 9edc07da20cc70d499a59dbbbb7908ec, type: 3}
+  weapon: {fileID: 0}
 --- !u!1 &6526045867612692570
 GameObject:
   m_ObjectHideFlags: 0
