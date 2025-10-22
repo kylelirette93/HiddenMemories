@@ -20,7 +20,7 @@ public class WeaponBase : MonoBehaviour
     protected ParticleSystem muzzleFlash;
     protected RectTransform crosshairUI;
     #endregion
-    public int CurrentAmmo { get { return currentAmmo; } }
+    public int CurrentAmmo { get { return currentAmmo; } set { currentAmmo = value; } }
     [SerializeField] protected int currentAmmo;
     public int ClipCapacity { get { return clipCapacity; } }
 
