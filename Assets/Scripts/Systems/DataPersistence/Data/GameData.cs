@@ -10,6 +10,7 @@ public class GameData
     public List<InventoryData> inventoryData;
     public List<bool> doorsOpened;
     public int timesWon;
+    public EnemyData enemyData;
     public GameData()
     {
         // Initialize values here.
@@ -18,5 +19,6 @@ public class GameData
         inventoryData = new List<InventoryData>();
         doorsOpened = new List<bool> { false, false };
         timesWon = 0;
+        enemyData = new EnemyData();
     }
 }

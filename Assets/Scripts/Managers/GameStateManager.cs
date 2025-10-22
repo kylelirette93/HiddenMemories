@@ -1,4 +1,6 @@
+using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameStateManager : MonoBehaviour, IDataPersistence
@@ -257,14 +259,12 @@ public class GameStateManager : MonoBehaviour, IDataPersistence
     public void GameWin()
     {
         timesWon++;
-        GameManager.Instance.dataPersistenceManager.SaveGame();
-        // Clear some data for a new game plus run.
         GameManager.Instance.dataPersistenceManager.NewGamePlusSaveClear();
+        GameManager.Instance.dataPersistenceManager.SaveGame();
         StateActions.Reset?.Invoke();
         // Rebind event to spawn guns before game restarts.
         gameInitialized = false;
         spawnManager.ClearPickups();
-        spawnManager.RespawnKeys();
         spawnManager.RespawnDoors();
         if (playerInstance != null)
         {

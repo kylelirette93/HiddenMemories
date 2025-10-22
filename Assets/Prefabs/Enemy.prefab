@@ -142,7 +142,7 @@ MonoBehaviour:
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 64
-  timeBetweenAttacks: 2
+  timeBetweenAttacks: 1
   sightRange: 20
   attackRange: 1
   cashPrefab: {fileID: 7452763399633447479, guid: bf83bbcde8f5ea440aa5e356e81af3ab, type: 3}

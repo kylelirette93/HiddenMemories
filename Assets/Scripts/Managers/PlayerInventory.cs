@@ -113,9 +113,9 @@ public class PlayerInventory : MonoBehaviour, IDataPersistence
             Debug.Log("Added key to save: " + key.name);
         }
         data.inventoryData.Add(inventoryData);
-    }
-   
+    } 
 }
+
 
 [System.Serializable]
 public class InventoryData

@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using System;
 using Random = UnityEngine.Random;
+using UnityEngine.InputSystem.Android;
 
 public class EnemyController : MonoBehaviour
 {
@@ -19,7 +20,9 @@ public class EnemyController : MonoBehaviour
 
     // Attacking
     [SerializeField] protected float timeBetweenAttacks;
+    protected float moveSpeed;
     protected bool alreadyAttacked;
+    protected int attackDamage;
 
     // Attack State variables
     [SerializeField] protected float sightRange, attackRange;
@@ -38,7 +41,6 @@ public class EnemyController : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         health.OnEnemyDied += OnDeath;
     }
-
     protected void Update()
     {
         // Check if player is in sight or attack range.
@@ -121,5 +123,14 @@ public class EnemyController : MonoBehaviour
     protected void SetPlayer(GameObject player)
     {
         this.player = player.transform;
+    }
+
+    public void Initialize(EnemyData data)
+    {
+        moveSpeed = data.navSpeed;
+        agent.speed = moveSpeed;
+        timeBetweenAttacks = data.timeBetweenAttacks;
+        attackDamage = data.attackDamage;
+        Debug.Log("Enemy initialized with navSpeed: " + moveSpeed + ", timeBetweenAttacks: " + timeBetweenAttacks + ", attackDamage: " + attackDamage);
     }
 }
