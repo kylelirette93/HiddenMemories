@@ -17,6 +17,8 @@ public class WeaponDataSO : ItemDataSO
     public bool IsUnlocked = false;
     public GameObject weaponPrefab;
     public AudioClip gun_fire;
+    public AudioClip gun_reload;
+    public AudioClip gun_cock;
     public Vector3 firePoint;
     public int index;
     public GameObject bulletPrefab;

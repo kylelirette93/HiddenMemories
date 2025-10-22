@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Pistol
   m_EditorClassIdentifier: 
   itemType: 2
+  itemName: 
   value: 1
   name: Pistol
   powerRate: 3
@@ -25,7 +26,9 @@ MonoBehaviour:
   bulletSpread: 0
   IsUnlocked: 1
   weaponPrefab: {fileID: 897810322435277991, guid: 9edc07da20cc70d499a59dbbbb7908ec, type: 3}
-  gun_fire: {fileID: 8300000, guid: c976de4ffd5b0b744a51791a2e5a0495, type: 3}
+  gun_fire: {fileID: 8300000, guid: 540326e185a550349b7b4bf170c5df01, type: 3}
+  gun_reload: {fileID: 8300000, guid: e1bb99b317beced4a8a991735435550e, type: 3}
+  gun_cock: {fileID: 8300000, guid: 9154d3782ba5558409d3878c2a4d1e0b, type: 3}
   firePoint: {x: 0, y: 3.44, z: 6.89}
   index: 0
   bulletPrefab: {fileID: 143548174340775267, guid: 82740ac78dc92cd4883da2fbbd38fff2, type: 3}

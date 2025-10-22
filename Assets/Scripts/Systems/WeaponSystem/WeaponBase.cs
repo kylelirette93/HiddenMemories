@@ -13,6 +13,8 @@ public class WeaponBase : MonoBehaviour
     protected InputManager input;
     protected Transform firePoint;
     protected AudioClip fireSound;
+    protected AudioClip reloadSound;
+    protected AudioClip cockSound;
     protected Camera playerCamera;
     protected Transform cameraHolder;
     protected GameObject bulletPrefab;
@@ -94,6 +96,10 @@ public class WeaponBase : MonoBehaviour
         fireRate = weaponData.fireRate;
         fireSound = weaponData.gun_fire;
         fireSound.name = weaponData.name + "_fire";
+        reloadSound = weaponData.gun_reload;
+        reloadSound.name = weaponData.name + "_reload";
+        cockSound = weaponData.gun_cock;
+        cockSound.name = weaponData.name + "_cock";
         bulletPrefab = weaponData.bulletPrefab;
         spreadCount = weaponData.spread;
         spreadAngle = weaponData.spreadAngle;
@@ -230,8 +236,10 @@ public class WeaponBase : MonoBehaviour
             yield return new WaitForSeconds(1f * reloadSpeed);
             Debug.Log("Reloading... " + (i + 1) + "/" + clipCapacity);
             currentAmmo++;
+            GameManager.Instance.audioManager.PlaySFX(weaponData.gun_reload);
             currentAmmo = Mathf.Clamp(currentAmmo, 0, clipCapacity);
         }
+        GameManager.Instance.audioManager.PlaySFX(weaponData.gun_cock);
         isReloading = false;
     }
 
