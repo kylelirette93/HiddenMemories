@@ -2,14 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerInventory : MonoBehaviour, IDataPersistence
 {
    public List<WeaponDataSO> availableWeapons = new List<WeaponDataSO>();
    public WeaponManager weaponManager;
    public List<KeyDataSO> Keys = new List<KeyDataSO>();
+    public List<HealingPotionSO> HealingPotions = new List<HealingPotionSO>();
     UIManager uiManager;
     HUD hud;
+    PlayerHealth playerHealth;
+    InputManager input;
 
     private void Awake()
     {
@@ -23,8 +27,12 @@ public class PlayerInventory : MonoBehaviour, IDataPersistence
     }
     private void OnEnable()
     {
+        input = GameManager.Instance.inputManager;
+        playerHealth = GetComponent<PlayerHealth>();
         InteractableActions.AddWeapon += AddWeapon;
         InteractableActions.AddKey += AddKey;
+        InteractableActions.AddPotion += AddPotion;
+        input.UsePotionEvent += UseHealingPotion;
         uiManager = GameManager.Instance.uiManager;
     }
 
@@ -32,6 +40,7 @@ public class PlayerInventory : MonoBehaviour, IDataPersistence
     {
         InteractableActions.AddWeapon -= AddWeapon;
         InteractableActions.AddKey -= AddKey;
+        InteractableActions.AddPotion -= AddPotion;
         StopAllCoroutines();
     }
 
@@ -55,6 +64,14 @@ public class PlayerInventory : MonoBehaviour, IDataPersistence
             uiManager.hud.InitiatePopup("Key added to inventory!");
 
             //uiManager.hud.AddKeyToHud(); Note to Kyle. Commented out for now, until I have a key image. 
+        }
+    }
+
+    private void AddPotion(ItemDataSO potion)
+    {
+        if (potion is HealingPotionSO Potion)
+        {
+            HealingPotions.Add(Potion);
         }
     }
 
@@ -86,6 +103,17 @@ public class PlayerInventory : MonoBehaviour, IDataPersistence
                     Debug.Log("Successfully loaded key: " + keyToAdd.name);
                 }
             }
+
+            for (int i = 0; i < inventoryData.potionCount; i++)
+            {
+                HealingPotionSO potionToAdd = Resources.Load<HealingPotionSO>("ScriptableObjects/Potions/HealingPotion");
+                Debug.Log(potionToAdd);
+                if (potionToAdd != null)
+                {
+                    HealingPotions.Add(potionToAdd);
+                    Debug.Log("Successfully loaded: " + inventoryData.potionCount + " potions.");
+                }
+            }
         }
     }
 
@@ -97,6 +125,7 @@ public class PlayerInventory : MonoBehaviour, IDataPersistence
         InventoryData inventoryData = new InventoryData();
         inventoryData.weaponIDs = new List<string>();
         inventoryData.keyIDs = new List<string>();
+        inventoryData.potionCount = 0;
 
         foreach (var weapon in availableWeapons)
         {
@@ -112,8 +141,27 @@ public class PlayerInventory : MonoBehaviour, IDataPersistence
             inventoryData.keyIDs.Add(key.name);
             Debug.Log("Added key to save: " + key.name);
         }
+
+        foreach (var healthPotion in HealingPotions)
+        {
+            inventoryData.potionCount++;
+            Debug.Log("Added " + inventoryData.potionCount + " potions to save file.");
+        }
         data.inventoryData.Add(inventoryData);
     } 
+
+    public void UseHealingPotion(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            if (HealingPotions.Count > 0)
+            {
+                HealingPotionSO potion = HealingPotions[0];
+                playerHealth.Heal(potion.HealAmount);
+                HealingPotions.RemoveAt(0);
+            }
+        }
+    }
 }
 
 
@@ -122,4 +170,5 @@ public class InventoryData
 {
     public List<string> weaponIDs;
     public List<string> keyIDs;
+    public int potionCount;
 }

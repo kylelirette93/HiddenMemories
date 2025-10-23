@@ -232,6 +232,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageColor: {r: 1, g: 0, b: 0, a: 0}
+  healColor: {r: 0.019819975, g: 1, b: 0, a: 0}
   maxIntensity: 0.4
   fadeDuration: 0.25
 --- !u!114 &8728870632474938723
@@ -249,6 +250,7 @@ MonoBehaviour:
   availableWeapons: []
   weaponManager: {fileID: 7362137656932837887}
   Keys: []
+  HealingPotions: []
 --- !u!114 &5693070304497241503
 MonoBehaviour:
   m_ObjectHideFlags: 0

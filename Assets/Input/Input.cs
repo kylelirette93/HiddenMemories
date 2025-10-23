@@ -154,6 +154,15 @@ public partial class @Input: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Potion"",
+                    ""type"": ""Button"",
+                    ""id"": ""ec64b92c-47ac-42f2-aab5-6162e9c8369c"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -387,6 +396,17 @@ public partial class @Input: IInputActionCollection2, IDisposable
                     ""action"": ""Scroll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e1b5645e-b557-4f70-8125-3272f4e25f51"",
+                    ""path"": ""<Keyboard>/h"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Potion"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -402,6 +422,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
         m_Player_Shoot = m_Player.FindAction("Shoot", throwIfNotFound: true);
         m_Player_Aim = m_Player.FindAction("Aim", throwIfNotFound: true);
         m_Player_Scroll = m_Player.FindAction("Scroll", throwIfNotFound: true);
+        m_Player_Potion = m_Player.FindAction("Potion", throwIfNotFound: true);
     }
 
     ~@Input()
@@ -489,6 +510,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Shoot;
     private readonly InputAction m_Player_Aim;
     private readonly InputAction m_Player_Scroll;
+    private readonly InputAction m_Player_Potion;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -528,6 +550,10 @@ public partial class @Input: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Scroll".
         /// </summary>
         public InputAction @Scroll => m_Wrapper.m_Player_Scroll;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Potion".
+        /// </summary>
+        public InputAction @Potion => m_Wrapper.m_Player_Potion;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -575,6 +601,9 @@ public partial class @Input: IInputActionCollection2, IDisposable
             @Scroll.started += instance.OnScroll;
             @Scroll.performed += instance.OnScroll;
             @Scroll.canceled += instance.OnScroll;
+            @Potion.started += instance.OnPotion;
+            @Potion.performed += instance.OnPotion;
+            @Potion.canceled += instance.OnPotion;
         }
 
         /// <summary>
@@ -607,6 +636,9 @@ public partial class @Input: IInputActionCollection2, IDisposable
             @Scroll.started -= instance.OnScroll;
             @Scroll.performed -= instance.OnScroll;
             @Scroll.canceled -= instance.OnScroll;
+            @Potion.started -= instance.OnPotion;
+            @Potion.performed -= instance.OnPotion;
+            @Potion.canceled -= instance.OnPotion;
         }
 
         /// <summary>
@@ -696,5 +728,12 @@ public partial class @Input: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnScroll(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Potion" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnPotion(InputAction.CallbackContext context);
     }
 }

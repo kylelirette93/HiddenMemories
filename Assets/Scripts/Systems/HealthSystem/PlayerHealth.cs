@@ -14,7 +14,9 @@ public class PlayerHealth : Health
     Volume globalVol;
     Vignette vignette;
     [SerializeField] Color damageColor;
+    [SerializeField] Color healColor;
     [SerializeField] float maxIntensity = 0.4f;
+    [SerializeField] float maxHealIntensity = 0.6f;
     [SerializeField] float fadeDuration = 0.25f;
     private void Awake()
     {
@@ -88,13 +90,43 @@ public class PlayerHealth : Health
         }
         vignette.intensity.value = 0f;
     }
-    
+
+    IEnumerator HealFlash()
+    {
+        float startTime = Time.time;
+        float progress = 0f;
+
+        vignette.color.value = healColor;
+
+        while (progress < 1f)
+        {
+            progress = (Time.time - startTime) / fadeDuration;
+            vignette.intensity.value = Mathf.Lerp(0f, maxHealIntensity, progress);
+            yield return null;
+        }
+
+        // Hold at max intensity.
+        yield return new WaitForSeconds(0.05f);
+
+        startTime = Time.time;
+        progress = 0f;
+        while (progress < 1f)
+        {
+            progress = (Time.time - startTime) / fadeDuration;
+            vignette.intensity.value = Mathf.Lerp(maxIntensity, 0f, progress);
+            yield return null;
+        }
+        vignette.intensity.value = 0f;
+    }
+
 
     public void Heal(int amount)    
     {
         currentHealth += amount;
         currentHealth = Math.Clamp(currentHealth, 0, maxHealth);
         PlayerHealthActions.OnPlayerHealthChanged?.Invoke(currentHealth, maxHealth);
+
+        //StartCoroutine(HealFlash());
     }
 }
 public static class PlayerHealthActions

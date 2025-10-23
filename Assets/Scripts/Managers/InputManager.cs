@@ -27,6 +27,7 @@ public class InputManager : MonoBehaviour, Input.IPlayerActions
     public event Action<InputAction.CallbackContext> SprintEvent;
     public event Action<InputAction.CallbackContext> ShootEvent;
     public event Action<InputAction.CallbackContext> AimEvent;
+    public event Action<InputAction.CallbackContext> UsePotionEvent;
     public event Action PauseEvent;
     public event Action<Vector2> ScrollWeaponEvent;
     #endregion
@@ -85,5 +86,10 @@ public class InputManager : MonoBehaviour, Input.IPlayerActions
             Vector2 scrollValue = context.ReadValue<Vector2>();
             ScrollWeaponEvent?.Invoke(scrollValue);
         }
+    }
+
+    public void OnPotion(InputAction.CallbackContext context)
+    {
+        UsePotionEvent?.Invoke(context);
     }
 }

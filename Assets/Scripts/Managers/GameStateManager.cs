@@ -89,6 +89,7 @@ public class GameStateManager : MonoBehaviour, IDataPersistence
                 }
                 uiManager.DisableAllMenuUI();
                 uiManager.EnableGameplayUI();
+                GameManager.Instance.progressManager.Reset();
                 break;
             case GameState.Pause:
                 playerController.DisableLook();

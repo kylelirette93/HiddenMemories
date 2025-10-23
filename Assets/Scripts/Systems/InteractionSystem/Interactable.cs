@@ -18,7 +18,7 @@ public class Interactable : MonoBehaviour
                 }
                 else if (itemData.itemType == ItemType.HealthPotion)
                 {
-                    // Add weapon of type.
+                    InteractableActions.AddPotion?.Invoke(itemData);
                 }
                 else if (itemData.itemType == ItemType.Ammo)
                 {
@@ -49,6 +49,7 @@ public static class InteractableActions
     public static Action<ItemDataSO> AddWeapon;
     public static Action<ItemDataSO> AddCash;
     public static Action<ItemDataSO> AddKey;
+    public static Action<ItemDataSO> AddPotion;
 } 
 
 

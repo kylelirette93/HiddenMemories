@@ -110,6 +110,7 @@ public class EnemyController : MonoBehaviour
     {
         if (isDead) return;
         isDead = true;
+        GameManager.Instance.progressManager.EnemyKilled();
         health.OnEnemyDied -= OnDeath;
         PlayerStats.Instance.IncrementSoulHealth();
         Vector3 spawnPos = new Vector3(transform.position.x, 1f, transform.position.z);
