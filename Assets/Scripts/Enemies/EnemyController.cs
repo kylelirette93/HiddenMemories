@@ -103,7 +103,7 @@ public class EnemyController : MonoBehaviour
     public virtual void TakeDamage(int damage)
     {
         health.TakeDamage(damage);
-        ParticleSystem particles = Instantiate(bloodParticles, transform.position + new Vector3(0, 0, 0.2f), Quaternion.identity);
+        ParticleSystem particles = Instantiate(bloodParticles, transform.position + transform.forward * 0.6f, transform.rotation);
     }
 
     protected void OnDeath()
