@@ -212,7 +212,7 @@ MonoBehaviour:
   isSprinting: 0
   isMoving: 0
   movementSpeed: 0
-  walkSpeed: 3
+  walkSpeed: 10
   runSpeed: 7
   isGrounded: 0
   groundCheckDistance: 1.1
@@ -277,7 +277,7 @@ GameObject:
   - component: {fileID: 6482809729985416238}
   m_Layer: 9
   m_Name: Camera
-  m_TagString: PlayerCam
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

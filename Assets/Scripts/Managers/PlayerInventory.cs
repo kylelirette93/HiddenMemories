@@ -79,7 +79,7 @@ public class PlayerInventory : MonoBehaviour, IDataPersistence
             foreach (string keyID in inventoryData.keyIDs)
             {
                 KeyDataSO keyToAdd = Resources.Load<KeyDataSO>("ScriptableObjects/Keys/" + keyID);
-                Debug.Log(keyToAdd);
+                Debug.Log(keyID);
                 if (keyToAdd != null && !Keys.Contains(keyToAdd))
                 {
                     Keys.Add(keyToAdd);
@@ -87,12 +87,6 @@ public class PlayerInventory : MonoBehaviour, IDataPersistence
                 }
             }
         }
-    }
-
-    public string Trim(string stringToTrim)
-    {
-        string wordsToTrim = "(KeyDataSO)";
-        return stringToTrim.Replace(wordsToTrim, "");
     }
 
     public void SaveData(ref GameData data)
@@ -115,14 +109,13 @@ public class PlayerInventory : MonoBehaviour, IDataPersistence
         }
         foreach (var key in Keys)
         {
-            key.name = Trim(key.name);
             inventoryData.keyIDs.Add(key.name);
             Debug.Log("Added key to save: " + key.name);
         }
         data.inventoryData.Add(inventoryData);
-    }
-   
+    } 
 }
+
 
 [System.Serializable]
 public class InventoryData

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Shotgun
   m_EditorClassIdentifier: 
   itemType: 2
+  itemName: 
   value: 1
   name: Shotgun
   powerRate: 1
@@ -25,7 +26,9 @@ MonoBehaviour:
   bulletSpread: 5
   IsUnlocked: 1
   weaponPrefab: {fileID: 6038615681917709824, guid: cb438ac7b6e6264409dcb3a86d97b086, type: 3}
-  gun_fire: {fileID: 8300000, guid: edb622633c48e794298804c4ea7dea39, type: 3}
+  gun_fire: {fileID: 8300000, guid: 25c902f473996f64a8e029be2759dc80, type: 3}
+  gun_reload: {fileID: 8300000, guid: 7637394a02e59414a99e996aefc48a90, type: 3}
+  gun_cock: {fileID: 8300000, guid: b78a5443fdfb8f647a9bf1783dac521f, type: 3}
   firePoint: {x: 0, y: 0, z: 0}
   index: 1
   bulletPrefab: {fileID: 143548174340775267, guid: 82740ac78dc92cd4883da2fbbd38fff2, type: 3}

@@ -13,6 +13,8 @@ public class WeaponBase : MonoBehaviour
     protected InputManager input;
     protected Transform firePoint;
     protected AudioClip fireSound;
+    protected AudioClip reloadSound;
+    protected AudioClip cockSound;
     protected Camera playerCamera;
     protected Transform cameraHolder;
     protected GameObject bulletPrefab;
@@ -20,7 +22,7 @@ public class WeaponBase : MonoBehaviour
     protected ParticleSystem muzzleFlash;
     protected RectTransform crosshairUI;
     #endregion
-    public int CurrentAmmo { get { return currentAmmo; } }
+    public int CurrentAmmo { get { return currentAmmo; } set { currentAmmo = value; } }
     [SerializeField] protected int currentAmmo;
     public int ClipCapacity { get { return clipCapacity; } }
 
@@ -94,6 +96,10 @@ public class WeaponBase : MonoBehaviour
         fireRate = weaponData.fireRate;
         fireSound = weaponData.gun_fire;
         fireSound.name = weaponData.name + "_fire";
+        reloadSound = weaponData.gun_reload;
+        reloadSound.name = weaponData.name + "_reload";
+        cockSound = weaponData.gun_cock;
+        cockSound.name = weaponData.name + "_cock";
         bulletPrefab = weaponData.bulletPrefab;
         spreadCount = weaponData.spread;
         spreadAngle = weaponData.spreadAngle;
@@ -230,8 +236,10 @@ public class WeaponBase : MonoBehaviour
             yield return new WaitForSeconds(1f * reloadSpeed);
             Debug.Log("Reloading... " + (i + 1) + "/" + clipCapacity);
             currentAmmo++;
+            GameManager.Instance.audioManager.PlaySFX(weaponData.gun_reload);
             currentAmmo = Mathf.Clamp(currentAmmo, 0, clipCapacity);
         }
+        GameManager.Instance.audioManager.PlaySFX(weaponData.gun_cock);
         isReloading = false;
     }
 
@@ -243,18 +251,7 @@ public class WeaponBase : MonoBehaviour
         float recoilRot = -5f;
         float recoilBack = -0.3f;
 
-        float cameraRecoil;
-        float lookInputY = playerController.LookInput.y;
-
-        // Create recoil based on stats, and store previous rotation of camera.
-        if (Mathf.Approximately(lookInputY, 0f))
-        {
-            cameraRecoil = recoil;
-        }
-        else
-        {
-            cameraRecoil = (recoil / lookInputY) * 1.5f;
-        }
+        float cameraRecoil = recoil * 1.5f;
         Vector3 cameraOriginalRot = cameraHolder.localEulerAngles;
 
         recoilSequence = DOTween.Sequence();

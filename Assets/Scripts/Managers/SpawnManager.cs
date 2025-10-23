@@ -12,6 +12,7 @@ public class SpawnManager : MonoBehaviour
     public List<GameObject> pickups = new List<GameObject>();
     public List<GameObject> spawnedEnemies = new List<GameObject>();
     public GameObject[] keys;
+    EnemyData enemyData;
 
     private void Start()
     {
@@ -19,6 +20,7 @@ public class SpawnManager : MonoBehaviour
         StateActions.Reset += DespawnObjects;
         StateActions.Start += SpawnEnemies;
 
+        enemyData = new EnemyData();
         GameObject[] spawnPointObjects = GameObject.FindGameObjectsWithTag("EnemySpawn");
         spawnPoints = new Transform[spawnPointObjects.Length];
         for (int i = 0; i < spawnPoints.Length; i++)
@@ -37,11 +39,6 @@ public class SpawnManager : MonoBehaviour
     public void ClearPickups()
     {
         pickups.Clear();
-    }
-
-    public void RebindGunSpawnEvent()
-    {
-        StateActions.Start += SpawnGuns;
     }
     public void SpawnGuns()
     {
@@ -125,7 +122,7 @@ public class SpawnManager : MonoBehaviour
                 if (data != null && data.inventoryData.Count > 0 && data.inventoryData[0].keyIDs.Contains(keyData.name))
                 {
                     // Player already has this key, don't respawn it.
-                    break;
+                    continue;
                 }
                 Debug.Log("Spawning key: " + keys[i].name);
                 GameObject key = Instantiate(keys[i], keys[i].transform.position, keys[i].transform.rotation);
@@ -141,7 +138,7 @@ public class SpawnManager : MonoBehaviour
     {
         for (int i = 0; i < keys.Length; i++)
         {
-            GameObject key = Instantiate(keys[i], keys[i].transform.position, doors[i].transform.rotation);
+            GameObject key = Instantiate(keys[i], keys[i].transform.position, keys[i].transform.rotation);
         }
     }
 
@@ -149,13 +146,22 @@ public class SpawnManager : MonoBehaviour
     {
         for (int i = 0; i < doors.Length; i++)
         {
-            GameObject door = Instantiate(doors[i], doors[i].transform.position, Quaternion.identity);
+            GameObject door = Instantiate(doors[i], doors[i].transform.position, doors[i].transform.rotation);
         }
     }
 
     public void SpawnEnemy(Transform spawn)
     {
+        GameData data = GameManager.Instance.dataPersistenceManager.GetGameData();
+        if (data != null)
+        {
+            enemyData.navSpeed = data.enemyData.navSpeed;
+            enemyData.timeBetweenAttacks = data.enemyData.timeBetweenAttacks;
+            enemyData.attackDamage = data.enemyData.attackDamage;
+        }
         GameObject enemy = Instantiate(enemyPrefab, spawn.position, Quaternion.identity);
         spawnedEnemies.Add(enemy);
+        EnemyController ec = enemy.GetComponent<EnemyController>();
+        ec.Initialize(enemyData);
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class WeaponManager : MonoBehaviour
@@ -14,6 +15,7 @@ public class WeaponManager : MonoBehaviour
     private WeaponBase equippedWeapon;
     private WeaponUI weaponUI;
     public InputManager inputManager;
+    public Dictionary<int, int> ammoCounts = new Dictionary<int, int>();
 
     private void Awake()
     {   
@@ -90,6 +92,10 @@ public class WeaponManager : MonoBehaviour
 
         if (currentWeaponInstance != null) Destroy(currentWeaponInstance);
 
+        if (weaponData != null && equippedWeapon != null)
+        {
+            ammoCounts[weaponData.index] = equippedWeapon.CurrentAmmo;
+        }
         WeaponDataSO weaponToEquip = inventory.availableWeapons[index];
         if (weaponToEquip != null && weaponParent != null)
         {
@@ -105,6 +111,14 @@ public class WeaponManager : MonoBehaviour
         {
             weaponBase.Initialize(weaponToEquip);
             equippedWeapon = weaponBase;
+            if (ammoCounts.Count > 0 && ammoCounts.ContainsKey(weaponToEquip.index))
+            {
+                equippedWeapon.CurrentAmmo = ammoCounts[weaponToEquip.index];
+            }
+            else
+            {
+                Debug.Log("No saved ammo for this weapon yet.");
+            }
             weaponData = weaponToEquip;
         }
         else

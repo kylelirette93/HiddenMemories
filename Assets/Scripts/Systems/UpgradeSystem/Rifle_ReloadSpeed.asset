@@ -16,7 +16,7 @@ MonoBehaviour:
   maxTier: 3
   costs: 64000000c800000090010000
   statValues:
+  - 0.03
+  - 0.06
   - 0.1
-  - 0.2
-  - 0.4
   upgradeType: 4

@@ -1,17 +1,26 @@
 using TMPro;
 using UnityEngine;
-
+[DefaultExecutionOrder(50)]
 public class FileButtonHandler : MonoBehaviour
 {
     public DataPersistenceManager dataPersistenceManager;
     public TextMeshProUGUI buttonText;
 
-    private void Start()
+    private void OnEnable()
     {
-        buttonText = GetComponentInChildren<TextMeshProUGUI>();
         if (dataPersistenceManager.DoesSaveDataExist())
         {
-            buttonText.text = "Continue";
+            dataPersistenceManager.LoadGame();
+            GameData data = dataPersistenceManager.GetGameData();
+            if (data.timesWon > 0)
+            {
+                buttonText.text = "New Game+";
+                return;
+            }
+            else
+            {
+                buttonText.text = "Continue";
+            }
         }
         else
         {
