@@ -122,11 +122,13 @@ public class PlayerHealth : Health
 
     public void Heal(int amount)    
     {
+        StopAllCoroutines();
         currentHealth += amount;
         currentHealth = Math.Clamp(currentHealth, 0, maxHealth);
         PlayerHealthActions.OnPlayerHealthChanged?.Invoke(currentHealth, maxHealth);
 
-        //StartCoroutine(HealFlash());
+        if (gameObject.activeInHierarchy)
+        StartCoroutine(HealFlash());
     }
 }
 public static class PlayerHealthActions

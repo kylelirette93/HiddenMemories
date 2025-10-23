@@ -7,10 +7,10 @@ public class ResultDisplay : MonoBehaviour
 
     private void OnEnable()
     {
-        resultText = GetComponentInChildren<TextMeshProUGUI>();
+        resultText = GameObject.Find("TXT_ResultsText").GetComponent<TextMeshProUGUI>();
         if (resultText != null)
         {
-            resultText.text = "Enemies killed: " + GameManager.Instance.progressManager.EnemiesKilled;
+            resultText.text = "Enemies killed this run: " + GameManager.Instance.progressManager.EnemiesKilled;
         }
     }
 }
