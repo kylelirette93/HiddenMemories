@@ -4,12 +4,14 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "UpgradeData", menuName = "ScriptableObjects/UpgradeDataSO", order = 1)]
 public class UpgradeDataSO : ScriptableObject, IUpgrade
 {
+    [SerializeField] string name;
     [SerializeField] string upgradeID;
     [SerializeField] int maxTier = 3;
     [SerializeField] public int[] costs;
     [SerializeField] public float[] statValues;
     [SerializeField] public UpgradeType upgradeType;
 
+    public string Name => name;
     public string UpgradeID => upgradeID;
     public int MaxTier => maxTier;
 

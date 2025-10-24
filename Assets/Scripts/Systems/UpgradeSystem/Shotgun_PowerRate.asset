@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b033a50cf336dd40adecea94c2bd5af, type: 3}
   m_Name: Shotgun_PowerRate
   m_EditorClassIdentifier: 
+  name: Power Rate
   upgradeID: shotgun_power_rate
   maxTier: 3
   costs: c80000002c010000f4010000

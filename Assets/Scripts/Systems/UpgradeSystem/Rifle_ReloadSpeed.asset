@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b033a50cf336dd40adecea94c2bd5af, type: 3}
   m_Name: Rifle_ReloadSpeed
   m_EditorClassIdentifier: 
+  name: Reload Speed
   upgradeID: rifle_reload_speed
   maxTier: 3
   costs: 64000000c800000090010000

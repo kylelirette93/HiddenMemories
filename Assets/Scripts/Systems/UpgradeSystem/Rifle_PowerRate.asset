@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b033a50cf336dd40adecea94c2bd5af, type: 3}
   m_Name: Rifle_PowerRate
   m_EditorClassIdentifier: 
+  name: Power Rate
   upgradeID: rifle_power_rate
   maxTier: 3
   costs: 320000009600000090010000

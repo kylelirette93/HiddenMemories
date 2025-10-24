@@ -73,7 +73,7 @@ public class UpgradeButton : MonoBehaviour
 
         if (nameText != null)
         {
-            nameText.text = upgrade.upgradeType.ToString();
+            nameText.text = upgrade.Name.ToString();
         }
 
         if (currentTier >= upgrade.MaxTier)

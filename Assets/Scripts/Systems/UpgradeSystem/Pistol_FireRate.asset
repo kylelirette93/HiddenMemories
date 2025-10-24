@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b033a50cf336dd40adecea94c2bd5af, type: 3}
   m_Name: Pistol_FireRate
   m_EditorClassIdentifier: 
+  name: Fire Rate
   upgradeID: pistol_fire_rate
   maxTier: 3
   costs: 64000000c800000090010000

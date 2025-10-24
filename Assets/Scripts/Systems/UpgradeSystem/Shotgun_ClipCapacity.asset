@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b033a50cf336dd40adecea94c2bd5af, type: 3}
   m_Name: Shotgun_ClipCapacity
   m_EditorClassIdentifier: 
+  name: Clip Capacity
   upgradeID: shotgun_clip_capacity
   maxTier: 3
   costs: 64000000c80000005e010000
