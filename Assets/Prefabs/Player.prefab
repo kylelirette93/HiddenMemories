@@ -185,7 +185,7 @@ Rigidbody:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 640
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
@@ -234,6 +234,7 @@ MonoBehaviour:
   damageColor: {r: 1, g: 0, b: 0, a: 0}
   healColor: {r: 0.019819975, g: 1, b: 0, a: 0}
   maxIntensity: 0.4
+  maxHealIntensity: 0.6
   fadeDuration: 0.25
 --- !u!114 &8728870632474938723
 MonoBehaviour:

@@ -12,10 +12,17 @@ public class HUD : MonoBehaviour
     public TextMeshProUGUI popupText;
 
     [Header("Key Display")]
-    public int keysCollected;
-    public TextMeshProUGUI keyText;
+    public Image keyIcon;
+
+    [Header("Potion Display")]
+    public TextMeshProUGUI potionText;
 
     private void OnDisable()
+    {
+        StopAllCoroutines();
+    }
+
+    private void OnDestroy()
     {
         StopAllCoroutines();
     }
@@ -30,11 +37,20 @@ public class HUD : MonoBehaviour
         }
     }
 
-    /*public void AddKeyToHud()
+    public void AddKeyToHud()
     {
-        keysCollected++;
-        keyText.text = keysCollected.ToString();
-    }*/
+        keyIcon.enabled = true;
+    }
+
+    public void RemoveKeyFromHud()
+    {
+        keyIcon.enabled = false;
+    }
+
+    public void UpdatePotionCount(int count)
+    {
+        potionText.text = count.ToString();
+    }
     public void InitiatePopup(string text)
     {
         StartCoroutine(ShowPopupText(text));
