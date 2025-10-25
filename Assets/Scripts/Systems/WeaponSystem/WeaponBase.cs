@@ -49,6 +49,8 @@ public class WeaponBase : MonoBehaviour
 
     protected bool isShootingHeld = false;
 
+    UIManager uiManager;
+
     public virtual void Awake()
     {
         input = GameManager.Instance.inputManager;
@@ -56,6 +58,7 @@ public class WeaponBase : MonoBehaviour
         playerCamera = GameObject.Find("Camera").GetComponent<Camera>();
         cameraHolder = GameObject.Find("CameraHolder").transform;
         weaponParent = GameObject.Find("WeaponParent").transform;
+        uiManager = GameManager.Instance.uiManager;
     }
 
     public virtual void OnEnable()
@@ -64,6 +67,7 @@ public class WeaponBase : MonoBehaviour
         isShootingHeld = false;
         crosshairUI = GameObject.Find("Crosshair").GetComponent<RectTransform>();
         input.ShootEvent += OnShoot;
+        input.ReloadEvent += OnReload;
         if (isInitialized)
         {
             ApplyAllUpgrades();
@@ -79,11 +83,13 @@ public class WeaponBase : MonoBehaviour
             crosshairUI.sizeDelta = Vector2.zero;
         }
         input.ShootEvent -= OnShoot;
+        input.ReloadEvent -= OnReload;
     }   
 
     public virtual void OnDestroy()
     {
         input.ShootEvent -= OnShoot;
+        input.ReloadEvent -= OnReload;
     }
     public virtual void Initialize(WeaponDataSO data)
     {
@@ -217,7 +223,7 @@ public class WeaponBase : MonoBehaviour
         }
         else
         {
-            StartCoroutine(Reload());
+            uiManager.hud.DisplayReloadText();
         }
     }
 
@@ -225,6 +231,15 @@ public class WeaponBase : MonoBehaviour
     {
         if (context.started) isShootingHeld = true;
         if (context.canceled) isShootingHeld = false;
+    }
+
+    protected void OnReload(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            uiManager.hud.RemoveReloadText();
+            StartCoroutine(Reload());
+        }
     }
     protected IEnumerator Reload()
     {

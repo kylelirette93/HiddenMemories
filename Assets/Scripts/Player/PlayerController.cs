@@ -117,18 +117,11 @@ public class PlayerController : MonoBehaviour
             isSprinting = false;
             isGamepadSprint = false;
         }
-    }
-
-    private void FixedUpdate()
-    {
         isGrounded = GroundCheck();
         HandleMovement();
-    }
-
-    private void LateUpdate()
-    {
         HandleLook();
     }
+
 
     private bool GroundCheck()
     {
@@ -156,8 +149,8 @@ public class PlayerController : MonoBehaviour
         }
 
         // Lerp camera fov and movement speed.
-        playerCamera.fieldOfView = Mathf.Lerp(playerCamera.fieldOfView, targetFov, Time.fixedDeltaTime * fovTransitionSpeed);
-        movementSpeed = Mathf.Lerp(movementSpeed, targetSpeed, Time.fixedDeltaTime * fovTransitionSpeed);
+        playerCamera.fieldOfView = Mathf.Lerp(playerCamera.fieldOfView, targetFov, Time.deltaTime * fovTransitionSpeed);
+        movementSpeed = Mathf.Lerp(movementSpeed, targetSpeed, Time.deltaTime * fovTransitionSpeed);
 
         // Apply movement.
         Vector3 horizontalVelocity = (transform.forward * moveInput.y + transform.right * moveInput.x).normalized * movementSpeed;

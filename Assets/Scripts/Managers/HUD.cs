@@ -57,6 +57,18 @@ public class HUD : MonoBehaviour
         StartCoroutine(ShowPopupText(text));
     }
 
+    public void DisplayReloadText()
+    {
+        popupText.gameObject.SetActive(true);
+        popupText.text = "Press R to Reload";
+    }
+
+    public void RemoveReloadText()
+    {
+        popupText.text = "";
+        popupText.gameObject.SetActive(false);
+    }
+
     private IEnumerator ShowPopupText(string text)
     {
        // Do a fancy dot tween popup for text.

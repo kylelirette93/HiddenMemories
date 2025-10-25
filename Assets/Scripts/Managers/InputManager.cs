@@ -30,6 +30,7 @@ public class InputManager : MonoBehaviour, Input.IPlayerActions
     public event Action<InputAction.CallbackContext> UsePotionEvent;
     public event Action PauseEvent;
     public event Action<Vector2> ScrollWeaponEvent;
+    public event Action<InputAction.CallbackContext> ReloadEvent;
     #endregion
 
     void OnEnable()
@@ -91,5 +92,10 @@ public class InputManager : MonoBehaviour, Input.IPlayerActions
     public void OnPotion(InputAction.CallbackContext context)
     {
         UsePotionEvent?.Invoke(context);
+    }
+
+    public void OnReload(InputAction.CallbackContext context)
+    {
+        ReloadEvent?.Invoke(context);
     }
 }
