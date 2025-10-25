@@ -20,6 +20,7 @@ public class HUD : MonoBehaviour
     private void OnDisable()
     {
         StopAllCoroutines();
+        popupText.text = "";
     }
 
     private void OnDestroy()
