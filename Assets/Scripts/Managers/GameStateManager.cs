@@ -266,7 +266,7 @@ public class GameStateManager : MonoBehaviour, IDataPersistence
         // Rebind event to spawn guns before game restarts.
         gameInitialized = false;
         spawnManager.ClearPickups();
-        spawnManager.RespawnDoors();
+        spawnManager.CloseDoors();
         if (playerInstance != null)
         {
             Destroy(playerInstance);

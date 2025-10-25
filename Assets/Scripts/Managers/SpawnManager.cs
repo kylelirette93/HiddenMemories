@@ -142,11 +142,12 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-    public void RespawnDoors()
+    public void CloseDoors()
     {
         for (int i = 0; i < doors.Length; i++)
         {
-            GameObject door = Instantiate(doors[i], doors[i].transform.position, doors[i].transform.rotation);
+            Door door = doors[i].GetComponent<Door>();
+            door.isOpen = false;
         }
     }
 
