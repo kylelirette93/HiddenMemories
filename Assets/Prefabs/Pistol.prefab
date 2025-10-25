@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.38268343, z: 0, w: 0.92387956}
   m_LocalPosition: {x: -2.76, y: 2.08, z: -1.1099737}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1283591135193962420}
@@ -44,7 +44,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 897810322435277991}
-  m_Mesh: {fileID: 4493585093827132993, guid: 0fd265726fbd47349a2ceb69ec9ab200, type: 3}
+  m_Mesh: {fileID: -8717899446151772828, guid: 49a43a64390bb284cbfdccb7dfb58dee, type: 3}
 --- !u!23 &8910701665164521500
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -68,7 +68,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 21ed2a7e7286dba459235d96aa4b33a2, type: 2}
+  - {fileID: 2100000, guid: f8b49bef7b2ee134cb47a3c37ff7da10, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -111,7 +111,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: 4493585093827132993, guid: 0fd265726fbd47349a2ceb69ec9ab200, type: 3}
+  m_Mesh: {fileID: -8717899446151772828, guid: 49a43a64390bb284cbfdccb7dfb58dee, type: 3}
 --- !u!114 &7251511445243659473
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -124,9 +124,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0e1f261a8cddd142a96f4fd0b3c115b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  availableUpgrades:
-  - {fileID: 11400000, guid: 4edb95a5b446b6f4bbcfd5247beeebde, type: 2}
-  - {fileID: 11400000, guid: 0c9f0359ebda473499523ee7ab75c5ab, type: 2}
+  currentAmmo: 0
+  clipCapacity: 0
+  reloadSpeed: 0
+  fireRate: 0
+  lastShotTime: 0
+  spreadCount: 0
+  spreadAngle: 0
+  powerRate: 0
+  recoil: 0
+  bulletSpeed: 200
 --- !u!1 &6104997954474566265
 GameObject:
   m_ObjectHideFlags: 0
