@@ -69,6 +69,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -123,9 +124,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4754ed96b3649854e9dd4fe501fa02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  availableUpgrades:
-  - {fileID: 11400000, guid: 8a5ed0e2490582f449c37dcc41543c30, type: 2}
-  - {fileID: 11400000, guid: a867bbface03de3428c26dcc2dfe97ab, type: 2}
+  currentAmmo: 0
+  clipCapacity: 0
+  reloadSpeed: 0
+  fireRate: 0
+  lastShotTime: 0
+  spreadCount: 0
+  spreadAngle: 0
+  powerRate: 0
+  recoil: 0
+  bulletSpeed: 200
 --- !u!1 &8091711455565944068
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8815383371816236764}
   - component: {fileID: 3780285937938746169}
   - component: {fileID: 7954784168196588040}
-  - component: {fileID: 288795863738214004}
+  - component: {fileID: 4836526811779293922}
   m_Layer: 0
   m_Name: HealthPotion
   m_TagString: Interactable
@@ -102,24 +102,21 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &288795863738214004
-SphereCollider:
+--- !u!114 &4836526811779293922
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1533605283338148701}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.010427514
-  m_Center: {x: 0, y: -2.3283064e-10, z: 0.0009440812}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 4
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []

@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Interactable : MonoBehaviour
@@ -7,6 +8,7 @@ public class Interactable : MonoBehaviour
 
     // Reference to scriptable object associated with this interactable.
     public ItemDataSO itemData;
+
     public void Interact()
     {
         switch (type)
@@ -33,6 +35,7 @@ public class Interactable : MonoBehaviour
                 {
                     InteractableActions.AddKey?.Invoke(itemData);
                 }
+                Destroy(gameObject);
                 break;
         }
     }
