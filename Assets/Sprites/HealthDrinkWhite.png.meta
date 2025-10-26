@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 558ca97eed328d24494d92f7539491bc
+guid: 0ed129816e2cf9c4fbac71a458a013e6
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -34,7 +34,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -97,7 +97,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: heart _0
+      name: HealthDrinkWhite_0
       rect:
         serializedVersion: 2
         x: 0
@@ -112,8 +112,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 04f2eceac2109e74bb33725f10597e71
-      internalID: -402496358
+      spriteID: 83bb5535d53f3f3468c44b07c16fd5ec
+      internalID: 565252743
       vertices: []
       indices: 
       edges: []
@@ -122,7 +122,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 17e1846d36600984bbabc8f3dd853246
     internalID: 0
     vertices: []
     indices: 
@@ -132,7 +132,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      heart _0: -402496358
+      HealthDrinkWhite_0: 565252743
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

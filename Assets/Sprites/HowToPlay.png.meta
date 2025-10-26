@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 558ca97eed328d24494d92f7539491bc
+guid: ead2d4d050e76c54ab234d578f2ece41
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -34,7 +34,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -97,13 +97,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: heart _0
+      name: HowToPlay_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 2048
-        height: 2048
+        width: 800
+        height: 800
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -112,8 +112,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 04f2eceac2109e74bb33725f10597e71
-      internalID: -402496358
+      spriteID: be2406733feb39d40898872fe59210b3
+      internalID: -794620382
       vertices: []
       indices: 
       edges: []
@@ -122,7 +122,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 005d5ea95970b154cbf801fcc3e07fa6
     internalID: 0
     vertices: []
     indices: 
@@ -132,7 +132,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      heart _0: -402496358
+      HowToPlay_0: -794620382
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
