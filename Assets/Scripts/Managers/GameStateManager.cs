@@ -71,6 +71,10 @@ public class GameStateManager : MonoBehaviour, IDataPersistence
                 uiManager.DisableAllMenuUI();
                 uiManager.EnableInstructionsUI();
                 break;
+            case GameState.Instructions2:
+                uiManager.DisableAllMenuUI();
+                uiManager.EnableSecondInstructionsUI();
+                break;
             case GameState.Controls:
                 uiManager.DisableAllMenuUI();
                 uiManager.EnableControlsUI();
@@ -221,6 +225,11 @@ public class GameStateManager : MonoBehaviour, IDataPersistence
         ChangeState(GameState.Instructions);
     }
 
+    public void Instructions2()
+    {
+        ChangeState(GameState.Instructions2);
+    }
+
     public void GoBack()
     {
         ChangeState(previousState);
@@ -304,6 +313,7 @@ public enum GameState
     MainMenu,
     Credits,
     Instructions,
+    Instructions2,
     Controls,
     Settings,
     Gameplay,

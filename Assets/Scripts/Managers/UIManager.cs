@@ -5,6 +5,7 @@ public class UIManager : MonoBehaviour
     public GameObject MainMenuPanel;
     public GameObject CreditsPanel;
     public GameObject InstructionsPanel;
+    public GameObject InstructionsPanel2;
     public GameObject ControlsPanel;
     public GameObject SettingsPanel;
     public GameObject GameplayPanel;
@@ -25,6 +26,7 @@ public class UIManager : MonoBehaviour
         MainMenuPanel.SetActive(false);
         CreditsPanel.SetActive(false);
         InstructionsPanel.SetActive(false);
+        InstructionsPanel2.SetActive(false);
         ControlsPanel.SetActive(false);
         SettingsPanel.SetActive(false);
         GameplayPanel.SetActive(false);
@@ -51,6 +53,12 @@ public class UIManager : MonoBehaviour
     {
         DisableAllMenuUI();
         InstructionsPanel.SetActive(true);
+    }
+
+    public void EnableSecondInstructionsUI()
+    {
+        DisableAllMenuUI();
+        InstructionsPanel2.SetActive(true);
     }
 
     public void EnableControlsUI()
