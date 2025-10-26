@@ -33,7 +33,8 @@ public class InteractionManager : MonoBehaviour
             if (hit.transform.CompareTag("Interactable"))
             {
                 Interactable interactable = hit.transform.GetComponent<Interactable>();
-                if (interactable.itemData.itemType == ItemType.Cash && Vector3.Distance(transform.position + transform.forward, interactable.gameObject.transform.position) < 0.1f)
+                Debug.Log("Distance: " + Vector3.Distance(transform.position + transform.forward, interactable.gameObject.transform.position));
+                if (interactable.itemData.itemType == ItemType.Cash && Vector3.Distance(transform.position + transform.forward, interactable.gameObject.transform.position) < 0.3f)
                 {
                     interactable.Interact();
                 }
@@ -44,6 +45,10 @@ public class InteractionManager : MonoBehaviour
                     ClearCurrentInteractable();
 
                     currentInteractable = interactable;
+                    if (currentInteractable.itemData.itemType != ItemType.Cash)
+                    {
+                       GameManager.Instance.uiManager.hud.InitiatePopup("Press E to interact");
+                    }
                     currentOutline = currentInteractable.GetComponent<Outline>();
 
                     if (currentOutline != null)

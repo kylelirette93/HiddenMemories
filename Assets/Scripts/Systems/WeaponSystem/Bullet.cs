@@ -26,12 +26,12 @@ public class Bullet : MonoBehaviour
             {
                 enemy.TakeDamage((int)Damage * 10, contactPoint);
             }
-            Destroy(gameObject, 0.2f);
+            Destroy(gameObject, 0.1f);
         }
         else
         {
             impactParticles.Play();
-            Destroy(gameObject, 0.2f);
+            Destroy(gameObject, 0.1f);
         }
     }
 }
