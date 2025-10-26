@@ -26,12 +26,14 @@ public class EnemyController : MonoBehaviour
     // Attack State variables
     [SerializeField] protected float sightRange, attackRange;
     protected bool playerInSightRange, playerInAttackRange;
+    bool isAttacking = false;
 
     protected EnemyHealth health;
     [SerializeField] protected GameObject cashPrefab;
     protected bool canTakeDamage = true;
     protected bool isDead = false;
     [SerializeField] protected ParticleSystem bloodParticles;
+    Animator animator;
 
     protected void Awake()
     {
@@ -39,6 +41,7 @@ public class EnemyController : MonoBehaviour
         StateActions.PlayerSpawned += SetPlayer;
         agent = GetComponent<NavMeshAgent>();
         health.OnEnemyDied += OnDeath;
+        animator = GetComponentInChildren<Animator>();
     }
     protected void Update()
     {
@@ -57,6 +60,7 @@ public class EnemyController : MonoBehaviour
         if (walkPointSet)
             agent.SetDestination(walkPoint);
 
+        animator.SetBool("IsAttacking", isAttacking);
         Vector3 distanceToWalkPoint = transform.position - walkPoint;
 
         if (distanceToWalkPoint.magnitude < 1f)
@@ -77,33 +81,49 @@ public class EnemyController : MonoBehaviour
     protected void ChasePlayer()
     {
         if (player != null)
-        agent.SetDestination(player.position);
+        {
+            animator.SetBool("IsAttacking", isAttacking);
+            agent.SetDestination(player.position);
+        }
     }
 
     public virtual void AttackPlayer()
     {
         agent.SetDestination(transform.position);
 
-        transform.LookAt(player);
+
+        RotateInstantlyTowardsTarget(transform, player.transform);
 
         if (!alreadyAttacked)
         {
-            PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
-            playerHealth.TakeDamage(5);
+            isAttacking = true;
+            animator.SetBool("IsAttacking", isAttacking);
+            Debug.Log("Player being attacked by: " + gameObject.name);
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
+            
         }
+    }
+
+    void RotateInstantlyTowardsTarget(Transform objectTransform, Transform targetTransform)
+    {
+        Vector3 direction = targetTransform.position - objectTransform.position;
+        direction.y = 0; // Ignore vertical difference
+        objectTransform.rotation = Quaternion.LookRotation(direction);
     }
 
     protected void ResetAttack()
     {
+        PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
+        playerHealth.TakeDamage(attackDamage);
         alreadyAttacked = false;
+        isAttacking = false;
     }
 
-    public virtual void TakeDamage(int damage)
+    public virtual void TakeDamage(int damage, Vector3 contactPoint)
     {
         health.TakeDamage(damage);
-        ParticleSystem particles = Instantiate(bloodParticles, transform.position + transform.forward * 0.6f, transform.rotation);
+        ParticleSystem particles = Instantiate(bloodParticles, contactPoint, transform.rotation);
     }
 
     protected void OnDeath()
@@ -119,6 +139,7 @@ public class EnemyController : MonoBehaviour
         Debug.Log("Game object spawned at: " + spawnPos);
         GameManager.Instance.spawnManager.RemoveEnemy(gameObject);
     }
+
 
     protected void SetPlayer(GameObject player)
     {

@@ -20,9 +20,11 @@ public class Bullet : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemy"))
         {
             EnemyController enemy = collision.gameObject.GetComponent<EnemyController>();
+            ContactPoint contact = collision.GetContact(0);
+            Vector3 contactPoint = contact.point;
             if (enemy != null)
             {
-                enemy.TakeDamage((int)Damage * 10);
+                enemy.TakeDamage((int)Damage * 10, contactPoint);
             }
             Destroy(gameObject, 0.2f);
         }

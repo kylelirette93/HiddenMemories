@@ -31,8 +31,8 @@ public class RangedEnemyController : EnemyController
         playerHealth.TakeDamage(5);
     }
 
-    public override void TakeDamage(int damage)
+    public override void TakeDamage(int damage, Vector3 contactPoint)
     {
-        base.TakeDamage(damage);
+        base.TakeDamage(damage, contactPoint);
     }
 }
