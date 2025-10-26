@@ -118,10 +118,17 @@ public class PlayerController : MonoBehaviour
             isGamepadSprint = false;
         }
         isGrounded = GroundCheck();
-        HandleMovement();
-        HandleLook();
     }
 
+    private void FixedUpdate()
+    {
+        HandleMovement();
+    }
+
+    private void LateUpdate()
+    {
+        HandleLook();
+    }
 
     private bool GroundCheck()
     {
@@ -177,7 +184,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    private void OnCollisionEnter(Collision collision)
+    /*private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Enemy") && canTakeDamage)
         {
@@ -200,7 +207,7 @@ public class PlayerController : MonoBehaviour
                 Debug.Log("Ignore collision, not facing enemy or dead.");
             }
         }
-    }
+    }*/
 
     IEnumerator DamageCooldown()
     {
