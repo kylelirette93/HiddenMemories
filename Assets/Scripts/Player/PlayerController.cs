@@ -118,10 +118,17 @@ public class PlayerController : MonoBehaviour
             isGamepadSprint = false;
         }
         isGrounded = GroundCheck();
-        HandleMovement();
-        HandleLook();
     }
 
+    private void FixedUpdate()
+    {
+        HandleMovement();
+    }
+
+    private void LateUpdate()
+    {
+        HandleLook();
+    }
 
     private bool GroundCheck()
     {

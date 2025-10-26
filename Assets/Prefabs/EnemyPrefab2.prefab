@@ -83,6 +83,8 @@ MonoBehaviour:
   attackRange: 2
   cashPrefab: {fileID: 7452763399633447479, guid: bf83bbcde8f5ea440aa5e356e81af3ab, type: 3}
   bloodParticles: {fileID: 3771408447181565798, guid: cc03c6018cf60c94380b3f67568f9efc, type: 3}
+  demon_grunt: {fileID: 8300000, guid: 60de379e447fa654099fcceeabcd69ee, type: 3}
+  demon_die: {fileID: 8300000, guid: 7820d1400a889fe4b83c1cd27a8f5d24, type: 3}
 --- !u!114 &6028103344545344529
 MonoBehaviour:
   m_ObjectHideFlags: 0

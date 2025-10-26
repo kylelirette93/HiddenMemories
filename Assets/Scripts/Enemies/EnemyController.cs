@@ -34,6 +34,9 @@ public class EnemyController : MonoBehaviour
     protected bool isDead = false;
     [SerializeField] protected ParticleSystem bloodParticles;
     Animator animator;
+    public AudioClip demon_grunt;
+    bool isInAttackSequence = false;
+    public AudioClip demon_die;
 
     protected void Awake()
     {
@@ -65,6 +68,7 @@ public class EnemyController : MonoBehaviour
 
         if (distanceToWalkPoint.magnitude < 1f)
             walkPointSet = false;
+        isInAttackSequence = false;
     }
 
     protected void SearchWalkPoint()
@@ -84,25 +88,35 @@ public class EnemyController : MonoBehaviour
         {
             animator.SetBool("IsAttacking", isAttacking);
             agent.SetDestination(player.position);
+            isInAttackSequence = false;
         }
     }
 
     public virtual void AttackPlayer()
     {
         agent.SetDestination(transform.position);
-
-
         RotateInstantlyTowardsTarget(transform, player.transform);
 
         if (!alreadyAttacked)
         {
             isAttacking = true;
             animator.SetBool("IsAttacking", isAttacking);
+
+            if (!isInAttackSequence)
+            {
+                Invoke("PlayAttackSound", 0.5f);
+            }
+
             Debug.Log("Player being attacked by: " + gameObject.name);
             alreadyAttacked = true;
-            Invoke(nameof(ResetAttack), timeBetweenAttacks);
-            
+            Invoke(nameof(ResetAttack), timeBetweenAttacks + 1.2f);
         }
+    }
+
+    private void PlayAttackSound()
+    {
+        GameManager.Instance.audioManager.PlaySFX(demon_grunt);
+        isInAttackSequence = true;
     }
 
     void RotateInstantlyTowardsTarget(Transform objectTransform, Transform targetTransform)
@@ -118,6 +132,7 @@ public class EnemyController : MonoBehaviour
         playerHealth.TakeDamage(attackDamage);
         alreadyAttacked = false;
         isAttacking = false;
+        isInAttackSequence = false;
     }
 
     public virtual void TakeDamage(int damage, Vector3 contactPoint)
@@ -137,6 +152,7 @@ public class EnemyController : MonoBehaviour
         GameObject temp = Instantiate(cashPrefab, spawnPos, cashPrefab.transform.rotation);
         Debug.Log("Enemy's current position: " + transform.position);
         Debug.Log("Game object spawned at: " + spawnPos);
+        GameManager.Instance.audioManager.PlaySFX(demon_die);
         GameManager.Instance.spawnManager.RemoveEnemy(gameObject);
     }
 
