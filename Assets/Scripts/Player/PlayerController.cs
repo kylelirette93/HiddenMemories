@@ -177,7 +177,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    private void OnCollisionEnter(Collision collision)
+    /*private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Enemy") && canTakeDamage)
         {
@@ -200,7 +200,7 @@ public class PlayerController : MonoBehaviour
                 Debug.Log("Ignore collision, not facing enemy or dead.");
             }
         }
-    }
+    }*/
 
     IEnumerator DamageCooldown()
     {

@@ -1,3 +1,4 @@
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
@@ -8,6 +9,7 @@ public class InteractionManager : MonoBehaviour
     private Camera mainCamera;
     private Outline currentOutline;
     public float interactionDistance = 1000f;
+    float sphereRadius = 0.5f;
     Vector2 mousePosition;
 
     private void Awake()
@@ -23,18 +25,19 @@ public class InteractionManager : MonoBehaviour
 
     private void CheckForInteractable()
     {
-        // Get mouse position and create ray from camera
-        mousePosition = Mouse.current.position.ReadValue();
-        Ray ray = mainCamera.ScreenPointToRay(mousePosition);
         RaycastHit hit;
-
-        // Cast ray from mouse position
-        if (Physics.Raycast(ray, out hit, interactionDistance))
+        Vector3 origin = transform.position + transform.forward * 0.5f;
+        if (Physics.SphereCast(origin, sphereRadius, transform.forward, out hit, 5f))
         {
             // Check if it's an interactable
             if (hit.transform.CompareTag("Interactable"))
             {
                 Interactable interactable = hit.transform.GetComponent<Interactable>();
+                Debug.Log("Distance: " + Vector3.Distance(transform.position + transform.forward, interactable.gameObject.transform.position));
+                if (interactable.itemData.itemType == ItemType.Cash && Vector3.Distance(transform.position + transform.forward, interactable.gameObject.transform.position) < 0.3f)
+                {
+                    interactable.Interact();
+                }
 
                 // If this is a new interactable, update it
                 if (interactable != currentInteractable)
@@ -42,6 +45,10 @@ public class InteractionManager : MonoBehaviour
                     ClearCurrentInteractable();
 
                     currentInteractable = interactable;
+                    if (currentInteractable.itemData.itemType != ItemType.Cash)
+                    {
+                       GameManager.Instance.uiManager.hud.InitiatePopup("Press E to interact");
+                    }
                     currentOutline = currentInteractable.GetComponent<Outline>();
 
                     if (currentOutline != null)
@@ -81,15 +88,15 @@ public class InteractionManager : MonoBehaviour
         currentOutline = null;
     }
 
-   private void OnDrawGizmos()
-{
-    if (mainCamera == null) return;
-    
-    // Convert mouse position to a ray
-    Ray ray = mainCamera.ScreenPointToRay(mousePosition);
-    
-    // Draw the ray in world space
-    Gizmos.color = Color.red;
-    Gizmos.DrawLine(ray.origin, ray.origin + ray.direction * interactionDistance);
-}
+    private void OnDrawGizmos()
+    {
+        if (!Application.isPlaying) return;
+
+        // Visualize the spherecast
+        Vector3 startPos = transform.position + transform.forward * 0.5f;
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(startPos, sphereRadius);
+        Gizmos.DrawLine(startPos, startPos + transform.forward * interactionDistance);
+        Gizmos.DrawWireSphere(startPos + transform.forward * interactionDistance, sphereRadius);
+    }
 }

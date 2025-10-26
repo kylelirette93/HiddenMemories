@@ -55,10 +55,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.44366646
-  m_Height: 2.3459287
+  m_Radius: 1
+  m_Height: 2.5014176
   m_Direction: 1
-  m_Center: {x: 0.024648666, y: 0.9872048, z: 0}
+  m_Center: {x: 0.1, y: 1.2, z: 0.13}
 --- !u!114 &7196915588080994465
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74,13 +74,13 @@ MonoBehaviour:
   player: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 8
   whatIsPlayer:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 64
   timeBetweenAttacks: 1
   sightRange: 20
-  attackRange: 1
+  attackRange: 2
   cashPrefab: {fileID: 7452763399633447479, guid: bf83bbcde8f5ea440aa5e356e81af3ab, type: 3}
   bloodParticles: {fileID: 3771408447181565798, guid: cc03c6018cf60c94380b3f67568f9efc, type: 3}
 --- !u!114 &6028103344545344529
@@ -165,6 +165,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -1740960010264507454, guid: 8ea70ea9b86f470429921b6c0d9b91cf, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -1740960010264507454, guid: 8ea70ea9b86f470429921b6c0d9b91cf, type: 3}
+      propertyPath: m_AABB.m_Center.x
+      value: 0.12871122
+      objectReference: {fileID: 0}
+    - target: {fileID: -1740960010264507454, guid: 8ea70ea9b86f470429921b6c0d9b91cf, type: 3}
+      propertyPath: m_AABB.m_Center.y
+      value: -0.37558663
+      objectReference: {fileID: 0}
+    - target: {fileID: -1740960010264507454, guid: 8ea70ea9b86f470429921b6c0d9b91cf, type: 3}
+      propertyPath: m_AABB.m_Extent.x
+      value: 0.94888616
+      objectReference: {fileID: 0}
+    - target: {fileID: -1740960010264507454, guid: 8ea70ea9b86f470429921b6c0d9b91cf, type: 3}
+      propertyPath: m_AABB.m_Extent.y
+      value: 1.1640557
+      objectReference: {fileID: 0}
+    - target: {fileID: -1740960010264507454, guid: 8ea70ea9b86f470429921b6c0d9b91cf, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a8939f53b5d61a04aa634dfa90efde85, type: 2}
     - target: {fileID: 919132149155446097, guid: 8ea70ea9b86f470429921b6c0d9b91cf, type: 3}
       propertyPath: m_Name
       value: DemonOne@Walking (1)
@@ -176,9 +200,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8ea70ea9b86f470429921b6c0d9b91cf, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1544381278771560924}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8ea70ea9b86f470429921b6c0d9b91cf, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1069551089136900037}
   m_SourcePrefab: {fileID: 100100000, guid: 8ea70ea9b86f470429921b6c0d9b91cf, type: 3}
 --- !u!1 &8380519270682113195 stripped
 GameObject:
@@ -196,9 +217,9 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 14a2bd8eb8dfad548bec607324419908, type: 2}
-  m_CullingMode: 1
+  m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
@@ -207,28 +228,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!64 &1069551089136900037
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8380519270682113195}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!4 &9153079654660369937 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 8ea70ea9b86f470429921b6c0d9b91cf, type: 3}
