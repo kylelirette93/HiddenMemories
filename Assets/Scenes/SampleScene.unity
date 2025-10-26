@@ -48825,7 +48825,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7942161456818457556, guid: 91398593523a932469644db4f14edc6c, type: 3}
       propertyPath: m_LocalScale.z
-      value: 3.9157197
+      value: 4.1
       objectReference: {fileID: 0}
     - target: {fileID: 7942161456818457556, guid: 91398593523a932469644db4f14edc6c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -48837,7 +48837,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7942161456818457556, guid: 91398593523a932469644db4f14edc6c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -16.868004
+      value: -16.829
       objectReference: {fileID: 0}
     - target: {fileID: 7942161456818457556, guid: 91398593523a932469644db4f14edc6c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -56697,8 +56697,12 @@ PrefabInstance:
       value: 1.2033
       objectReference: {fileID: 0}
     - target: {fileID: 2981228504823779482, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 48.400024
+      objectReference: {fileID: 0}
+    - target: {fileID: 2981228504823779482, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -2.8899841
+      value: -2.8900146
       objectReference: {fileID: 0}
     - target: {fileID: 3221136087366967757, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
       propertyPath: m_fontColor.b
@@ -56948,6 +56952,10 @@ PrefabInstance:
       propertyPath: enemyPrefab
       value: 
       objectReference: {fileID: 8563448151292640453, guid: 47d7150bb3470d14fa21403f7471b90c, type: 3}
+    - target: {fileID: 6899257064621769845, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
+      propertyPath: doors.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6899257064621769845, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
       propertyPath: 'doors.Array.data[1]'
       value: 

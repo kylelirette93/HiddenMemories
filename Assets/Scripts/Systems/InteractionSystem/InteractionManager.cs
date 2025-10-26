@@ -27,7 +27,7 @@ public class InteractionManager : MonoBehaviour
     {
         RaycastHit hit;
         Vector3 origin = transform.position + transform.forward * 0.5f;
-        if (Physics.SphereCast(origin, sphereRadius, transform.forward, out hit, 5f))
+        if (Physics.SphereCast(origin, sphereRadius, transform.forward, out hit, 2f))
         {
             // Check if it's an interactable
             if (hit.transform.CompareTag("Interactable"))
