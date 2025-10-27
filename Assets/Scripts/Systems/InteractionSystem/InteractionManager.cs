@@ -33,7 +33,10 @@ public class InteractionManager : MonoBehaviour
             if (interactable != null)
             {
                 interactable.Interact();
-                interactable.gameObject.SetActive(false);
+                if (interactable.type != InteractionType.Door)
+                {
+                    interactable.gameObject.SetActive(false);
+                }
                 Debug.Log("Interacting with: " + interactable.gameObject.name);
                 // No need to store a reference, we used it immediately.
             }

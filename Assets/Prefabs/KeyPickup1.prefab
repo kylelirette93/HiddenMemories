@@ -103,7 +103,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  itemData: {fileID: 11400000, guid: 30392537a67dcbf4883460484abe3ac0, type: 2}
+  itemData: {fileID: 11400000, guid: 324711d6252d17d4dae11bea4feb13be, type: 2}
 --- !u!136 &254079809903699919
 CapsuleCollider:
   m_ObjectHideFlags: 0

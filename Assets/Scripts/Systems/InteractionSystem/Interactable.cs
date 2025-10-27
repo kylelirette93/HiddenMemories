@@ -37,13 +37,18 @@ public class Interactable : MonoBehaviour
                 }
                 Destroy(gameObject);
                 break;
+            case InteractionType.Door:
+                Door door = GetComponent<Door>();
+                door.TryUnlock();
+                break;
         }
     }
 }
 
 public enum InteractionType
 {
-    Pickup
+    Pickup,
+    Door
 }
 
 public static class InteractableActions

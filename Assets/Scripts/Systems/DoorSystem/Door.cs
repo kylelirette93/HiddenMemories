@@ -53,10 +53,22 @@ public class Door : MonoBehaviour, IDataPersistence
             data.doorsOpened[doorNumber] = true;
     }
 
+    public void TryUnlock()
+    {
+        PlayerInventory inventory = GameObject.FindWithTag("Player").GetComponent<PlayerInventory>();
+        bool hasKey = inventory.Keys.Any(key => key.itemName == keyToUnlock.itemName);
+        if (hasKey && !isOpen)
+        {
+            GameManager.Instance.uiManager.hud.InitiatePopup("Door opened with key");
+            isOpen = true;
+            targetRotation = openRotation;
+        }
+    }
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
+            Debug.Log("Colliding with: " + collision.gameObject);
             PlayerInventory inventory = collision.gameObject.GetComponent<PlayerInventory>();
             bool hasKey = inventory.Keys.Any(key => key.itemName == keyToUnlock.itemName);
             if (hasKey && !isOpen)
