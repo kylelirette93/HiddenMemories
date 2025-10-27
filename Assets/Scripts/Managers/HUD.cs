@@ -54,20 +54,17 @@ public class HUD : MonoBehaviour
     }
     public void InitiatePopup(string text)
     {
-        StopAllCoroutines();
         StartCoroutine(ShowPopupText(text));
     }
 
     public void DisplayReloadText()
     {
-        StopAllCoroutines();
         popupText.gameObject.SetActive(true);
         popupText.text = "Press R to Reload";
     }
 
     public void RemoveReloadText()
     {
-        StopAllCoroutines();
         popupText.text = "";
         popupText.gameObject.SetActive(false);
     }

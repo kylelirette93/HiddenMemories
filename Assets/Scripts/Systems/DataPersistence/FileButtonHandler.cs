@@ -23,7 +23,7 @@ public class FileButtonHandler : MonoBehaviour
                     ngplus += "+";
                 }
 
-                button.sizeDelta = new Vector2(200, 30);
+                button.sizeDelta = new Vector2(300, 30);
                 buttonText.text = "Continue(NG" + ngplus + ")";
 
                 return;

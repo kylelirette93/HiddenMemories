@@ -1,7 +1,5 @@
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Rendering;
 
 public class InteractionManager : MonoBehaviour
 {
