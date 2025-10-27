@@ -15,7 +15,7 @@ MonoBehaviour:
   name: Clip Capacity
   upgradeID: pistol_clip_capacity
   maxTier: 3
-  costs: 3200000064000000c8000000
+  costs: 010000000200000003000000
   statValues:
   - 2
   - 3

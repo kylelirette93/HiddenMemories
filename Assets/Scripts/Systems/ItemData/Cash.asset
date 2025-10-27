@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: Cash
   m_EditorClassIdentifier: 
   itemType: 3
-  value: 10
+  itemName: 
+  value: 1

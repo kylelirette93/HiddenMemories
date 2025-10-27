@@ -46,6 +46,7 @@ public class WeaponBase : MonoBehaviour
     // Shooting variables.
     public bool IsReloading { get { return isReloading; } }
     protected bool isReloading = false;
+    bool isShowingReloadText = false;
 
     protected bool isShootingHeld = false;
 
@@ -56,7 +57,7 @@ public class WeaponBase : MonoBehaviour
         input = GameManager.Instance.inputManager;
         playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
         playerCamera = GameObject.Find("Camera").GetComponent<Camera>();
-        cameraHolder = GameObject.Find("CameraHolder").transform;
+        cameraHolder = GameObject.Find("CameraRoot").transform;
         weaponParent = GameObject.Find("WeaponParent").transform;
         uiManager = GameManager.Instance.uiManager;
     }
@@ -157,6 +158,21 @@ public class WeaponBase : MonoBehaviour
         // Set crosshair in center of screen.
         crosshairUI.sizeDelta = new Vector2(40, 40);
         crosshairUI.position = new Vector3(Screen.width / 2, Screen.height / 2, 0f);
+
+        if (currentAmmo == 0 && !isReloading && !isShowingReloadText)
+        {
+            isShowingReloadText = true;
+            uiManager.hud.DisplayReloadText();
+        }
+        if (isReloading && isShowingReloadText)
+        {
+            isShowingReloadText = false;
+            uiManager.hud.RemoveReloadText();
+        }
+        if (currentAmmo > 0)
+        {
+            isShowingReloadText = false;
+        }
     }
 
     protected void HandleShooting()
@@ -221,10 +237,6 @@ public class WeaponBase : MonoBehaviour
                 bulletRb.linearVelocity = bullet.transform.forward * bulletSpeed;
             }
         }
-        else
-        {
-            uiManager.hud.DisplayReloadText();
-        }
     }
 
     protected void OnShoot(InputAction.CallbackContext context)
@@ -235,9 +247,8 @@ public class WeaponBase : MonoBehaviour
 
     protected void OnReload(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (context.started && currentAmmo < clipCapacity)
         {
-            uiManager.hud.RemoveReloadText();
             StartCoroutine(Reload());
         }
     }

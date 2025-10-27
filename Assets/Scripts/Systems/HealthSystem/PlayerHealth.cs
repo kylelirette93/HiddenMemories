@@ -18,6 +18,8 @@ public class PlayerHealth : Health
     [SerializeField] float maxIntensity = 0.4f;
     [SerializeField] float maxHealIntensity = 0.6f;
     [SerializeField] float fadeDuration = 0.25f;
+
+    public AudioClip oofSound;
     private void Awake()
     {
         playerStats = GetComponent<PlayerStats>();
@@ -51,6 +53,7 @@ public class PlayerHealth : Health
 
     public override void TakeDamage(int damage)
     {
+        GameManager.Instance.audioManager.PlaySFX(oofSound);
         currentHealth -= damage;
         StopAllCoroutines();
         StartCoroutine(DamageFlash());

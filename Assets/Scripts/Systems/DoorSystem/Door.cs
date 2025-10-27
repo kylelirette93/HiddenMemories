@@ -20,13 +20,30 @@ public class Door : MonoBehaviour, IDataPersistence
 
     public void LoadData(GameData data)
     {
-        if (data.doorsOpened.Count > 0 && data.doorsOpened[doorNumber] == true)
+        if (doorNumber >= 0 && doorNumber < data.doorsOpened.Count)
         {
-            if (this != null)
+            bool shouldBeOpen = data.doorsOpened[doorNumber];
+
+            if (shouldBeOpen)
             {
                 isOpen = true;
+                transform.rotation = openRotation;
                 targetRotation = openRotation;
             }
+            else
+            {
+                // The saved state is CLOSED
+                isOpen = false;
+                // Set rotation immediately to the final closed position
+                transform.rotation = closedRotation;
+                targetRotation = closedRotation;
+            }
+        }
+        else
+        {
+            isOpen = false;
+            transform.rotation = closedRotation;
+            targetRotation = closedRotation;
         }
     }
 
@@ -56,6 +73,10 @@ public class Door : MonoBehaviour, IDataPersistence
         if (isOpen)
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+        }
+        else
+        {
+            targetRotation = closedRotation;
         }
     }
 }

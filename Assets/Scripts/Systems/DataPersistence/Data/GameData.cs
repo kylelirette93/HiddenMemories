@@ -14,7 +14,7 @@ public class GameData
     public GameData()
     {
         // Initialize values here.
-        currency = 100;
+        currency = 1;
         purchasedUpgrades = new List<UpgradeData>();
         inventoryData = new List<InventoryData>();
         doorsOpened = new List<bool> { false, false };

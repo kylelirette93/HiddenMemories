@@ -96,7 +96,7 @@ public class GameStateManager : MonoBehaviour, IDataPersistence
                 GameManager.Instance.progressManager.Reset();
                 break;
             case GameState.Pause:
-                playerController.DisableLook();
+                playerController.lookEnabled = false;
                 Time.timeScale = 0f;
                 EnableCursor();
                 uiManager.DisableAllMenuUI();
@@ -160,8 +160,8 @@ public class GameStateManager : MonoBehaviour, IDataPersistence
     public void SpawnPlayer()
     {
         Vector3 spawnPosition = levelManager.SpawnPoint;
-        playerInstance = Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
-        spawnRotation = playerInstance.transform.rotation;
+        playerInstance = Instantiate(playerPrefab, spawnPosition, playerPrefab.transform.rotation);
+        playerInstance.transform.rotation = levelManager.SpawnRotation;
         StateActions.PlayerSpawned?.Invoke(playerInstance);
         PlayerHealthActions.PlayerDied += HandlePlayerDeath;
         playerController = playerInstance.GetComponent<PlayerController>();
@@ -173,8 +173,17 @@ public class GameStateManager : MonoBehaviour, IDataPersistence
         sceneCamera.gameObject.SetActive(false);
         ChangeState(GameState.Gameplay);
         playerInstance.transform.position = levelManager.SpawnPoint;
-        playerInstance.transform.rotation = spawnRotation;
+        playerInstance.transform.rotation = levelManager.SpawnRotation;
         playerInstance.SetActive(true);
+        if (playerInstance != null)
+        {
+            Camera playerCam = playerInstance.GetComponentInChildren<Camera>();
+            if (playerCam != null) playerCam.transform.localRotation = Quaternion.Euler(0, 0, 0);
+        }
+        if (playerController != null)
+        {
+            playerController.lookEnabled = true;
+        }
         StateActions.PlayerSpawned?.Invoke(playerInstance);
         PlayerHealthActions.PlayerDied += HandlePlayerDeath;
     }
@@ -201,7 +210,7 @@ public class GameStateManager : MonoBehaviour, IDataPersistence
     {
         if (isPaused)
         {
-            playerController.EnableLook();
+            playerController.lookEnabled = false;
             ResumeGame();
         }
         else if (!isPaused && currentState == GameState.Gameplay)
@@ -214,7 +223,7 @@ public class GameStateManager : MonoBehaviour, IDataPersistence
 
     public void ResumeGame()     
     {
-        playerController.EnableLook();
+        playerController.lookEnabled = true;
         ChangeState(GameState.Gameplay);
         isPaused = false;
         Time.timeScale = 1f;

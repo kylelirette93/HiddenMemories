@@ -7,7 +7,7 @@ public class EnemyData
 
     public EnemyData()
     {
-        timeBetweenAttacks = 1.0f;
+        timeBetweenAttacks = 2f;
         navSpeed = 2.5f;
         attackDamage = 10;
     }

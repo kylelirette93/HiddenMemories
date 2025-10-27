@@ -4,15 +4,18 @@ public class CurrencyManager : MonoBehaviour, IDataPersistence
 {
     public int Currency { get { return currency; } set { currency = value; } }
     int currency;
+    public AudioClip CashPickup;
 
     private void Awake()
     {
-        currency = 100;
+        currency = 0;
         InteractableActions.AddCash += IncrementCurrency;
     }
 
     private void IncrementCurrency(ItemDataSO itemData)
     {
+        GameManager.Instance.audioManager.PlaySFX(CashPickup);
+        GameManager.Instance.uiManager.hud.InitiatePopup("Coin Added!");
         currency += itemData.value;
     }
 

@@ -75,7 +75,6 @@ public class DataPersistenceManager : MonoBehaviour
     public void NewGamePlusSaveClear()
     {
         gameData.inventoryData.Clear();
-        gameData.doorsOpened = new List<bool> { false, false };
 
         // Increase enemy stats for new game plus.
         gameData.enemyData.navSpeed += 0.5f;
@@ -83,6 +82,8 @@ public class DataPersistenceManager : MonoBehaviour
         gameData.enemyData.attackDamage += 5;
         PlayerInventory playerInventory = FindFirstObjectByType<PlayerInventory>();
         playerInventory.Keys.Clear();
+        gameData.doorsOpened.Clear();
+        gameData.doorsOpened = new List<bool> { false, false };
     }
 
 

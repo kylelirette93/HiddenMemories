@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8965402602950668783}
   - component: {fileID: 5641079920225828242}
   - component: {fileID: 3542649706828947189}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: KeyPickup2
   m_TagString: Interactable
   m_Icon: {fileID: 0}

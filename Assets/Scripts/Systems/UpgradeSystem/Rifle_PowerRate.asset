@@ -15,7 +15,7 @@ MonoBehaviour:
   name: Power Rate
   upgradeID: rifle_power_rate
   maxTier: 3
-  costs: 320000009600000090010000
+  costs: 010000000200000004000000
   statValues:
   - 0.8
   - 1.6

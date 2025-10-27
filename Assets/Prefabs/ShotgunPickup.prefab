@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -8338656044446990203}
   - component: {fileID: 1773979314388862480}
   - component: {fileID: 1943656284755917978}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: ShotgunPickup
   m_TagString: Interactable
   m_Icon: {fileID: 0}
@@ -131,7 +131,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3

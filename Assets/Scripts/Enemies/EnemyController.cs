@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Net.NetworkInformation;
 using UnityEngine;
 using UnityEngine.AI;
-using System;
 using Random = UnityEngine.Random;
 
 public class EnemyController : MonoBehaviour
@@ -120,24 +122,40 @@ public class EnemyController : MonoBehaviour
 
         if (!alreadyAttacked)
         {
-            isAttacking = true;
-            animator.SetBool("IsAttacking", isAttacking);
-
-            if (!isInAttackSequence)
-            {
-                Invoke("PlayAttackSound", 0.5f);
-            }
-
-            Debug.Log("Player being attacked by: " + gameObject.name);
             alreadyAttacked = true;
-            Invoke(nameof(ResetAttack), timeBetweenAttacks + 1.2f);
+            StartCoroutine(AttackSequence());
         }
     }
 
-    private void PlayAttackSound()
+    private IEnumerator AttackSequence()
     {
+        isAttacking = true;
+        animator.SetBool("IsAttacking", true);
+
+        // Play grunt sound at start of attack
         GameManager.Instance.audioManager.PlaySFX(demon_grunt);
-        isInAttackSequence = true;
+
+        // Wait for the animation to reach the hit point (adjust this timing to match your animation)
+        float animationHitTime = timeBetweenAttacks * 0.5f; // Assuming hit happens halfway through animation
+        yield return new WaitForSeconds(animationHitTime);
+
+        // Deal damage at the appropriate animation frame
+            Debug.Log("Distance to player during attack: " + Vector3.Distance(transform.position, player.position));
+            Debug.Log("Attack range: " + attackRange);
+            PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
+            if (playerHealth != null)
+            {
+                playerHealth.TakeDamage(attackDamage);
+            }
+        
+
+        // Wait for rest of animation to complete
+        yield return new WaitForSeconds(timeBetweenAttacks - animationHitTime);
+
+        // Reset attack state
+        isAttacking = false;
+        animator.SetBool("IsAttacking", false);
+        alreadyAttacked = false;
     }
 
     void RotateInstantlyTowardsTarget(Transform objectTransform, Transform targetTransform)
@@ -149,8 +167,6 @@ public class EnemyController : MonoBehaviour
 
     protected void ResetAttack()
     {
-        PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
-        playerHealth.TakeDamage(attackDamage);
         alreadyAttacked = false;
         isAttacking = false;
         isInAttackSequence = false;
@@ -169,7 +185,7 @@ public class EnemyController : MonoBehaviour
         GameManager.Instance.progressManager.EnemyKilled();
         health.OnEnemyDied -= OnDeath;
         PlayerStats.Instance.IncrementSoulHealth();
-        Vector3 spawnPos = new Vector3(transform.position.x, 1f, transform.position.z);
+        Vector3 spawnPos = new Vector3(transform.position.x, 1.5f, transform.position.z);
         GameObject temp = Instantiate(cashPrefab, spawnPos, cashPrefab.transform.rotation);
         Debug.Log("Enemy's current position: " + transform.position);
         Debug.Log("Game object spawned at: " + spawnPos);

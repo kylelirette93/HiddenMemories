@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.InputSystem;
 
 public class HUD : MonoBehaviour
 {
@@ -17,17 +18,28 @@ public class HUD : MonoBehaviour
     [Header("Potion Display")]
     public TextMeshProUGUI potionText;
 
+    private Coroutine activePopupCoroutine;
+
     private void OnDisable()
     {
-        StopAllCoroutines();
+        if (activePopupCoroutine != null)
+        {
+            StopCoroutine(activePopupCoroutine);
+            activePopupCoroutine = null;
+        }
+        popupText.DOKill();
         popupText.text = "";
+        popupText.gameObject.SetActive(false);
     }
 
     private void OnDestroy()
     {
-        StopAllCoroutines();
+        if (activePopupCoroutine != null)
+        {
+            StopCoroutine(activePopupCoroutine);
+        }
+        popupText.DOKill();
     }
-
 
     public void Update()
     {
@@ -52,31 +64,63 @@ public class HUD : MonoBehaviour
     {
         potionText.text = count.ToString();
     }
+
     public void InitiatePopup(string text)
     {
-        StartCoroutine(ShowPopupText(text));
+        // Stop any existing popup
+        if (activePopupCoroutine != null)
+        {
+            StopCoroutine(activePopupCoroutine);
+        }
+
+        // Kill any active tweens on the popup text
+        popupText.transform.DOKill();
+
+        // Start new popup
+        activePopupCoroutine = StartCoroutine(ShowPopupText(text));
     }
 
     public void DisplayReloadText()
     {
-        popupText.gameObject.SetActive(true);
-        popupText.text = "Press R to Reload";
+        InitiatePopup("Press R to reload");
     }
 
     public void RemoveReloadText()
     {
-        popupText.text = "";
-        popupText.gameObject.SetActive(false);
+        if (activePopupCoroutine != null)
+        {
+            StopCoroutine(activePopupCoroutine);
+            activePopupCoroutine = null;
+        }
+
+        if (popupText != null)
+        {
+            popupText.transform.DOKill();
+            popupText.transform.localScale = Vector3.one;
+            popupText.text = "";
+            popupText.gameObject.SetActive(false);
+        }
     }
 
     private IEnumerator ShowPopupText(string text)
     {
-       // Do a fancy dot tween popup for text.
+        if (activePopupCoroutine != null)
+        {
+            StopCoroutine(activePopupCoroutine);
+        }
         popupText.text = text;
-        popupText.transform.localScale = Vector3.zero;
+        popupText.transform.localScale = Vector3.one;
         popupText.gameObject.SetActive(true);
+
         popupText.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack);
-        yield return new WaitForSeconds(2f);
-        popupText.transform.DOScale(Vector3.zero, 0.5f).SetEase(Ease.InBack).OnComplete(() => popupText.gameObject.SetActive(false));
+        yield return new WaitForSeconds(2.5f);
+
+        popupText.transform.DOScale(Vector3.zero, 0.5f).SetEase(Ease.InBack).OnComplete(() =>
+        {
+            popupText.gameObject.SetActive(false);
+        });
+
+        yield return new WaitForSeconds(0.5f);
+        activePopupCoroutine = null;
     }
 }

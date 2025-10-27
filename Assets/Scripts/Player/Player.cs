@@ -1,12 +1,9 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using DG.Tweening;
-using UnityEngine.Rendering;
-using UnityEngine.Rendering.Universal;
 
 [RequireComponent(typeof(Rigidbody))]
-public class PlayerController : MonoBehaviour
+public class Player : MonoBehaviour
 {
     // References.
     InputManager inputManager;
@@ -42,6 +39,7 @@ public class PlayerController : MonoBehaviour
     public Vector2 LookInput { get { return lookInput; } }
     Vector2 lookInput;
     [SerializeField] float lookSensitivity = 17f;
+    public Quaternion initialCamRot;
     float cameraRotationX = 0f;
     bool canTakeDamage = true;
 
@@ -56,6 +54,7 @@ public class PlayerController : MonoBehaviour
         playerCamera = GetComponentInChildren<Camera>();
         movementSpeed = walkSpeed;
         health = GetComponent<PlayerHealth>();
+        initialCamRot = playerCamera.transform.localRotation;
     }
 
     public void EnableLook()
@@ -69,9 +68,10 @@ public class PlayerController : MonoBehaviour
 
     private void OnEnable()
     {
+        playerCamera.transform.localRotation = Quaternion.Euler(60, 0, 0);
         inputManager.MoveInputEvent += SetMoveInput;
         inputManager.LookInputEvent += SetLookInput;
-        inputManager.SprintEvent += HandleSprint;
+        inputManager.SprintInputEvent += HandleSprint;
         inputManager.PauseEvent += DisableLook;
         canTakeDamage = true;
     }
@@ -80,7 +80,7 @@ public class PlayerController : MonoBehaviour
     {
         inputManager.MoveInputEvent -= SetMoveInput;
         inputManager.LookInputEvent -= SetLookInput;
-        inputManager.SprintEvent -= HandleSprint;
+        inputManager.SprintInputEvent -= HandleSprint;
         if (rb != null)
         {
             cameraRotationX = 0f;

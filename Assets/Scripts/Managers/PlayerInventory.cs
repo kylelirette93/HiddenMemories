@@ -67,7 +67,7 @@ public class PlayerInventory : MonoBehaviour, IDataPersistence
             Keys.Add(Key);
             uiManager.hud.InitiatePopup("Key added to inventory!");
 
-            //uiManager.hud.AddKeyToHud(); Note to Kyle. Commented out for now, until I have a key image. 
+            uiManager.hud.AddKeyToHud(); 
         }
     }
 

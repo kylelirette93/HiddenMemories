@@ -23,8 +23,9 @@ public class InputManager : MonoBehaviour, Input.IPlayerActions
     #region Input Events
     public event Action<Vector2> MoveInputEvent;
     public event Action<Vector2> LookInputEvent;
-    public event Action<InputAction.CallbackContext> JumpEvent;
-    public event Action<InputAction.CallbackContext> SprintEvent;
+    public event Action<InputAction.CallbackContext> JumpInputEvent;
+    public event Action<InputAction.CallbackContext> CrouchInputEvent;
+    public event Action<InputAction.CallbackContext> SprintInputEvent;
     public event Action<InputAction.CallbackContext> ShootEvent;
     public event Action<InputAction.CallbackContext> AimEvent;
     public event Action<InputAction.CallbackContext> UsePotionEvent;
@@ -62,12 +63,12 @@ public class InputManager : MonoBehaviour, Input.IPlayerActions
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        JumpEvent?.Invoke(context);
+        JumpInputEvent?.Invoke(context);
     }
 
     public void OnSprint(InputAction.CallbackContext context)
     {
-        SprintEvent?.Invoke(context);
+        SprintInputEvent?.Invoke(context);
     }
 
     public void OnShoot(InputAction.CallbackContext context)
@@ -97,5 +98,10 @@ public class InputManager : MonoBehaviour, Input.IPlayerActions
     public void OnReload(InputAction.CallbackContext context)
     {
         ReloadEvent?.Invoke(context);
+    }
+
+    public void OnCrouch(InputAction.CallbackContext context)
+    {
+        CrouchInputEvent?.Invoke(context);
     }
 }

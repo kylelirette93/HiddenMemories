@@ -62,7 +62,7 @@ public class UpgradeManager : MonoBehaviour, IDataPersistence
     {
         if (currencyTXT != null && currencyTXT.isActiveAndEnabled)
         {
-            currencyTXT.text = "Currency: " + GameManager.Instance.currencyManager.GetCurrency().ToString();
+            currencyTXT.text = GameManager.Instance.currencyManager.GetCurrency().ToString();
         }
     }
 
