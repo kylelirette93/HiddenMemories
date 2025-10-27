@@ -46,6 +46,27 @@ public class EnemyController : MonoBehaviour
         health.OnEnemyDied += OnDeath;
         animator = GetComponentInChildren<Animator>();
     }
+
+    private void OnEnable()
+    {
+        if (player == null)
+        {
+            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+            if (playerObj != null)
+            {
+                player = playerObj.transform;
+            }
+        }
+    }
+
+    private void OnDisable()
+    {
+        StateActions.PlayerSpawned -= SetPlayer;
+        if (health != null)
+        {
+            health.OnEnemyDied -= OnDeath;
+        }
+    }
     protected void Update()
     {
         // Check if player is in sight or attack range.
@@ -153,7 +174,9 @@ public class EnemyController : MonoBehaviour
         Debug.Log("Enemy's current position: " + transform.position);
         Debug.Log("Game object spawned at: " + spawnPos);
         GameManager.Instance.audioManager.PlaySFX(demon_die);
+        Vector3 respawnPosition = transform.position;
         GameManager.Instance.spawnManager.RemoveEnemy(gameObject);
+        GameManager.Instance.spawnManager.RespawnEnemyAtPosition(respawnPosition, 30f);
     }
 
 

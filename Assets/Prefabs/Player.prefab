@@ -105,7 +105,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 347424874990701841}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -262,10 +262,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.3
+  m_Radius: 0.5374253
   m_Height: 2
   m_Direction: 1
-  m_Center: {x: -0.13698685, y: 2.5891547e-17, z: 7.6539974e-10}
+  m_Center: {x: -0.13698679, y: 0, z: -0.23742557}
 --- !u!1 &979874487357618731
 GameObject:
   m_ObjectHideFlags: 0

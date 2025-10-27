@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -140,6 +141,27 @@ public class SpawnManager : MonoBehaviour
         {
             GameObject key = Instantiate(keys[i], keys[i].transform.position, keys[i].transform.rotation);
         }
+    }
+
+    public void RespawnEnemyAtPosition(Vector3 position, float delay)
+    {
+        StartCoroutine(RespawnAtPositionAfterDelay(position, delay));
+    }
+    IEnumerator RespawnAtPositionAfterDelay(Vector3 position, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        GameData data = GameManager.Instance.dataPersistenceManager.GetGameData();
+        if (data != null)
+        {
+            enemyData.navSpeed = data.enemyData.navSpeed;
+            enemyData.timeBetweenAttacks = data.enemyData.timeBetweenAttacks;
+            enemyData.attackDamage = data.enemyData.attackDamage;
+        }
+        GameObject enemy = Instantiate(enemyPrefab, position, Quaternion.identity);
+        spawnedEnemies.Add(enemy);
+        EnemyController ec = enemy.GetComponent<EnemyController>();
+        ec.Initialize(enemyData);
     }
 
     public void CloseDoors()
