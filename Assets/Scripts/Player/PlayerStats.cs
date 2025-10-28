@@ -20,6 +20,7 @@ public class PlayerStats : MonoBehaviour
     int maxSoulHealth = 100;
 
     public event Action<int> OnSoulHealthChanged;
+    public event Action OnSoulGained;
 
     public int MaxHealth { get { return maxHealth; } }
     int maxHealth = 100;
@@ -64,6 +65,7 @@ public class PlayerStats : MonoBehaviour
     public void IncrementSoulHealth()
     {
         soulHealth += 10;
+        OnSoulGained?.Invoke();
     }
 
     public void AddMaxHealth(int amount)

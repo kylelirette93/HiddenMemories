@@ -86,6 +86,7 @@ MonoBehaviour:
   demon_grunt: {fileID: 8300000, guid: 60de379e447fa654099fcceeabcd69ee, type: 3}
   demon_die: {fileID: 8300000, guid: 7820d1400a889fe4b83c1cd27a8f5d24, type: 3}
   explosionParticles: {fileID: 5252791036670798447, guid: d8ab42521fbece3408c32d1597756785, type: 3}
+  soulParticles: {fileID: 8728205387029469117, guid: af0159df8f0d47948a8f03f9c3f98030, type: 3}
 --- !u!114 &6028103344545344529
 MonoBehaviour:
   m_ObjectHideFlags: 0

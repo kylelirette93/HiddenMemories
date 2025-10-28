@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 
 public class HUD : MonoBehaviour
 {
+    public RectTransform soulMeterRect;
     public Slider soulMeterSlider;
     public TextMeshProUGUI currencyText;
     public Slider healthBarSlider;
@@ -20,6 +21,16 @@ public class HUD : MonoBehaviour
 
     private Coroutine activePopupCoroutine;
 
+    private void Awake()
+    {
+        PlayerStats.Instance.OnSoulGained += ScaleSoulSlider;
+    }
+
+    private void OnEnable()
+    {
+        PlayerStats.Instance.OnSoulGained += ScaleSoulSlider;
+    }
+
     private void OnDisable()
     {
         if (activePopupCoroutine != null)
@@ -30,6 +41,7 @@ public class HUD : MonoBehaviour
         popupText.DOKill();
         popupText.text = "";
         popupText.gameObject.SetActive(false);
+        PlayerStats.Instance.OnSoulGained -= ScaleSoulSlider;
     }
 
     private void OnDestroy()
@@ -65,6 +77,10 @@ public class HUD : MonoBehaviour
         potionText.text = count.ToString();
     }
 
+    public void ScaleSoulSlider()
+    {
+        soulMeterRect.DOScale(new Vector3(1.2f, 1.2f, 0), 2f).SetEase(Ease.InBack);
+    }
     public void InitiatePopup(string text)
     {
         // Stop any existing popup

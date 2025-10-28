@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -40,6 +41,7 @@ public class EnemyController : MonoBehaviour
     bool isInAttackSequence = false;
     public AudioClip demon_die;
     public ParticleSystem explosionParticles;
+    public TrailRenderer soulParticles;
 
     protected void Awake()
     {
@@ -187,6 +189,8 @@ public class EnemyController : MonoBehaviour
         if (isDead) return;
         isDead = true;
         GameObject explosion = Instantiate(explosionParticles.gameObject, transform.position, Quaternion.identity);
+        GameObject soul = Instantiate(soulParticles.gameObject, transform.position, Quaternion.identity);
+        soul.transform.DOMove(player.position, 2f);
         GameManager.Instance.progressManager.EnemyKilled();
         health.OnEnemyDied -= OnDeath;
         PlayerStats.Instance.IncrementSoulHealth();
@@ -194,7 +198,7 @@ public class EnemyController : MonoBehaviour
         GameObject temp = Instantiate(cashPrefab, spawnPos, cashPrefab.transform.rotation);
         Debug.Log("Enemy's current position: " + transform.position);
         Debug.Log("Game object spawned at: " + spawnPos);
-        GameManager.Instance.audioManager.PlaySound("demon_die");
+        GameManager.Instance.audioManager.PlaySound("gory_explosion");
         Vector3 respawnPosition = transform.position;
         GameManager.Instance.spawnManager.RemoveEnemy(gameObject);
         GameManager.Instance.spawnManager.RespawnEnemyAtPosition(respawnPosition, 30f);

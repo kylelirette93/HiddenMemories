@@ -18,6 +18,8 @@ public class PlayerHealth : Health
     [SerializeField] float maxIntensity = 0.4f;
     [SerializeField] float maxHealIntensity = 0.6f;
     [SerializeField] float fadeDuration = 0.25f;
+    [SerializeField] float fadeOutDuration = 0.25f;
+    [SerializeField] float holdTime = 0.25f;
 
     public AudioClip oofSound;
     private void Awake()
@@ -27,7 +29,7 @@ public class PlayerHealth : Health
         if (globalVol.profile.TryGet<Vignette>(out vignette))
         {
             vignette.active = true;
-            vignette.intensity.value = 0f;
+            vignette.intensity.value = maxIntensity;
             vignette.color.overrideState = true;
             vignette.intensity.overrideState = true;
 
@@ -72,6 +74,7 @@ public class PlayerHealth : Health
         float progress = 0f;
 
         vignette.color.value = damageColor;
+        vignette.intensity.value = maxIntensity;
 
         while (progress < 1f)
         {
@@ -79,15 +82,14 @@ public class PlayerHealth : Health
             vignette.intensity.value = Mathf.Lerp(0f, maxIntensity, progress);
             yield return null;
         }
-
+        yield return new WaitForSeconds(holdTime);
         // Hold at max intensity.
-        yield return new WaitForSeconds(0.05f);
 
         startTime = Time.time;
         progress = 0f;
         while (progress < 1f)
         {
-            progress = (Time.time - startTime) / fadeDuration;
+            progress = (Time.time - startTime) / fadeOutDuration;
             vignette.intensity.value = Mathf.Lerp(maxIntensity, 0f, progress);
             yield return null;
         }
