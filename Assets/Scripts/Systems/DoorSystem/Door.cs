@@ -49,8 +49,13 @@ public class Door : MonoBehaviour, IDataPersistence
 
     public void SaveData(ref GameData data)
     {
-        if (isOpen)
-            data.doorsOpened[doorNumber] = true;
+        // Ensure the list is big enough
+        while (data.doorsOpened.Count <= doorNumber)
+        {
+            data.doorsOpened.Add(false);
+        }
+
+        data.doorsOpened[doorNumber] = isOpen;
     }
 
     public void TryUnlock()
@@ -62,21 +67,6 @@ public class Door : MonoBehaviour, IDataPersistence
             GameManager.Instance.uiManager.hud.InitiatePopup("Door opened with key");
             isOpen = true;
             targetRotation = openRotation;
-        }
-    }
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            Debug.Log("Colliding with: " + collision.gameObject);
-            PlayerInventory inventory = collision.gameObject.GetComponent<PlayerInventory>();
-            bool hasKey = inventory.Keys.Any(key => key.itemName == keyToUnlock.itemName);
-            if (hasKey && !isOpen)
-            {
-                GameManager.Instance.uiManager.hud.InitiatePopup("Door opened with key");
-                isOpen = true;
-                targetRotation = openRotation;
-            }
         }
     }
 

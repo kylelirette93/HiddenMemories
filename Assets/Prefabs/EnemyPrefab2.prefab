@@ -85,6 +85,7 @@ MonoBehaviour:
   bloodParticles: {fileID: 3771408447181565798, guid: cc03c6018cf60c94380b3f67568f9efc, type: 3}
   demon_grunt: {fileID: 8300000, guid: 60de379e447fa654099fcceeabcd69ee, type: 3}
   demon_die: {fileID: 8300000, guid: 7820d1400a889fe4b83c1cd27a8f5d24, type: 3}
+  explosionParticles: {fileID: 5252791036670798447, guid: d8ab42521fbece3408c32d1597756785, type: 3}
 --- !u!114 &6028103344545344529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107,7 +108,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 4.5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120

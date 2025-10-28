@@ -278,13 +278,13 @@ public class GameStateManager : MonoBehaviour, IDataPersistence
     public void GameWin()
     {
         timesWon++;
+        spawnManager.CloseDoors();
         GameManager.Instance.dataPersistenceManager.NewGamePlusSaveClear();
         GameManager.Instance.dataPersistenceManager.SaveGame();
         StateActions.Reset?.Invoke();
         // Rebind event to spawn guns before game restarts.
         gameInitialized = false;
         spawnManager.ClearPickups();
-        spawnManager.CloseDoors();
         if (playerInstance != null)
         {
             Destroy(playerInstance);

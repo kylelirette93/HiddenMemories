@@ -39,6 +39,7 @@ public class EnemyController : MonoBehaviour
     public AudioClip demon_grunt;
     bool isInAttackSequence = false;
     public AudioClip demon_die;
+    public ParticleSystem explosionParticles;
 
     protected void Awake()
     {
@@ -47,6 +48,7 @@ public class EnemyController : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         health.OnEnemyDied += OnDeath;
         animator = GetComponentInChildren<Animator>();
+        animator.speed = agent.speed / 3.5f;
     }
 
     private void OnEnable()
@@ -182,6 +184,7 @@ public class EnemyController : MonoBehaviour
     {
         if (isDead) return;
         isDead = true;
+        GameObject explosion = Instantiate(explosionParticles.gameObject, transform.position, Quaternion.identity);
         GameManager.Instance.progressManager.EnemyKilled();
         health.OnEnemyDied -= OnDeath;
         PlayerStats.Instance.IncrementSoulHealth();
