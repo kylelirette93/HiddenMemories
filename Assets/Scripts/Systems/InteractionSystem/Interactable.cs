@@ -17,10 +17,12 @@ public class Interactable : MonoBehaviour
                 if (itemData.itemType == ItemType.Weapon)
                 {
                     InteractableActions.AddWeapon?.Invoke(itemData);
+                    GameManager.Instance.audioManager.PlaySound("key_pickup");
                 }
                 else if (itemData.itemType == ItemType.HealthPotion)
                 {
                     InteractableActions.AddPotion?.Invoke(itemData);
+                    GameManager.Instance.audioManager.PlaySound("key_pickup");
                 }
                 else if (itemData.itemType == ItemType.Ammo)
                 {
@@ -34,6 +36,7 @@ public class Interactable : MonoBehaviour
                 else if (itemData.itemType == ItemType.Key)
                 {
                     InteractableActions.AddKey?.Invoke(itemData);
+                    GameManager.Instance.audioManager.PlaySound("key_pickup");
                 }
                 Destroy(gameObject);
                 break;

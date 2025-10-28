@@ -48,7 +48,6 @@ public class EnemyController : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         health.OnEnemyDied += OnDeath;
         animator = GetComponentInChildren<Animator>();
-        animator.speed = agent.speed / 3.5f;
     }
 
     private void OnEnable()
@@ -92,7 +91,9 @@ public class EnemyController : MonoBehaviour
         Vector3 distanceToWalkPoint = transform.position - walkPoint;
 
         if (distanceToWalkPoint.magnitude < 1f)
+        {
             walkPointSet = false;
+        }
         isInAttackSequence = false;
     }
 
@@ -135,21 +136,22 @@ public class EnemyController : MonoBehaviour
         animator.SetBool("IsAttacking", true);
 
         // Play grunt sound at start of attack
-        GameManager.Instance.audioManager.PlaySFX(demon_grunt);
-
-        // Wait for the animation to reach the hit point (adjust this timing to match your animation)
-        float animationHitTime = timeBetweenAttacks * 0.5f; // Assuming hit happens halfway through animation
+        GameManager.Instance.audioManager.PlaySound("demon_grunt");
+        float animationHitTime = timeBetweenAttacks * 0.5f; 
         yield return new WaitForSeconds(animationHitTime);
 
         // Deal damage at the appropriate animation frame
             Debug.Log("Distance to player during attack: " + Vector3.Distance(transform.position, player.position));
             Debug.Log("Attack range: " + attackRange);
+        if (Vector3.Distance(transform.position - new Vector3(0, 0, 0.5f), player.position) <= attackRange)
+        {
             PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
             if (playerHealth != null)
             {
                 playerHealth.TakeDamage(attackDamage);
             }
-        
+        }
+
 
         // Wait for rest of animation to complete
         yield return new WaitForSeconds(timeBetweenAttacks - animationHitTime);
@@ -192,7 +194,7 @@ public class EnemyController : MonoBehaviour
         GameObject temp = Instantiate(cashPrefab, spawnPos, cashPrefab.transform.rotation);
         Debug.Log("Enemy's current position: " + transform.position);
         Debug.Log("Game object spawned at: " + spawnPos);
-        GameManager.Instance.audioManager.PlaySFX(demon_die);
+        GameManager.Instance.audioManager.PlaySound("demon_die");
         Vector3 respawnPosition = transform.position;
         GameManager.Instance.spawnManager.RemoveEnemy(gameObject);
         GameManager.Instance.spawnManager.RespawnEnemyAtPosition(respawnPosition, 30f);

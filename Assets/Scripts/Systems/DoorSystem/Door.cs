@@ -66,7 +66,7 @@ public class Door : MonoBehaviour, IDataPersistence
         if (hasKey && !isOpen)
         {
             GameManager.Instance.uiManager.hud.InitiatePopup("Door opened with key");
-            GameManager.Instance.audioManager.PlaySFX(doorSound);
+            GameManager.Instance.audioManager.PlaySound("door_open");
             isOpen = true;
             targetRotation = openRotation;
         }

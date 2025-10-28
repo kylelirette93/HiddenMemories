@@ -7,7 +7,6 @@ using Random = UnityEngine.Random;
 public class RangedEnemyController : EnemyController
 {
     public ParticleSystem vomitParticles;
-    public AudioClip vomitSound;
 
     public override void AttackPlayer()
     {
@@ -18,7 +17,7 @@ public class RangedEnemyController : EnemyController
 
         if (!alreadyAttacked)
         {
-            GameManager.Instance.audioManager.PlaySFX(vomitSound);
+            GameManager.Instance.audioManager.PlaySound("vomit");
             vomitParticles.Play();
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);

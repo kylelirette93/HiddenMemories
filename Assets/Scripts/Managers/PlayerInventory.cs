@@ -6,9 +6,9 @@ using UnityEngine.InputSystem;
 
 public class PlayerInventory : MonoBehaviour, IDataPersistence
 {
-   public List<WeaponDataSO> availableWeapons = new List<WeaponDataSO>();
-   public WeaponManager weaponManager;
-   public List<KeyDataSO> Keys = new List<KeyDataSO>();
+    public List<WeaponDataSO> availableWeapons = new List<WeaponDataSO>();
+    public WeaponManager weaponManager;
+    public List<KeyDataSO> Keys = new List<KeyDataSO>();
     public List<HealingPotionSO> HealingPotions = new List<HealingPotionSO>();
     UIManager uiManager;
     HUD hud;

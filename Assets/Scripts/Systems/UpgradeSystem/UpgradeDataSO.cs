@@ -22,7 +22,7 @@ public class UpgradeDataSO : ScriptableObject, IUpgrade
     }
     public void Purchase()
     {
-        GameManager.Instance.audioManager.PlaySFX(GameManager.Instance.upgradeManager.purchaseSound);
+        GameManager.Instance.audioManager.PlaySound("purchase");
         int currentTier = GameManager.Instance.upgradeManager.GetUpgradeTier(this);
         int cost = GetCost(currentTier);
 

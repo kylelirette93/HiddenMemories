@@ -45,7 +45,6 @@ public class WeaponController : MonoBehaviour
             spread = currentWeapon.spread;
             fireSound = currentWeapon.gun_fire;
             fireSound.name = currentWeapon.name + "_fire";
-            GameManager.Instance.audioManager.AddSFX(fireSound);
         }
     }
 
@@ -101,7 +100,7 @@ public class WeaponController : MonoBehaviour
             {
                 ShootRecoil();
 
-                GameManager.Instance.audioManager.PlaySFX(fireSound);
+                GameManager.Instance.audioManager.PlaySound(fireSound.name);
                 muzzleFlash?.Play();
             }
             if (bulletPrefab == null || firePoint == null)

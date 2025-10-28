@@ -189,7 +189,7 @@ public class WeaponBase : MonoBehaviour
             if (fireSound != null)
             {
                 ApplyShootRecoil();
-                GameManager.Instance.audioManager.PlaySFX(fireSound);
+                GameManager.Instance.audioManager.PlaySound(fireSound.name);
                 muzzleFlash?.Play();
             }
 
@@ -262,10 +262,10 @@ public class WeaponBase : MonoBehaviour
             yield return new WaitForSeconds(1f * reloadSpeed);
             Debug.Log("Reloading... " + (i + 1) + "/" + clipCapacity);
             currentAmmo++;
-            GameManager.Instance.audioManager.PlaySFX(weaponData.gun_reload);
+            GameManager.Instance.audioManager.PlaySound(reloadSound.name);
             currentAmmo = Mathf.Clamp(currentAmmo, 0, clipCapacity);
         }
-        GameManager.Instance.audioManager.PlaySFX(weaponData.gun_cock);
+        GameManager.Instance.audioManager.PlaySound(cockSound.name);
         isReloading = false;
     }
 

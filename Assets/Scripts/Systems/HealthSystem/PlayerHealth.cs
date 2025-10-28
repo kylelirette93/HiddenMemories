@@ -53,7 +53,7 @@ public class PlayerHealth : Health
 
     public override void TakeDamage(int damage)
     {
-        GameManager.Instance.audioManager.PlaySFX(oofSound);
+        GameManager.Instance.audioManager.PlaySound("oof");
         currentHealth -= damage;
         StopAllCoroutines();
         StartCoroutine(DamageFlash());

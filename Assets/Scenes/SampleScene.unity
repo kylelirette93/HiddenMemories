@@ -9077,7 +9077,6 @@ MonoBehaviour:
   demon_die: {fileID: 0}
   explosionParticles: {fileID: 0}
   vomitParticles: {fileID: 634321197}
-  vomitSound: {fileID: 8300000, guid: 6020b3824b576ec45a0fb896ae4d5bf6, type: 3}
 --- !u!195 &250792966
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -57180,7 +57179,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8260409381871883454, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
       propertyPath: audioClips.Array.size
-      value: 16
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 8260409381871883454, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
       propertyPath: 'audioClips.Array.data[14]'
@@ -57190,6 +57189,10 @@ PrefabInstance:
       propertyPath: 'audioClips.Array.data[15]'
       value: 
       objectReference: {fileID: 8300000, guid: ed3ddc7341b3bbe4ea1a2c239a265028, type: 3}
+    - target: {fileID: 8260409381871883454, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
+      propertyPath: 'audioClips.Array.data[16]'
+      value: 
+      objectReference: {fileID: 8300000, guid: e2dbd3c37f6f99f49b70995d19348099, type: 3}
     - target: {fileID: 8271497405574147914, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0.5

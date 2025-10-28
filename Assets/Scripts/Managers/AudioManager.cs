@@ -4,6 +4,7 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
     public List<AudioClip> audioClips = new List<AudioClip>();
+    public Dictionary<string, AudioClip> audioClip = new Dictionary<string, AudioClip>();
     [ContextMenu("Clear Saved Audio Settings")]
     public void ClearAudioSettings()
     {
@@ -22,6 +23,11 @@ public class AudioManager : MonoBehaviour
     public float audioVolume = 0.5f;
     private const string MasterKey = "MasterVol";
 
+    private void Awake()
+    {
+        PopulateAudioLibrary();
+    }
+
     private void OnEnable()
     {
         audioVolume = PlayerPrefs.GetFloat(MasterKey, 0.5f);
@@ -29,25 +35,20 @@ public class AudioManager : MonoBehaviour
         ChangeMasterVolume(audioVolume);
         ChangeSFXVolume(sfxVolume);
     }
-
-    public void PlaySFX(AudioClip clip)
-    {    
-        // Play clip from list.
-        if (audioClips.Contains(clip))
-        {
-            sfxSource.PlayOneShot(clip);
-        }
-        else
-        {
-            Debug.LogWarning("AudioManager: Clip not found in audioClips list.");
-        }
-    }
-
-    public void AddSFX(AudioClip clip)
+    public void PopulateAudioLibrary()
     {
-        audioClips.Add(clip);
+        for (int i = 0; i < audioClips.Count; i++)
+        {
+            audioClip.Add(audioClips[i].name, audioClips[i]);
+        }
     }
-
+    public void PlaySound(string name)
+    {
+        if (audioClip.ContainsKey(name))
+        {
+            sfxSource.PlayOneShot(audioClip[name]);
+        }
+    }
     public void SetMasterVolume(float value)
     {
         audioVolume = Mathf.Clamp01(value);
