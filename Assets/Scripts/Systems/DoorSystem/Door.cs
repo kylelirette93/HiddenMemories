@@ -11,6 +11,7 @@ public class Door : MonoBehaviour, IDataPersistence
     public Quaternion closedRotation;
     public Quaternion openRotation;
     float rotationSpeed = 2.5f;
+    public AudioClip doorSound;
 
     void Start()
     {
@@ -65,6 +66,7 @@ public class Door : MonoBehaviour, IDataPersistence
         if (hasKey && !isOpen)
         {
             GameManager.Instance.uiManager.hud.InitiatePopup("Door opened with key");
+            GameManager.Instance.audioManager.PlaySFX(doorSound);
             isOpen = true;
             targetRotation = openRotation;
         }

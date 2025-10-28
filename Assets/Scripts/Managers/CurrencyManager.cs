@@ -17,6 +17,7 @@ public class CurrencyManager : MonoBehaviour, IDataPersistence
         GameManager.Instance.audioManager.PlaySFX(CashPickup);
         GameManager.Instance.uiManager.hud.InitiatePopup("Coin Added!");
         currency += itemData.value;
+        GameManager.Instance.progressManager.CurrencyAdded();
     }
 
     public int GetCurrency() { return currency; }

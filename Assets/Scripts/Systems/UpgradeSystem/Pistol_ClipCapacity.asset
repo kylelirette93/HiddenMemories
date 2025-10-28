@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b033a50cf336dd40adecea94c2bd5af, type: 3}
   m_Name: Pistol_ClipCapacity
   m_EditorClassIdentifier: 
-  name: Clip Capacity
+  name: +Max Ammo
   upgradeID: pistol_clip_capacity
   maxTier: 3
-  costs: 010000000200000003000000
+  costs: 050000000700000009000000
   statValues:
   - 2
   - 3

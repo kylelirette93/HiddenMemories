@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b033a50cf336dd40adecea94c2bd5af, type: 3}
   m_Name: Shotgun_Recoil
   m_EditorClassIdentifier: 
-  name: Reduce Recoil
+  name: +Less Recoil
   upgradeID: shotgun_recoil
   maxTier: 3
-  costs: 010000000200000004000000
+  costs: 05000000080000000a000000
   statValues:
   - 0.3
   - 0.6
