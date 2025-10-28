@@ -84,7 +84,7 @@ public class UpgradeButton : MonoBehaviour
         else
         {
             int cost = upgrade.GetCost(currentTier);
-            costText.text = cost.ToString();
+            costText.text = "$" + cost.ToString();
             button.interactable = GameManager.Instance.currencyManager.Currency >= cost;
         }
     }
