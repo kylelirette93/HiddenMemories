@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -451,6 +452,14 @@ public class PlayerController : MonoBehaviour
         Vector3 currentCamPos = cameraRoot.localPosition;
         cameraRoot.localPosition = new Vector3(currentCamPos.x, Mathf.Lerp(currentCamPos.y, targetCamY, lerpSpeed), currentCamPos.z);
 
+    }
+
+    public void ShakeCam()
+    {
+        if (cameraRoot == null) return;
+        cameraRoot.DOKill();
+        // Dotween to shake camera.
+        cameraRoot.DOShakePosition(0.7f, 0.5f, 10, 90, false, true);
     }
 
     #region Helper Methods

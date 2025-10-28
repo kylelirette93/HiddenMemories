@@ -1,3 +1,4 @@
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,6 +8,7 @@ public class PlayerHealthBar : MonoBehaviour
     public Slider playerHealthBar;
     public TextMeshProUGUI healthText;
     PlayerHealth health;
+    bool isHealing = false;
 
 
     private void OnEnable()
@@ -55,7 +57,34 @@ public class PlayerHealthBar : MonoBehaviour
 
     private void UpdateHealthBar(int newHealth, int maxHealth)
     {
-        playerHealthBar.value = (float)newHealth / (float)maxHealth;
+        if (newHealth >= maxHealth) isHealing = true;
+        float targetValue = (float)newHealth / (float)maxHealth;
+
+        playerHealthBar.DOKill();
+        playerHealthBar.DOValue(targetValue * playerHealthBar.maxValue, 0.25f);
+        // Make health bar glow with dotween.
+
+        if (!isHealing)
+        {
+            Image fillImage = playerHealthBar.fillRect.GetComponent<Image>();
+            fillImage.DOKill();
+            fillImage.color = Color.green;
+            fillImage.DOColor(Color.red, 0.1f).OnComplete(() =>
+            {
+                fillImage.DOColor(Color.green, 0.5f);
+            });
+        }
+        else
+        {
+            Image fillImage = playerHealthBar.fillRect.GetComponent<Image>();
+            fillImage.DOKill();
+            fillImage.color = Color.green;
+            fillImage.DOColor(Color.HSVToRGB(120f / 360f, 0.3f, 1f), 0.1f).OnComplete(() =>
+            {
+                fillImage.DOColor(Color.green, 0.5f);
+                isHealing = false;
+            });
+        }
     }
 
     private void UpdateHealthText(int newHealth, int maxHealth)

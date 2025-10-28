@@ -65,8 +65,6 @@ public class PlayerInventory : MonoBehaviour, IDataPersistence
         if (key is KeyDataSO Key)
         {
             Keys.Add(Key);
-            uiManager.hud.InitiatePopup("Key added to inventory!");
-
             uiManager.hud.AddKeyToHud(); 
         }
     }
@@ -76,7 +74,7 @@ public class PlayerInventory : MonoBehaviour, IDataPersistence
         if (potion is HealingPotionSO Potion)
         {
             HealingPotions.Add(Potion);
-            hud.InitiatePopup("Press H to heal!");
+            hud.InitiatePopup("Press H to heal!", Vector2.zero);
         }
     }
 
@@ -164,7 +162,8 @@ public class PlayerInventory : MonoBehaviour, IDataPersistence
                 HealingPotionSO potion = HealingPotions[0];
                 playerHealth.Heal(potion.HealAmount);
                 HealingPotions.RemoveAt(0);
-                hud.InitiatePopup("+" + potion.HealAmount);
+                hud.InitiatePopup("+" + potion.HealAmount, new Vector2(-60, -490));
+                GameManager.Instance.audioManager.PlaySound("heal");
             }
         }
     }

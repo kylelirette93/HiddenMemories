@@ -55,7 +55,7 @@ public class PlayerHealth : Health
 
     public override void TakeDamage(int damage)
     {
-        GameManager.Instance.audioManager.PlaySound("oof");
+        GameManager.Instance.audioManager.PlaySound("player_hit");
         currentHealth -= damage;
         StopAllCoroutines();
         StartCoroutine(DamageFlash());
@@ -74,7 +74,6 @@ public class PlayerHealth : Health
         float progress = 0f;
 
         vignette.color.value = damageColor;
-        vignette.intensity.value = maxIntensity;
 
         while (progress < 1f)
         {
@@ -94,6 +93,7 @@ public class PlayerHealth : Health
             yield return null;
         }
         vignette.intensity.value = 0f;
+        GameManager.Instance.audioManager.PlaySound("skylah_hurt");
     }
 
     IEnumerator HealFlash()

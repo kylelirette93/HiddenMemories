@@ -58,6 +58,7 @@ public class PlayerStats : MonoBehaviour
         {
             yield return new WaitForSeconds(0.6f);
             soulHealth--;
+            GameManager.Instance.hud.UpdateSlider(soulHealth, maxSoulHealth);
         }
         PlayerHealthActions.PlayerDied?.Invoke();
     }
@@ -66,6 +67,8 @@ public class PlayerStats : MonoBehaviour
     {
         soulHealth += 10;
         OnSoulGained?.Invoke();
+        GameManager.Instance.uiManager.hud.UpdateSlider(soulHealth, maxSoulHealth);
+        GameManager.Instance.uiManager.hud.UpdateSliderColor();
     }
 
     public void AddMaxHealth(int amount)

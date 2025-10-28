@@ -41,7 +41,7 @@ public class EnemyController : MonoBehaviour
     bool isInAttackSequence = false;
     public AudioClip demon_die;
     public ParticleSystem explosionParticles;
-    public TrailRenderer soulParticles;
+    public ParticleSystem soulParticles;
 
     protected void Awake()
     {
@@ -62,6 +62,13 @@ public class EnemyController : MonoBehaviour
                 player = playerObj.transform;
             }
         }
+
+        if (agent != null)
+        {
+            agent.enabled = true;
+            agent.isStopped = false;
+            agent.ResetPath();
+        }
     }
 
     private void OnDisable()
@@ -76,7 +83,7 @@ public class EnemyController : MonoBehaviour
     {
         // Check if player is in sight or attack range.
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
-        playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
+        playerInAttackRange = Physics.CheckSphere(transform.position, attackRange - 0.5f, whatIsPlayer);
 
         if (!playerInSightRange && !playerInAttackRange) Patroling();
         if (playerInSightRange && !playerInAttackRange) ChasePlayer();
@@ -122,9 +129,9 @@ public class EnemyController : MonoBehaviour
 
     public virtual void AttackPlayer()
     {
-        agent.SetDestination(transform.position);
+        if (player == null) player = GameObject.FindGameObjectWithTag("Player").transform;
+        agent.isStopped = true;
         RotateInstantlyTowardsTarget(transform, player.transform);
-
         if (!alreadyAttacked)
         {
             alreadyAttacked = true;
@@ -137,24 +144,26 @@ public class EnemyController : MonoBehaviour
         isAttacking = true;
         animator.SetBool("IsAttacking", true);
 
-        // Play grunt sound at start of attack
+        // Play grunt sound at start of attack.
         GameManager.Instance.audioManager.PlaySound("demon_grunt");
         float animationHitTime = timeBetweenAttacks * 0.5f; 
         yield return new WaitForSeconds(animationHitTime);
 
-        // Deal damage at the appropriate animation frame
-            Debug.Log("Distance to player during attack: " + Vector3.Distance(transform.position, player.position));
-            Debug.Log("Attack range: " + attackRange);
-        if (Vector3.Distance(transform.position - new Vector3(0, 0, 0.5f), player.position) <= attackRange)
+        Debug.Log("Distance between player and enemy: " + Vector3.Distance(transform.position, player.position));
+        if (Vector3.Distance(transform.position, player.position) <= attackRange)
         {
             PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
             if (playerHealth != null)
             {
                 playerHealth.TakeDamage(attackDamage);
+                PlayerController playerController = player.GetComponent<PlayerController>();
+                if (playerController != null)
+                {
+                    playerController.ShakeCam();
+                }
             }
         }
-
-
+        
         // Wait for rest of animation to complete
         yield return new WaitForSeconds(timeBetweenAttacks - animationHitTime);
 
@@ -162,6 +171,7 @@ public class EnemyController : MonoBehaviour
         isAttacking = false;
         animator.SetBool("IsAttacking", false);
         alreadyAttacked = false;
+        agent.isStopped = false;
     }
 
     void RotateInstantlyTowardsTarget(Transform objectTransform, Transform targetTransform)
@@ -188,12 +198,24 @@ public class EnemyController : MonoBehaviour
     {
         if (isDead) return;
         isDead = true;
+
+        if (agent != null)
+        {
+            // Reset nav mesh agent on death.
+            agent.isStopped = true;
+            agent.ResetPath();
+            agent.enabled = false;
+        }
         GameObject explosion = Instantiate(explosionParticles.gameObject, transform.position, Quaternion.identity);
-        GameObject soul = Instantiate(soulParticles.gameObject, transform.position, Quaternion.identity);
-        soul.transform.DOMove(player.position, 2f);
+        GameObject soul = Instantiate(soulParticles.gameObject, transform.position + new Vector3(0, 1, 0), Quaternion.identity);
+        GameManager.Instance.audioManager.PlaySound("woosh");
+        soul.transform.DOMove(player.position, 1.5f).SetEase(Ease.InQuad).OnComplete(()=>
+        {
+            Destroy(soul);
+            PlayerStats.Instance.IncrementSoulHealth();
+        });
         GameManager.Instance.progressManager.EnemyKilled();
         health.OnEnemyDied -= OnDeath;
-        PlayerStats.Instance.IncrementSoulHealth();
         Vector3 spawnPos = new Vector3(transform.position.x, 1.5f, transform.position.z);
         GameObject temp = Instantiate(cashPrefab, spawnPos, cashPrefab.transform.rotation);
         Debug.Log("Enemy's current position: " + transform.position);

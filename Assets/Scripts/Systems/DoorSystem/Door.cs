@@ -65,7 +65,6 @@ public class Door : MonoBehaviour, IDataPersistence
         bool hasKey = inventory.Keys.Any(key => key.itemName == keyToUnlock.itemName);
         if (hasKey && !isOpen)
         {
-            GameManager.Instance.uiManager.hud.InitiatePopup("Door opened with key");
             GameManager.Instance.audioManager.PlaySound("door_open");
             isOpen = true;
             targetRotation = openRotation;

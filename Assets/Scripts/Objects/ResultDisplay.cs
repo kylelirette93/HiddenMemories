@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.Burst.Intrinsics;
 using UnityEngine;
 
 public class ResultDisplay : MonoBehaviour
@@ -9,6 +10,7 @@ public class ResultDisplay : MonoBehaviour
 
     private void OnEnable()
     {
+        resultText.text = "";
         if (resultText != null)
         {
             resultText.text = "Enemies killed this run: " + GameManager.Instance.progressManager.EnemiesKilled;
@@ -17,19 +19,30 @@ public class ResultDisplay : MonoBehaviour
         {
             currencyText.text = "Currency earned this run: " + "$" + GameManager.Instance.progressManager.Currency;
         }
-        if (doorsText != null)
-        {
+       if (doorsText != null)
+       {  
             GameData gameData = GameManager.Instance.dataPersistenceManager.GetGameData();
-            int doorCount = gameData.doorsOpened.Count;
-            int doorsLeft = 2 - doorCount;
-            if (doorsLeft > 0)
+            int doorCount = 0;
+
+            // Count how many doors are actually opened (true values)
+            foreach (bool doorOpened in gameData.doorsOpened)
             {
-                doorsText.text = doorCount.ToString() + "/2 doors opened." + "\n" + doorsLeft + " doors left to open";
+                if (doorOpened)
+                {
+                    doorCount++;
+                }
             }
-            else
+
+            int doorLeft = 2 - doorCount;
+
+            if (doorCount >= 2)
             {
                 doorsText.text = "All doors unlocked, find the exit!";
             }
-        }
+            else
+            {
+                doorsText.text = doorCount.ToString() + "/2 doors opened. " + doorLeft + " doors left to open";
+            }
+       }
     }
 }

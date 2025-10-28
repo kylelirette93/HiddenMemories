@@ -8,6 +8,7 @@ using UnityEngine.InputSystem;
 public class HUD : MonoBehaviour
 {
     public RectTransform soulMeterRect;
+    private Vector3 originalScale;
     public Slider soulMeterSlider;
     public TextMeshProUGUI currencyText;
     public Slider healthBarSlider;
@@ -21,14 +22,16 @@ public class HUD : MonoBehaviour
 
     private Coroutine activePopupCoroutine;
 
-    private void Awake()
+    private void Start()
     {
         PlayerStats.Instance.OnSoulGained += ScaleSoulSlider;
+        originalScale = soulMeterRect.localScale;
     }
 
     private void OnEnable()
     {
-        PlayerStats.Instance.OnSoulGained += ScaleSoulSlider;
+        if (PlayerStats.Instance != null)
+            PlayerStats.Instance.OnSoulGained += ScaleSoulSlider;
     }
 
     private void OnDisable()
@@ -42,6 +45,7 @@ public class HUD : MonoBehaviour
         popupText.text = "";
         popupText.gameObject.SetActive(false);
         PlayerStats.Instance.OnSoulGained -= ScaleSoulSlider;
+        StopAllCoroutines();
     }
 
     private void OnDestroy()
@@ -57,9 +61,27 @@ public class HUD : MonoBehaviour
     {
         if (PlayerStats.Instance != null)
         {
-            soulMeterSlider.value = (float)PlayerStats.Instance.SoulHealth / (float)PlayerStats.Instance.MaxSoulHealth;
             currencyText.text = "$" + GameManager.Instance.currencyManager.Currency.ToString();
         }
+    }
+
+    public void UpdateSlider(int newSoulHealth, int maxSoulHealth) 
+    {
+        soulMeterSlider.DOKill();
+        float targetValue = (float)newSoulHealth / (float)maxSoulHealth;
+
+        soulMeterSlider.DOValue(targetValue, 0.5f).SetEase(Ease.OutCubic);
+    }
+
+    public void UpdateSliderColor()
+    {
+        Image fillImage = soulMeterSlider.fillRect.GetComponent<Image>();
+        fillImage.DOKill();
+        fillImage.color = Color.white;
+        fillImage.DOColor(Color.blue, 0.1f).OnComplete(() =>
+        {
+            fillImage.DOColor(Color.white, 0.5f);
+        });
     }
 
     public void AddKeyToHud()
@@ -79,9 +101,15 @@ public class HUD : MonoBehaviour
 
     public void ScaleSoulSlider()
     {
-        soulMeterRect.DOScale(new Vector3(1.2f, 1.2f, 0), 2f).SetEase(Ease.InBack);
+        soulMeterRect.DOKill();
+        soulMeterRect.DOScale(originalScale * 1.05f, 0.3f)
+            .SetEase(Ease.OutBack)
+            .OnComplete(() =>
+            {
+                soulMeterRect.DOScale(originalScale, 0.3f).SetEase(Ease.InBack);
+            });
     }
-    public void InitiatePopup(string text)
+    public void InitiatePopup(string text, Vector2 anchoredPosition)
     {
         // Stop any existing popup
         if (activePopupCoroutine != null)
@@ -92,13 +120,15 @@ public class HUD : MonoBehaviour
         // Kill any active tweens on the popup text
         popupText.transform.DOKill();
 
-        // Start new popup
+        RectTransform rect = popupText.GetComponent<RectTransform>();
+        rect.anchoredPosition = anchoredPosition;
+
         activePopupCoroutine = StartCoroutine(ShowPopupText(text));
     }
 
     public void DisplayReloadText()
     {
-        InitiatePopup("Press R to reload");
+        InitiatePopup("Press R to reload", Vector2.zero);
     }
 
     public void RemoveReloadText()

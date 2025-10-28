@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2737456863543915338}
   - component: {fileID: 574127990031346535}
   - component: {fileID: 4317494327852208419}
-  - component: {fileID: 2351730544375731451}
   - component: {fileID: 4966219369866819758}
   - component: {fileID: 1528477512677134227}
   - component: {fileID: 364325230236345604}
@@ -59,11 +58,11 @@ MonoBehaviour:
   debugLogEnabled: 0
   moveEnabled: 1
   lookEnabled: 1
-  jumpEnabled: 1
+  jumpEnabled: 0
   sprintEnabled: 1
   holdToSprint: 1
   crouchEnabled: 1
-  holdToCrouch: 1
+  holdToCrouch: 0
   crouchMoveSpeed: 2
   walkMoveSpeed: 4
   sprintMoveSpeed: 7
@@ -107,46 +106,6 @@ CharacterController:
   m_SkinWidth: 0.01
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.9, z: 0}
---- !u!114 &2351730544375731451
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1879060575716621809}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b0254f12c0a58a4b80966678ee45609, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentMovementState: 0
-  characterVelocity: 0
-  debugLogEnabled: 0
-  moveEnabled: 1
-  lookEnabled: 1
-  jumpEnabled: 1
-  sprintEnabled: 1
-  holdToSprint: 1
-  crouchEnabled: 1
-  holdToCrouch: 1
-  crouchMoveSpeed: 2
-  walkMoveSpeed: 4
-  sprintMoveSpeed: 7
-  currentMoveSpeed: 0
-  sprintInput: 0
-  crouchInput: 0
-  horizontalLookSensitivity: 30
-  verticalLookSensitivity: 30
-  LowerLookLimit: -60
-  upperLookLimit: 60
-  isGrounded: 0
-  gravity: 30
-  jumpHeight: 2
-  crouchTransitionDuration: 0.2
-  crouchingHeight: 1
-  crouchingCenter: {x: 0, y: 0.5, z: 0}
-  crouchingCamY: 0.75
-  spawnPosition: {fileID: 0}
 --- !u!114 &4966219369866819758
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -80,13 +80,13 @@ MonoBehaviour:
     m_Bits: 64
   timeBetweenAttacks: 1
   sightRange: 20
-  attackRange: 2
+  attackRange: 2.2
   cashPrefab: {fileID: 7452763399633447479, guid: bf83bbcde8f5ea440aa5e356e81af3ab, type: 3}
   bloodParticles: {fileID: 3771408447181565798, guid: cc03c6018cf60c94380b3f67568f9efc, type: 3}
   demon_grunt: {fileID: 8300000, guid: 60de379e447fa654099fcceeabcd69ee, type: 3}
   demon_die: {fileID: 8300000, guid: 7820d1400a889fe4b83c1cd27a8f5d24, type: 3}
   explosionParticles: {fileID: 5252791036670798447, guid: d8ab42521fbece3408c32d1597756785, type: 3}
-  soulParticles: {fileID: 8728205387029469117, guid: af0159df8f0d47948a8f03f9c3f98030, type: 3}
+  soulParticles: {fileID: 2815536979745313704, guid: 1baa849147ee7914bbf4dca781258c6a, type: 3}
 --- !u!114 &6028103344545344529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,7 +113,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
