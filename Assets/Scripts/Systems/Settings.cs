@@ -18,4 +18,5 @@ public class SettingsPanel : MonoBehaviour
             sfxSlider.onValueChanged.AddListener(audioManager.SetSFXVolume);
         }
     }
+
 }

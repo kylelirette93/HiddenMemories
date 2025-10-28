@@ -4,21 +4,28 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
     public List<AudioClip> audioClips = new List<AudioClip>();
-
+    [ContextMenu("Clear Saved Audio Settings")]
+    public void ClearAudioSettings()
+    {
+        PlayerPrefs.DeleteKey(MasterKey);
+        PlayerPrefs.DeleteKey(SFXKey);
+        PlayerPrefs.Save();
+        Debug.Log("Audio settings cleared!");
+    }
     [Header("SFX Volume")]
     public AudioSource sfxSource;
-    public float sfxVolume = 50f;
+    public float sfxVolume = 0.5f;
     private const string SFXKey = "SFXVol";
 
     [Header("Master Volume")]
     public AudioSource musicSource;
-    public float audioVolume = 50f;
+    public float audioVolume = 0.5f;
     private const string MasterKey = "MasterVol";
 
     private void OnEnable()
     {
-        audioVolume = PlayerPrefs.GetFloat(MasterKey, audioVolume);
-        sfxVolume = PlayerPrefs.GetFloat(SFXKey, sfxVolume);
+        audioVolume = PlayerPrefs.GetFloat(MasterKey, 0.5f);
+        sfxVolume = PlayerPrefs.GetFloat(SFXKey, 0.5f);
         ChangeMasterVolume(audioVolume);
         ChangeSFXVolume(sfxVolume);
     }

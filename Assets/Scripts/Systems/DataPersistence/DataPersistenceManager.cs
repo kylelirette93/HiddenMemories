@@ -72,6 +72,11 @@ public class DataPersistenceManager : MonoBehaviour
         dataHandler.Save(gameData);
     }
 
+    public void ClearSaveFile()
+    {
+        dataHandler.DeleteFile();
+    }
+
     public void NewGamePlusSaveClear()
     {
         gameData.inventoryData.Clear();
