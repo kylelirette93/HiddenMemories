@@ -21,5 +21,6 @@ public class ProgressManager : MonoBehaviour
     public void Reset()
     {
         enemiesKilled = 0;
+        currency = 0;
     }
 }
