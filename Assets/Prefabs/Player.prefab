@@ -16,7 +16,8 @@ GameObject:
   - component: {fileID: 364325230236345604}
   - component: {fileID: 2726675757025881812}
   - component: {fileID: 2356931680189205427}
-  m_Layer: 3
+  - component: {fileID: 8781131397205814940}
+  m_Layer: 6
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -48,7 +49,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1879060575716621809}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3b0254f12c0a58a4b80966678ee45609, type: 3}
   m_Name: 
@@ -191,6 +192,33 @@ CapsuleCollider:
   m_Height: 2.6
   m_Direction: 1
   m_Center: {x: 0, y: 0.9, z: 0}
+--- !u!114 &8781131397205814940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1879060575716621809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e8be65e29398284b92330947d98f830, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: {fileID: 0}
+  fovTransitionSpeed: 3.6
+  walkFov: 60
+  sprintFov: 75
+  isSprinting: 0
+  isMoving: 0
+  movementSpeed: 0
+  walkSpeed: 3
+  runSpeed: 7
+  isGrounded: 0
+  groundCheckDistance: 5
+  canLook: 1
+  lookSensitivity: 1
+  initialCamRot: {x: 0, y: 0, z: 0, w: 0}
+  oof: {fileID: 0}
 --- !u!1 &2742512021909404296
 GameObject:
   m_ObjectHideFlags: 0
@@ -201,7 +229,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8244693659386929026}
   - component: {fileID: 6091012312722164027}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: InteractionController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -251,7 +279,7 @@ GameObject:
   - component: {fileID: 3414248969781546250}
   - component: {fileID: 5328533447090238163}
   - component: {fileID: 5589472312366247912}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -373,7 +401,7 @@ GameObject:
   - component: {fileID: 8572219604711944523}
   - component: {fileID: 1405264768183604430}
   - component: {fileID: 4135267513468023146}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -483,7 +511,7 @@ GameObject:
   - component: {fileID: 3716437248836623909}
   - component: {fileID: 1820376842015669389}
   - component: {fileID: 8787795870053196325}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -620,7 +648,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1919791148901302686}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: CameraRoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -653,7 +681,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6311976742390332600}
   - component: {fileID: 1841338760107005966}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: WeaponParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -760,7 +788,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7017237122454409632, guid: cdfd974bb53ea8540878e7359fba72ae, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
