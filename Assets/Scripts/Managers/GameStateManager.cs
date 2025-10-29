@@ -270,7 +270,7 @@ public class GameStateManager : MonoBehaviour, IDataPersistence
     }
     public void Results()
     {
-        // If we go to results, reset the game.
+        // If go to results, reset the game.
         gameInitialized = false;
         StateActions.Reset?.Invoke();
         ChangeState(GameState.Results);

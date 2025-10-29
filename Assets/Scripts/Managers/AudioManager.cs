@@ -15,12 +15,12 @@ public class AudioManager : MonoBehaviour
     }
     [Header("SFX Volume")]
     public AudioSource sfxSource;
-    public float sfxVolume = 0.5f;
+    public float sfxVolume = 1f;
     private const string SFXKey = "SFXVol";
 
     [Header("Master Volume")]
     public AudioSource musicSource;
-    public float audioVolume = 0.5f;
+    public float audioVolume = 1f;
     private const string MasterKey = "MasterVol";
 
     private void Awake()

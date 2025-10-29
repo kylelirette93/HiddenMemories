@@ -139,6 +139,5 @@ public class PlayerHealth : Health
 public static class PlayerHealthActions
 {
     public static Action<int, int> OnPlayerHealthChanged;
-    // Player died, notify game state manager.
     public static Action PlayerDied;
 }

@@ -62,7 +62,6 @@ public class PlayerHealthBar : MonoBehaviour
 
         playerHealthBar.DOKill();
         playerHealthBar.DOValue(targetValue * playerHealthBar.maxValue, 0.25f);
-        // Make health bar glow with dotween.
 
         if (!isHealing)
         {

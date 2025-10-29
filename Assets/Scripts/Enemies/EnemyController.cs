@@ -164,7 +164,7 @@ public class EnemyController : MonoBehaviour
             }
         }
         
-        // Wait for rest of animation to complete
+        // Wait for rest of animation to complete.
         yield return new WaitForSeconds(timeBetweenAttacks - animationHitTime);
 
         // Reset attack state

@@ -24,7 +24,7 @@ public class ResultDisplay : MonoBehaviour
             GameData gameData = GameManager.Instance.dataPersistenceManager.GetGameData();
             int doorCount = 0;
 
-            // Count how many doors are actually opened (true values)
+            // Get count of doors opened.
             foreach (bool doorOpened in gameData.doorsOpened)
             {
                 if (doorOpened)

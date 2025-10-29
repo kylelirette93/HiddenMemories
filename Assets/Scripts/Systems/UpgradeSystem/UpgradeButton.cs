@@ -20,7 +20,7 @@ public class UpgradeButton : MonoBehaviour
         upgradeManager = GameManager.Instance.upgradeManager;
         if (weapon == null)
         {
-            // this is a health upgrade.
+            // This is a health upgrade.
             button.onClick.AddListener(OnPurchaseClicked);
             if (!upgradeManager.upgradeButtons.Contains(this))
             {

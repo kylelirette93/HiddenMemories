@@ -124,11 +124,11 @@ public class WeaponController : MonoBehaviour
 
         Sequence recoilSequence = DOTween.Sequence();
 
-        // Rotate up & move back at the same time
+        // Rotate up & move back at the same time.
         recoilSequence.Append(weaponParent.DOLocalRotate(new Vector3(recoilRot, 0f, 0f), 0.05f));
         recoilSequence.Join(weaponParent.DOLocalMoveZ(originalPos.z + recoilBack, 0.05f));
 
-        // Return to original position & rotation
+        // Return to original position & rotation.
         recoilSequence.Append(weaponParent.DOLocalRotate(originalRot, 0.1f));
         recoilSequence.Join(weaponParent.DOLocalMoveZ(originalPos.z, 0.1f));
     }

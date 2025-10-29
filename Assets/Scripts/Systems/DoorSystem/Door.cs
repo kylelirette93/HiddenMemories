@@ -33,9 +33,7 @@ public class Door : MonoBehaviour, IDataPersistence
             }
             else
             {
-                // The saved state is CLOSED
                 isOpen = false;
-                // Set rotation immediately to the final closed position
                 transform.rotation = closedRotation;
                 targetRotation = closedRotation;
             }
@@ -50,7 +48,6 @@ public class Door : MonoBehaviour, IDataPersistence
 
     public void SaveData(ref GameData data)
     {
-        // Ensure the list is big enough
         while (data.doorsOpened.Count <= doorNumber)
         {
             data.doorsOpened.Add(false);

@@ -11,7 +11,10 @@ public class WeaponUI : MonoBehaviour
 
     public void UpdateWeaponInfo(WeaponDataSO weaponData, WeaponBase weaponInstance)
     {
-        if (weaponData == null || weaponInstance == null) { icon.enabled = false; return; }
+        if (weaponData == null || weaponInstance == null) 
+        { 
+            icon.enabled = false; return; 
+        }
 
         data = weaponData;
         weapon = weaponInstance;
@@ -30,7 +33,11 @@ public class WeaponUI : MonoBehaviour
 
     private void OnEnable()
     {
-        if (data == null || weapon == null) { icon.enabled = false; return; }
+        if (data == null || weapon == null) 
+        { 
+            icon.enabled = false; return;
+        }
+
         icon.enabled = true;
         icon.sprite = data.icon;
         ammoText.text = $"{weapon.CurrentAmmo}/{weapon.ClipCapacity}";

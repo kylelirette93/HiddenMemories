@@ -39,7 +39,6 @@ public class Rifle : WeaponBase
 
     public void ReduceReloadSpeed(float amount)
     {
-        // Add fire rate as percentage.
         reloadSpeed -= amount;
     }
 }

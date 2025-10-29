@@ -55,7 +55,6 @@ public class UpgradeManager : MonoBehaviour, IDataPersistence
         purchasedUpgrades[id] = currentTier + 1;
         GameManager.Instance.currencyManager.Currency -= cost;
         UpdateAllButtons();
-        // Ideally, im gonna save upgrade here wit a binary formatter.
     }
 
     private void Update()
@@ -89,7 +88,7 @@ public class UpgradeManager : MonoBehaviour, IDataPersistence
     {
         purchasedUpgrades = new Dictionary<string, int>();
 
-        // Convert each UpgradeData back into dictionary entries
+        // Convert each upgrade data into dictionary entries.
         foreach (UpgradeData upgradeData in data.purchasedUpgrades)
         {
             purchasedUpgrades[upgradeData.upgradeID] = upgradeData.tier;
@@ -109,7 +108,7 @@ public class UpgradeManager : MonoBehaviour, IDataPersistence
 
         foreach (var kvp in purchasedUpgrades)
         {
-            // Create a NEW UpgradeData for EACH entry
+            // Create new upgrade data for each entry.
             UpgradeData upgradeData = new UpgradeData();
             upgradeData.upgradeID = kvp.Key;
             upgradeData.tier = kvp.Value;
