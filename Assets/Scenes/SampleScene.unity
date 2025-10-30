@@ -56969,7 +56969,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1009639173186615525, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
       propertyPath: m_Volume
-      value: 0.64
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 1009639173186615525, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
       propertyPath: m_Resource
@@ -57273,7 +57273,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5254877339084518348, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
       propertyPath: m_Value
-      value: 1
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 5282045258472701272, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
       propertyPath: m_AnchorMax.x
@@ -57465,7 +57465,7 @@ PrefabInstance:
       objectReference: {fileID: 1164667863}
     - target: {fileID: 8199835316587046123, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
       propertyPath: m_Value
-      value: 1
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 8199835316587046123, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_FloatArgument
