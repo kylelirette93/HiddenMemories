@@ -3,8 +3,10 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
+    public List<AudioClip> musicClips = new List<AudioClip>();
     public List<AudioClip> audioClips = new List<AudioClip>();
     public Dictionary<string, AudioClip> audioClip = new Dictionary<string, AudioClip>();
+    public Dictionary<string, AudioClip> musicClip = new Dictionary<string, AudioClip>();
     [ContextMenu("Clear Saved Audio Settings")]
     public void ClearAudioSettings()
     {
@@ -20,7 +22,7 @@ public class AudioManager : MonoBehaviour
 
     [Header("Master Volume")]
     public AudioSource musicSource;
-    public float audioVolume = 1f;
+    public float audioVolume = 0.75f;
     private const string MasterKey = "MasterVol";
 
     private void Awake()
@@ -41,6 +43,10 @@ public class AudioManager : MonoBehaviour
         {
             audioClip.Add(audioClips[i].name, audioClips[i]);
         }
+        for (int i = 0; i < musicClips.Count; i++)
+        {
+            musicClip.Add(musicClips[i].name, musicClips[i]);
+        }
     }
     public void PlaySound(string name)
     {
@@ -48,6 +54,25 @@ public class AudioManager : MonoBehaviour
         {
             sfxSource.PlayOneShot(audioClip[name]);
         }
+    }
+
+    public void PlayMusic(string name)
+    {
+        if (musicClip.ContainsKey(name))
+        {
+            musicSource.clip = musicClip[name];
+            musicSource.Play();
+        }
+    }
+
+    public void PauseMusic()
+    {
+        musicSource.Pause();
+    }
+
+    public void ResumeMusic()
+    {
+        musicSource.UnPause();
     }
     public void SetMasterVolume(float value)
     {

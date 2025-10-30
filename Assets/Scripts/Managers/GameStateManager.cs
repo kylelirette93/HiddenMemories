@@ -62,6 +62,7 @@ public class GameStateManager : MonoBehaviour, IDataPersistence
             case GameState.MainMenu:
                 uiManager.DisableAllMenuUI();
                 uiManager.EnableMainMenuUI();
+                GameManager.Instance.audioManager.PlayMusic("menu");
                 break;
             case GameState.Credits:
                 uiManager.DisableAllMenuUI();
@@ -94,6 +95,8 @@ public class GameStateManager : MonoBehaviour, IDataPersistence
                 uiManager.DisableAllMenuUI();
                 uiManager.EnableGameplayUI();
                 GameManager.Instance.progressManager.Reset();
+                GameManager.Instance.audioManager.ResumeMusic();
+                GameManager.Instance.audioManager.PlayMusic("gameplay");
                 break;
             case GameState.Pause:
                 playerController.DisableLook();
@@ -101,6 +104,7 @@ public class GameStateManager : MonoBehaviour, IDataPersistence
                 EnableCursor();
                 uiManager.DisableAllMenuUI();
                 uiManager.EnablePauseUI();
+                GameManager.Instance.audioManager.PauseMusic();
                 break;
             case GameState.Options:
                 uiManager.DisableAllMenuUI();
@@ -114,6 +118,7 @@ public class GameStateManager : MonoBehaviour, IDataPersistence
                 EnableCursor();
                 uiManager.DisableAllMenuUI();
                 uiManager.EnableResultUI();
+                GameManager.Instance.audioManager.PlayMusic("upgrade");
                 break;
             case GameState.GameWin:
                 EnableCursor();
@@ -270,10 +275,23 @@ public class GameStateManager : MonoBehaviour, IDataPersistence
     }
     public void Results()
     {
+        ClearParticles();
         // If go to results, reset the game.
         gameInitialized = false;
         StateActions.Reset?.Invoke();
         ChangeState(GameState.Results);
+    }
+
+    public void ClearParticles()
+    {
+        ParticleSystem[] allParticles = FindObjectsByType<ParticleSystem>(FindObjectsSortMode.None);
+        foreach (ParticleSystem ps in allParticles)
+        {
+            if (ps.transform.parent == null)
+            {
+                Destroy(ps.gameObject);
+            }
+        }
     }
     public void GameWin()
     {

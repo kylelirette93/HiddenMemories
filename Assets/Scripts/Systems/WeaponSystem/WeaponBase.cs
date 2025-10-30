@@ -77,6 +77,7 @@ public class WeaponBase : MonoBehaviour
 
     public virtual void OnDisable()
     {
+        transform.DOKill();
         if (crosshairUI != null)
         {
             // When a game restarts, reset the crosshair.
@@ -276,12 +277,13 @@ public class WeaponBase : MonoBehaviour
 
         playerController.AddRecoil(new Vector2(Random.Range(-cameraRecoil * 0.1f, cameraRecoil * 0.5f), cameraRecoil * 0.4f));
 
-
-        Sequence seq = DOTween.Sequence();
-        seq.Append(transform.DOLocalRotate(new Vector3(recoilRot, 0f, 0f), 0.05f, RotateMode.LocalAxisAdd));
-        seq.Join(transform.DOLocalMove(transform.localPosition + new Vector3(0, 0, recoilBack), 0.05f));
-        seq.Append(transform.DOLocalRotate(new Vector3(-recoilRot, 0f, 0f), 0.05f, RotateMode.LocalAxisAdd));
-        seq.Join(transform.DOLocalMove(transform.localPosition, 0.05f));
+        recoilSequence?.Kill();
+        recoilSequence = DOTween.Sequence();
+        recoilSequence.SetAutoKill(true);
+        recoilSequence.Append(transform.DOLocalRotate(new Vector3(recoilRot, 0f, 0f), 0.05f, RotateMode.LocalAxisAdd));
+        recoilSequence.Join(transform.DOLocalMove(transform.localPosition + new Vector3(0, 0, recoilBack), 0.05f));
+        recoilSequence.Append(transform.DOLocalRotate(new Vector3(-recoilRot, 0f, 0f), 0.05f, RotateMode.LocalAxisAdd));
+        recoilSequence.Join(transform.DOLocalMove(transform.localPosition, 0.05f));
     }
 
     protected void ApplyAllUpgrades()
