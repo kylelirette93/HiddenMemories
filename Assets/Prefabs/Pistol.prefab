@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8910701665164521500}
   - component: {fileID: 4440158394598352049}
   - component: {fileID: 7251511445243659473}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Pistol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 2530414186560760526}
   - component: {fileID: 6876497772259693929}
   - component: {fileID: 8752935031432340034}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: GunTop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -230,7 +230,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1283591135193962420}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Firepoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -303,6 +303,10 @@ PrefabInstance:
     - target: {fileID: 8044486153228473848, guid: 845bfa531bae95a4c89cb7be1a7cdb47, type: 3}
       propertyPath: m_Name
       value: MuzzleFlash
+      objectReference: {fileID: 0}
+    - target: {fileID: 8044486153228473848, guid: 845bfa531bae95a4c89cb7be1a7cdb47, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 8409086181896527023, guid: 845bfa531bae95a4c89cb7be1a7cdb47, type: 3}
       propertyPath: lengthInSec

@@ -1,5 +1,4 @@
 using DG.Tweening;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -271,30 +270,18 @@ public class WeaponBase : MonoBehaviour
 
     protected void ApplyShootRecoil()
     {
-        Vector3 originalPos = transform.localPosition;
-        Vector3 originalRot = transform.localEulerAngles;
-
         float recoilRot = -5f;
         float recoilBack = -0.3f;
+        float cameraRecoil = recoil * 2f;
 
-        float cameraRecoil = recoil * 1.5f;
-        Vector3 cameraOriginalRot = cameraHolder.localEulerAngles;
-
-        recoilSequence = DOTween.Sequence();
+        playerController.AddRecoil(new Vector2(Random.Range(-cameraRecoil * 0.1f, cameraRecoil * 0.5f), cameraRecoil * 0.4f));
 
 
-
-        // Rotate up & move back at the same time.
-        recoilSequence.Append(transform.DOLocalRotate(new Vector3(recoilRot, 0f, 0f), 0.05f));
-        recoilSequence.Join(transform.DOLocalMoveZ(originalPos.z + recoilBack, 0.05f));
-
-        recoilSequence.Join(cameraHolder.transform.DOLocalRotate(new Vector3(-cameraRecoil, cameraRecoil, 0f), 0.1f, RotateMode.LocalAxisAdd));
-
-        // Return to original position & rotation.
-        recoilSequence.Append(transform.DOLocalRotate(originalRot, 0.05f));
-        recoilSequence.Join(transform.DOLocalMoveZ(originalPos.z, 0.05f));
-
-        recoilSequence.Join(cameraHolder.transform.DOLocalRotate(new Vector3(cameraRecoil, -cameraRecoil, 0f), 0.15f, RotateMode.LocalAxisAdd)).SetEase(Ease.OutQuad);
+        Sequence seq = DOTween.Sequence();
+        seq.Append(transform.DOLocalRotate(new Vector3(recoilRot, 0f, 0f), 0.05f, RotateMode.LocalAxisAdd));
+        seq.Join(transform.DOLocalMove(transform.localPosition + new Vector3(0, 0, recoilBack), 0.05f));
+        seq.Append(transform.DOLocalRotate(new Vector3(-recoilRot, 0f, 0f), 0.05f, RotateMode.LocalAxisAdd));
+        seq.Join(transform.DOLocalMove(transform.localPosition, 0.05f));
     }
 
     protected void ApplyAllUpgrades()
@@ -317,5 +304,5 @@ public class WeaponBase : MonoBehaviour
 
 public static class WeaponActions
 {
-    public static Action<WeaponDataSO> UnlockWeapon;
+    public static System.Action<WeaponDataSO> UnlockWeapon;
 }

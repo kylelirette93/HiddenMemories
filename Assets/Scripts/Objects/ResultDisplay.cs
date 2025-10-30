@@ -10,6 +10,7 @@ public class ResultDisplay : MonoBehaviour
 
     private void OnEnable()
     {
+        GameManager.Instance.dataPersistenceManager.SaveGame();
         resultText.text = "";
         if (resultText != null)
         {

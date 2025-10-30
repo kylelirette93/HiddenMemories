@@ -96,7 +96,7 @@ public class GameStateManager : MonoBehaviour, IDataPersistence
                 GameManager.Instance.progressManager.Reset();
                 break;
             case GameState.Pause:
-                playerController.lookEnabled = false;
+                playerController.DisableLook();
                 Time.timeScale = 0f;
                 EnableCursor();
                 uiManager.DisableAllMenuUI();
@@ -182,7 +182,7 @@ public class GameStateManager : MonoBehaviour, IDataPersistence
         }
         if (playerController != null)
         {
-            playerController.lookEnabled = true;
+            playerController.EnableLook();
         }
         StateActions.PlayerSpawned?.Invoke(playerInstance);
         PlayerHealthActions.PlayerDied += HandlePlayerDeath;
@@ -210,7 +210,7 @@ public class GameStateManager : MonoBehaviour, IDataPersistence
     {
         if (isPaused)
         {
-            playerController.lookEnabled = false;
+            playerController.DisableLook();
             ResumeGame();
         }
         else if (!isPaused && currentState == GameState.Gameplay)
@@ -223,7 +223,7 @@ public class GameStateManager : MonoBehaviour, IDataPersistence
 
     public void ResumeGame()     
     {
-        playerController.lookEnabled = true;
+        playerController.EnableLook();
         ChangeState(GameState.Gameplay);
         isPaused = false;
         Time.timeScale = 1f;
