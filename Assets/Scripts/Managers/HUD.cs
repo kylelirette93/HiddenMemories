@@ -42,6 +42,8 @@ public class HUD : MonoBehaviour
             activePopupCoroutine = null;
         }
         popupText.DOKill();
+        soulMeterSlider.DOKill();
+        soulMeterRect.DOKill();
         popupText.text = "";
         popupText.gameObject.SetActive(false);
         PlayerStats.Instance.OnSoulGained -= ScaleSoulSlider;

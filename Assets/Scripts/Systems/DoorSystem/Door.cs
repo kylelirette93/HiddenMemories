@@ -65,6 +65,9 @@ public class Door : MonoBehaviour, IDataPersistence
             GameManager.Instance.audioManager.PlaySound("door_open");
             isOpen = true;
             targetRotation = openRotation;
+            inventory.RemoveKey(keyToUnlock);
+
+            GameManager.Instance.dataPersistenceManager.SaveGame();
         }
     }
 

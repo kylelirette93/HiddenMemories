@@ -14,6 +14,7 @@ public class SpawnManager : MonoBehaviour
     public List<GameObject> spawnedEnemies = new List<GameObject>();
     public GameObject[] keys;
     EnemyData enemyData;
+    GameObject player;
 
     private void Start()
     {
@@ -120,10 +121,13 @@ public class SpawnManager : MonoBehaviour
             {
                 GameData data = GameManager.Instance.dataPersistenceManager.GetGameData();
                 KeyDataSO keyData = keys[i].GetComponent<Interactable>().itemData as KeyDataSO;
-                if (data != null && data.inventoryData.Count > 0 && data.inventoryData[0].keyIDs.Contains(keyData.name))
+                PlayerInventory inventory = GameObject.FindWithTag("Player").GetComponent<PlayerInventory>();
+                if (data != null && data.inventoryData.Count >= 0)
                 {
-                    // Player already has this key, don't respawn it.
-                    continue;
+                    if (data.doorsOpened[keyData.doorNumber] || inventory.Keys.Contains(keyData))
+                   {
+                        continue;
+                   }
                 }
                 Debug.Log("Spawning key: " + keys[i].name);
                 GameObject key = Instantiate(keys[i], keys[i].transform.position, keys[i].transform.rotation);
@@ -150,6 +154,18 @@ public class SpawnManager : MonoBehaviour
     IEnumerator RespawnAtPositionAfterDelay(Vector3 position, float delay)
     {
         yield return new WaitForSeconds(delay);
+        float minSpawnDistance = 10f;
+        // Max wait time to avoid scenario where player camps spawn.
+        float waitTime = 0f;
+        float maxWaitTime = 30f;
+        player = GameObject.FindGameObjectWithTag("Player");
+
+        while (player != null && Vector3.Distance(player.transform.position, position) < minSpawnDistance && waitTime < maxWaitTime)
+        {
+            // Check every half a second.
+            yield return new WaitForSeconds(0.5f);
+            waitTime += 0.5f;
+        }
 
         GameData data = GameManager.Instance.dataPersistenceManager.GetGameData();
         if (data != null)

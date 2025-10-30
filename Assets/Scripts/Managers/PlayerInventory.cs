@@ -64,8 +64,20 @@ public class PlayerInventory : MonoBehaviour, IDataPersistence
     {
         if (key is KeyDataSO Key)
         {
-            Keys.Add(Key);
+            if (!Keys.Contains(Key))
+            {
+                Keys.Add(Key);
+            }
             uiManager.hud.AddKeyToHud(); 
+        }
+    }
+
+    public void RemoveKey(ItemDataSO key)
+    {
+        if (key is KeyDataSO Key && Keys.Contains(Key))
+        {
+            Keys.Remove(Key);
+            uiManager.hud.RemoveKeyFromHud();
         }
     }
 

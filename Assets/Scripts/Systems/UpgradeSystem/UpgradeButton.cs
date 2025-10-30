@@ -13,6 +13,7 @@ public class UpgradeButton : MonoBehaviour
     public WeaponDataSO weapon;
     UpgradeManager upgradeManager;
     bool isInitialized = false;
+    bool isPurchasing = false;
     private void OnEnable()
     {
         // Prevent adding numerous buttons.
@@ -63,6 +64,7 @@ public class UpgradeButton : MonoBehaviour
 
     private void OnPurchaseClicked()
     {
+        button.interactable = false;
         upgrade.Purchase();
         UpdateUI();
     }

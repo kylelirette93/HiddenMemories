@@ -16,7 +16,7 @@ MonoBehaviour:
   itemName: 
   value: 1
   name: Rifle
-  powerRate: 1
+  powerRate: 2
   fireRate: 10
   clipCapacity: 25
   reloadSpeed: 0.2
