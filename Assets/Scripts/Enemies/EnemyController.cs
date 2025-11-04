@@ -149,7 +149,6 @@ public class EnemyController : MonoBehaviour
         float animationHitTime = timeBetweenAttacks * 0.5f; 
         yield return new WaitForSeconds(animationHitTime);
 
-        Debug.Log("Distance between player and enemy: " + Vector3.Distance(transform.position, player.position));
         if (Vector3.Distance(transform.position, player.position) <= attackRange)
         {
             PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
@@ -218,8 +217,8 @@ public class EnemyController : MonoBehaviour
         health.OnEnemyDied -= OnDeath;
         Vector3 spawnPos = new Vector3(transform.position.x, 1.5f, transform.position.z);
         GameObject temp = Instantiate(cashPrefab, spawnPos, cashPrefab.transform.rotation);
-        Debug.Log("Enemy's current position: " + transform.position);
-        Debug.Log("Game object spawned at: " + spawnPos);
+        //Debug.Log("Enemy's current position: " + transform.position);
+        //Debug.Log("Game object spawned at: " + spawnPos);
         GameManager.Instance.audioManager.PlaySound("gory_explosion");
         Vector3 respawnPosition = transform.position;
         GameManager.Instance.spawnManager.RemoveEnemy(gameObject);
@@ -238,6 +237,6 @@ public class EnemyController : MonoBehaviour
         agent.speed = moveSpeed;
         timeBetweenAttacks = data.timeBetweenAttacks;
         attackDamage = data.attackDamage;
-        Debug.Log("Enemy initialized with navSpeed: " + moveSpeed + ", timeBetweenAttacks: " + timeBetweenAttacks + ", attackDamage: " + attackDamage);
+        //Debug.Log("Enemy initialized with navSpeed: " + moveSpeed + ", timeBetweenAttacks: " + timeBetweenAttacks + ", attackDamage: " + attackDamage);
     }
 }

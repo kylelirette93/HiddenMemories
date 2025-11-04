@@ -129,12 +129,12 @@ public class SpawnManager : MonoBehaviour
                         continue;
                    }
                 }
-                Debug.Log("Spawning key: " + keys[i].name);
+                //Debug.Log("Spawning key: " + keys[i].name);
                 GameObject key = Instantiate(keys[i], keys[i].transform.position, keys[i].transform.rotation);
             }
             else
             {
-                Debug.Log("Key is null.");
+                //Debug.Log("Key is null.");
             }
         }
     }

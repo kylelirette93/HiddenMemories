@@ -56,7 +56,7 @@ public class PlayerInventory : MonoBehaviour, IDataPersistence
             weaponManager.EquipWeapon(_currentWeapon);
             _currentWeapon.IsUnlocked = true;
             WeaponActions.UnlockWeapon?.Invoke(_currentWeapon);
-            Debug.Log("Successfully added weapon: " + weapon.name);
+            //Debug.Log("Successfully added weapon: " + weapon.name);
         }
     }
 
@@ -92,7 +92,7 @@ public class PlayerInventory : MonoBehaviour, IDataPersistence
 
     public void LoadData(GameData data)
     {
-        Debug.Log("PlayerInventory.LoadData() called! Inventory data count: " + data.inventoryData.Count);
+        //Debug.Log("PlayerInventory.LoadData() called! Inventory data count: " + data.inventoryData.Count);
         foreach (var inventoryData in data.inventoryData)
         {
             foreach (string weaponID in inventoryData.weaponIDs)
@@ -105,28 +105,28 @@ public class PlayerInventory : MonoBehaviour, IDataPersistence
                     weaponToUnlock.IsUnlocked = true;
                     weaponManager.EquipWeapon(weaponToUnlock);
                     WeaponActions.UnlockWeapon?.Invoke(weaponToUnlock);
-                    Debug.Log("Successfully loaded weapon: " + weaponToUnlock.name);
+                    //Debug.Log("Successfully loaded weapon: " + weaponToUnlock.name);
                 }
             }
             foreach (string keyID in inventoryData.keyIDs)
             {
                 KeyDataSO keyToAdd = Resources.Load<KeyDataSO>("ScriptableObjects/Keys/" + keyID);
-                Debug.Log(keyID);
+                //Debug.Log(keyID);
                 if (keyToAdd != null && !Keys.Contains(keyToAdd))
                 {
                     Keys.Add(keyToAdd);
-                    Debug.Log("Successfully loaded key: " + keyToAdd.name);
+                    //Debug.Log("Successfully loaded key: " + keyToAdd.name);
                 }
             }
 
             for (int i = 0; i < inventoryData.potionCount; i++)
             {
                 HealingPotionSO potionToAdd = Resources.Load<HealingPotionSO>("ScriptableObjects/Potions/HealingPotion");
-                Debug.Log(potionToAdd);
+                //Debug.Log(potionToAdd);
                 if (potionToAdd != null)
                 {
                     HealingPotions.Add(potionToAdd);
-                    Debug.Log("Successfully loaded: " + inventoryData.potionCount + " potions.");
+                    //Debug.Log("Successfully loaded: " + inventoryData.potionCount + " potions.");
                 }
             }
         }
@@ -134,7 +134,7 @@ public class PlayerInventory : MonoBehaviour, IDataPersistence
 
     public void SaveData(ref GameData data)
     {
-        Debug.Log("PlayerInventory.SaveData() called! Available weapons: " + availableWeapons.Count);
+        //Debug.Log("PlayerInventory.SaveData() called! Available weapons: " + availableWeapons.Count);
         data.inventoryData.Clear();
 
         InventoryData inventoryData = new InventoryData();
@@ -144,23 +144,23 @@ public class PlayerInventory : MonoBehaviour, IDataPersistence
 
         foreach (var weapon in availableWeapons)
         {
-            Debug.Log($"Weapon: {weapon.name}, IsUnlocked: {weapon.IsUnlocked}");
+            //Debug.Log($"Weapon: {weapon.name}, IsUnlocked: {weapon.IsUnlocked}");
             if (weapon.IsUnlocked)
             {
                 inventoryData.weaponIDs.Add(weapon.name);
-                Debug.Log("Added weapon to save: " + weapon.name);
+                //Debug.Log("Added weapon to save: " + weapon.name);
             }
         }
         foreach (var key in Keys)
         {
             inventoryData.keyIDs.Add(key.name);
-            Debug.Log("Added key to save: " + key.name);
+            //Debug.Log("Added key to save: " + key.name);
         }
 
         foreach (var healthPotion in HealingPotions)
         {
             inventoryData.potionCount++;
-            Debug.Log("Added " + inventoryData.potionCount + " potions to save file.");
+            //Debug.Log("Added " + inventoryData.potionCount + " potions to save file.");
         }
         data.inventoryData.Add(inventoryData);
     } 

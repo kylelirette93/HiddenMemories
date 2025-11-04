@@ -175,7 +175,7 @@ public class GameStateManager : MonoBehaviour, IDataPersistence
 
     public void ResetPlayer()
     {
-        Debug.Log("Resetting player");
+        //Debug.Log("Resetting player");
         sceneCamera.gameObject.SetActive(false);
         ChangeState(GameState.Gameplay);
         playerInstance.transform.position = levelManager.SpawnPoint;
@@ -340,7 +340,7 @@ public class GameStateManager : MonoBehaviour, IDataPersistence
     public void LoadData(GameData data)
     {
         timesWon = data.timesWon;
-        Debug.Log(timesWon);
+        //Debug.Log(timesWon);
     }
 
     public void SaveData(ref GameData data)

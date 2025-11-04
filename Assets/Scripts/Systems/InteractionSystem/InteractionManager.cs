@@ -31,7 +31,7 @@ public class InteractionManager : MonoBehaviour
                 {
                     interactable.gameObject.SetActive(false);
                 }
-                Debug.Log("Interacting with: " + interactable.gameObject.name);
+                //Debug.Log("Interacting with: " + interactable.gameObject.name);
             }
         }
     }

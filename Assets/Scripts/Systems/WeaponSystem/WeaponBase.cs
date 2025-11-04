@@ -193,7 +193,7 @@ public class WeaponBase : MonoBehaviour
                 muzzleFlash?.Play();
             }
 
-            Debug.Log("Firing weapon: " + name + ". Ammo left: " + currentAmmo);
+            //Debug.Log("Firing weapon: " + name + ". Ammo left: " + currentAmmo);
 
             // Gives a little pop effect for crosshair when firing.
             crosshairUI.DOSizeDelta(new Vector2(60, 60), 0.1f).OnComplete(() =>
@@ -260,7 +260,7 @@ public class WeaponBase : MonoBehaviour
             // Small delay to simulate reloading time.
             // TODO: Add reload sound effect, add reload animation.
             yield return new WaitForSeconds(1f * reloadSpeed);
-            Debug.Log("Reloading... " + (i + 1) + "/" + clipCapacity);
+            //Debug.Log("Reloading... " + (i + 1) + "/" + clipCapacity);
             currentAmmo++;
             GameManager.Instance.audioManager.PlaySound(reloadSound.name);
             currentAmmo = Mathf.Clamp(currentAmmo, 0, clipCapacity);

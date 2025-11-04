@@ -39,7 +39,7 @@ public class WeaponManager : MonoBehaviour
     {
         if (inventory == null || inventory.availableWeapons.Count == 0)
         {
-            Debug.LogWarning("No weapons available in inventory.");
+            //Debug.LogWarning("No weapons available in inventory.");
             return;
         }
 
@@ -54,7 +54,7 @@ public class WeaponManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("NO SCROLL detected (scrollInput.y == 0)");
+            //Debug.Log("NO SCROLL detected (scrollInput.y == 0)");
         }
 
         if (newIndex < 0) newIndex = inventory.availableWeapons.Count - 1;
@@ -78,13 +78,13 @@ public class WeaponManager : MonoBehaviour
         if (equippedWeapon != null && equippedWeapon.IsReloading) return;
         if (inventory == null || inventory.availableWeapons.Count == 0)
         {
-            Debug.LogWarning("No weapons available in inventory.");
+            //Debug.LogWarning("No weapons available in inventory.");
             return;
         }
 
         if (index < 0 || index >= inventory.availableWeapons.Count)
         {
-            Debug.LogWarning($"Invalid weapon index: {index}");
+            //Debug.LogWarning($"Invalid weapon index: {index}");
             return;
         }
 
@@ -117,13 +117,13 @@ public class WeaponManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("No saved ammo for this weapon yet.");
+                //Debug.Log("No saved ammo for this weapon yet.");
             }
             weaponData = weaponToEquip;
         }
         else
         {
-            Debug.LogWarning("Weapon prefab does not have a WeaponBase component.");
+            //Debug.LogWarning("Weapon prefab does not have a WeaponBase component.");
         }
     }
 

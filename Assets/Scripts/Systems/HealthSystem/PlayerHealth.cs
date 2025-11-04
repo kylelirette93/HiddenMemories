@@ -38,6 +38,10 @@ public class PlayerHealth : Health
 
             vignette.intensity.value = 0f;
         }
+        else
+        {
+            Debug.LogError("Vignette not found in global volume profile.");
+        }
     }
     public void OnEnable()
     {

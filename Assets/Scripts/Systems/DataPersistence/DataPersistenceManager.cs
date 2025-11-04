@@ -17,7 +17,7 @@ public class DataPersistenceManager : MonoBehaviour
     {
         if (instance != null)
         {
-            Debug.LogError("Multiple instances of data persistence manager detected.");
+            //Debug.LogError("Multiple instances of data persistence manager detected.");
         }
         instance = this;
 
@@ -48,7 +48,7 @@ public class DataPersistenceManager : MonoBehaviour
 
         if (this.gameData == null)
         {
-            Debug.Log("No data found. Initializing data to defaults.");
+            //Debug.Log("No data found. Initializing data to defaults.");
             NewGame();
         }
         // Push loaded data to scripts that need it.
@@ -68,7 +68,7 @@ public class DataPersistenceManager : MonoBehaviour
             dataPersistenceObj.SaveData(ref gameData);
         }
 
-        Debug.Log("Saved file.");
+        //Debug.Log("Saved file.");
         dataHandler.Save(gameData);
     }
 

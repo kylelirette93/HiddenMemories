@@ -13,6 +13,9 @@ public class HUD : MonoBehaviour
     public TextMeshProUGUI currencyText;
     public Slider healthBarSlider;
     public TextMeshProUGUI popupText;
+    Coroutine popupCoroutine;
+
+    bool isCurrentlyReloading = false;
 
     [Header("Key Display")]
     public Image keyIcon;
@@ -113,13 +116,30 @@ public class HUD : MonoBehaviour
         StartCoroutine(ShowPopupText(text, isReloading));
     }
 
+    private void CheckAndDisplayReloadText()
+    {
+        if (isCurrentlyReloading)
+        {
+            InitiatePopup("Press R to reload", Vector2.zero, true);
+        }
+    }
+
     public void DisplayReloadText()
     {
-        InitiatePopup("Press R to reload", Vector2.zero, true);
+        isCurrentlyReloading = true;
+
+        InitiatePopup("Press R to reload", Vector2.zero, true);      
     }
 
     public void RemoveReloadText()
     {
+        isCurrentlyReloading = false;
+
+        if (popupCoroutine != null)
+        {
+            StopCoroutine(popupCoroutine);
+            popupCoroutine = null;
+        }
         if (popupText != null)
         {
             popupText.transform.DOKill();
@@ -134,7 +154,6 @@ public class HUD : MonoBehaviour
         popupText.text = text;
         popupText.transform.localScale = Vector3.one;
         popupText.gameObject.SetActive(true);
-
         popupText.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack);
 
         if (!isReloading)
@@ -144,14 +163,11 @@ public class HUD : MonoBehaviour
             popupText.transform.DOScale(Vector3.zero, 0.5f).SetEase(Ease.InBack).OnComplete(() =>
             {
                 popupText.gameObject.SetActive(false);
+
+                CheckAndDisplayReloadText();
             });
             yield return new WaitForSeconds(0.5f);
         }
-        if (isReloading)
-        {
-            // Redisplay reload text.
-            DisplayReloadText();
-        }
-
+        popupCoroutine = null;
     }
 }

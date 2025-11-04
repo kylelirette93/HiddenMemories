@@ -40,7 +40,7 @@ public class FileDataHandler
             }
             catch (Exception e)
             {
-                Debug.LogError("Error occured trying to load data from file: " + fullPath + "\n" + e);
+               // Debug.LogError("Error occured trying to load data from file: " + fullPath + "\n" + e);
             }
         }
         return loadedData;
@@ -49,7 +49,7 @@ public class FileDataHandler
     public void Save(GameData data)
     {
         string fullPath = Path.Combine(dataDirPath, dataFileName);
-        Debug.Log(fullPath);
+        //Debug.Log(fullPath);
         try
         {
             // Create directory if it doesn't exist.
@@ -69,7 +69,7 @@ public class FileDataHandler
         }
         catch (Exception e)
         {
-            Debug.LogError("Error occured trying to save data to file.");
+            //Debug.LogError("Error occured trying to save data to file.");
         }
     }
 
@@ -79,11 +79,11 @@ public class FileDataHandler
         if (File.Exists(fullPath))
         {
             File.Delete(fullPath);
-            Debug.Log("Save file deleted at: " + fullPath);
+           // Debug.Log("Save file deleted at: " + fullPath);
         }
         else
         {
-            Debug.LogWarning("No save file found to delete at: " + fullPath);
+            //Debug.LogWarning("No save file found to delete at: " + fullPath);
         }
     }
 }
