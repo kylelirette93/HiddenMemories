@@ -242,6 +242,6 @@ public class PlayerController : MonoBehaviour
 
         cameraHolder.localEulerAngles = new Vector3(newRotX, 0f, 0f);
 
-        recoilVelocity = Vector2.Lerp(recoilVelocity, Vector2.zero, 10);
+        recoilVelocity = Vector2.Lerp(recoilVelocity, Vector2.zero, Time.smoothDeltaTime * 10);
     }
 }
