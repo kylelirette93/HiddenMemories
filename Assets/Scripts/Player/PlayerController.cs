@@ -223,6 +223,7 @@ public class PlayerController : MonoBehaviour
 
     public void AddRecoil(Vector2 recoil)
     {
+        recoilVelocity = Vector2.zero;
         recoilVelocity += recoil;
     }
 
@@ -230,8 +231,8 @@ public class PlayerController : MonoBehaviour
     {
         if (!canLook) return;
 
-        float horizontalLook = (lookInput.x + recoilVelocity.x) * lookSensitivityX * Time.deltaTime;
-        float verticalLook = (lookInput.y + recoilVelocity.y) * lookSensitivityY * Time.deltaTime;
+        float horizontalLook = (lookInput.x + recoilVelocity.x) * lookSensitivityX;
+        float verticalLook = (lookInput.y + recoilVelocity.y) * lookSensitivityY;
 
         transform.Rotate(Vector3.up * horizontalLook);
         Vector3 angles = cameraHolder.localEulerAngles;
@@ -241,6 +242,6 @@ public class PlayerController : MonoBehaviour
 
         cameraHolder.localEulerAngles = new Vector3(newRotX, 0f, 0f);
 
-        recoilVelocity = Vector2.Lerp(recoilVelocity, Vector2.zero, Time.deltaTime * 10);
+        recoilVelocity = Vector2.Lerp(recoilVelocity, Vector2.zero, 10);
     }
 }

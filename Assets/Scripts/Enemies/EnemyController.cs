@@ -223,7 +223,7 @@ public class EnemyController : MonoBehaviour
         GameManager.Instance.audioManager.PlaySound("gory_explosion");
         Vector3 respawnPosition = transform.position;
         GameManager.Instance.spawnManager.RemoveEnemy(gameObject);
-        GameManager.Instance.spawnManager.RespawnEnemyAtPosition(respawnPosition, 10f);
+        GameManager.Instance.spawnManager.RespawnEnemyAtPosition(respawnPosition, 20f);
     }
 
 

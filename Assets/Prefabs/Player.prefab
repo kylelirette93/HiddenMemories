@@ -175,8 +175,8 @@ MonoBehaviour:
   isGrounded: 0
   groundCheckDistance: 5
   canLook: 1
-  lookSensitivityX: 14
-  lookSensitivityY: 14
+  lookSensitivityX: 0.5
+  lookSensitivityY: 0.5
   initialCamRot: {x: 0, y: 0, z: 0, w: 0}
   oof: {fileID: 0}
 --- !u!1 &2742512021909404296

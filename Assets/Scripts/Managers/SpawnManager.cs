@@ -154,7 +154,7 @@ public class SpawnManager : MonoBehaviour
     IEnumerator RespawnAtPositionAfterDelay(Vector3 position, float delay)
     {
         yield return new WaitForSeconds(delay);
-        float minSpawnDistance = 10f;
+        float minSpawnDistance = 20f;
         // Max wait time to avoid scenario where player camps spawn.
         float waitTime = 0f;
         float maxWaitTime = 30f;
