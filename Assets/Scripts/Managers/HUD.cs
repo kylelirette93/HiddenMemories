@@ -20,8 +20,6 @@ public class HUD : MonoBehaviour
     [Header("Potion Display")]
     public TextMeshProUGUI potionText;
 
-    private Coroutine activePopupCoroutine;
-
     private void Start()
     {
         PlayerStats.Instance.OnSoulGained += ScaleSoulSlider;
@@ -36,11 +34,6 @@ public class HUD : MonoBehaviour
 
     private void OnDisable()
     {
-        if (activePopupCoroutine != null)
-        {
-            StopCoroutine(activePopupCoroutine);
-            activePopupCoroutine = null;
-        }
         popupText.DOKill();
         soulMeterSlider.DOKill();
         soulMeterRect.DOKill();
@@ -52,11 +45,12 @@ public class HUD : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (activePopupCoroutine != null)
-        {
-            StopCoroutine(activePopupCoroutine);
-        }
         popupText.DOKill();
+        soulMeterSlider.DOKill();
+        soulMeterRect.DOKill();
+        popupText.text = "";
+        popupText.gameObject.SetActive(false);
+        StopAllCoroutines();
     }
 
     public void Update()
@@ -111,36 +105,21 @@ public class HUD : MonoBehaviour
                 soulMeterRect.DOScale(originalScale, 0.3f).SetEase(Ease.InBack);
             });
     }
-    public void InitiatePopup(string text, Vector2 anchoredPosition)
+    public void InitiatePopup(string text, Vector2 anchoredPosition, bool isReloading)
     {
-        // Stop any existing popup
-        if (activePopupCoroutine != null)
-        {
-            StopCoroutine(activePopupCoroutine);
-        }
-
-        // Kill any active tweens on the popup text
-        popupText.transform.DOKill();
-
         RectTransform rect = popupText.GetComponent<RectTransform>();
         rect.anchoredPosition = anchoredPosition;
 
-        activePopupCoroutine = StartCoroutine(ShowPopupText(text));
+        StartCoroutine(ShowPopupText(text, isReloading));
     }
 
     public void DisplayReloadText()
     {
-        InitiatePopup("Press R to reload", Vector2.zero);
+        InitiatePopup("Press R to reload", Vector2.zero, true);
     }
 
     public void RemoveReloadText()
     {
-        if (activePopupCoroutine != null)
-        {
-            StopCoroutine(activePopupCoroutine);
-            activePopupCoroutine = null;
-        }
-
         if (popupText != null)
         {
             popupText.transform.DOKill();
@@ -150,25 +129,29 @@ public class HUD : MonoBehaviour
         }
     }
 
-    private IEnumerator ShowPopupText(string text)
+    private IEnumerator ShowPopupText(string text, bool isReloading)
     {
-        if (activePopupCoroutine != null)
-        {
-            StopCoroutine(activePopupCoroutine);
-        }
         popupText.text = text;
         popupText.transform.localScale = Vector3.one;
         popupText.gameObject.SetActive(true);
 
         popupText.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack);
-        yield return new WaitForSeconds(2.5f);
 
-        popupText.transform.DOScale(Vector3.zero, 0.5f).SetEase(Ease.InBack).OnComplete(() =>
+        if (!isReloading)
         {
-            popupText.gameObject.SetActive(false);
-        });
+            yield return new WaitForSeconds(2.5f);
 
-        yield return new WaitForSeconds(0.5f);
-        activePopupCoroutine = null;
+            popupText.transform.DOScale(Vector3.zero, 0.5f).SetEase(Ease.InBack).OnComplete(() =>
+            {
+                popupText.gameObject.SetActive(false);
+            });
+            yield return new WaitForSeconds(0.5f);
+        }
+        if (isReloading)
+        {
+            // Redisplay reload text.
+            DisplayReloadText();
+        }
+
     }
 }

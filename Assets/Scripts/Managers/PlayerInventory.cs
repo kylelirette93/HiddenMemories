@@ -86,7 +86,7 @@ public class PlayerInventory : MonoBehaviour, IDataPersistence
         if (potion is HealingPotionSO Potion)
         {
             HealingPotions.Add(Potion);
-            hud.InitiatePopup("Press H to heal!", Vector2.zero);
+            hud.InitiatePopup("Press H to heal!", Vector2.zero, false);
         }
     }
 
@@ -174,7 +174,7 @@ public class PlayerInventory : MonoBehaviour, IDataPersistence
                 HealingPotionSO potion = HealingPotions[0];
                 playerHealth.Heal(potion.HealAmount);
                 HealingPotions.RemoveAt(0);
-                hud.InitiatePopup("+" + potion.HealAmount, new Vector2(-60, -490));
+                hud.InitiatePopup("+" + potion.HealAmount, new Vector2(-60, -490), false);
                 GameManager.Instance.audioManager.PlaySound("heal");
             }
         }

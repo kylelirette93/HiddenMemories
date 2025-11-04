@@ -15,7 +15,7 @@ public class CurrencyManager : MonoBehaviour, IDataPersistence
     private void IncrementCurrency(ItemDataSO itemData)
     {
         GameManager.Instance.audioManager.PlaySound("CoinPickup");
-        GameManager.Instance.uiManager.hud.InitiatePopup("+1", new Vector2(1200, 500));
+        GameManager.Instance.uiManager.hud.InitiatePopup("+1", new Vector2(1200, 500), false);
         currency += itemData.value;
         GameManager.Instance.progressManager.CurrencyAdded();
     }
