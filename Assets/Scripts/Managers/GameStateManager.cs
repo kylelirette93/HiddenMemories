@@ -23,6 +23,7 @@ public class GameStateManager : MonoBehaviour, IDataPersistence
     bool playerSpawned = false;
     UI uiInput;
     int timesWon = 0;
+    public string lastDeathResult;
     private void Awake()
     {
         if (uiInput == null) uiInput = new UI();
@@ -275,11 +276,22 @@ public class GameStateManager : MonoBehaviour, IDataPersistence
     }
     public void Results()
     {
+        spawnManager.StopSpawning();
+        DestroyAllEnemies();
         ClearParticles();
         // If go to results, reset the game.
         gameInitialized = false;
         StateActions.Reset?.Invoke();
         ChangeState(GameState.Results);
+    }
+
+    public void DestroyAllEnemies()
+    {
+        GameObject[] allEnemies = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (GameObject enemy in allEnemies)
+        {
+            Destroy(enemy);
+        }
     }
 
     public void ClearParticles()
@@ -289,6 +301,7 @@ public class GameStateManager : MonoBehaviour, IDataPersistence
         {
             if (ps.transform.parent == null)
             {
+                ps.Stop();
                 Destroy(ps.gameObject);
             }
         }

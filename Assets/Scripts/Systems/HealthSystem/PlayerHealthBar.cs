@@ -9,6 +9,7 @@ public class PlayerHealthBar : MonoBehaviour
     public TextMeshProUGUI healthText;
     PlayerHealth health;
     bool isHealing = false;
+    public Image fillImage;
 
 
     private void OnEnable()
@@ -63,26 +64,27 @@ public class PlayerHealthBar : MonoBehaviour
         playerHealthBar.DOKill();
         playerHealthBar.DOValue(targetValue * playerHealthBar.maxValue, 0.25f);
 
-        if (!isHealing)
+        if (fillImage != null)
         {
-            Image fillImage = playerHealthBar.fillRect.GetComponent<Image>();
-            fillImage.DOKill();
-            fillImage.color = Color.green;
-            fillImage.DOColor(Color.red, 0.1f).OnComplete(() =>
+            if (!isHealing)
             {
-                fillImage.DOColor(Color.green, 0.5f);
-            });
-        }
-        else
-        {
-            Image fillImage = playerHealthBar.fillRect.GetComponent<Image>();
-            fillImage.DOKill();
-            fillImage.color = Color.green;
-            fillImage.DOColor(Color.HSVToRGB(120f / 360f, 0.3f, 1f), 0.1f).OnComplete(() =>
+                fillImage.DOKill();
+                fillImage.color = Color.green;
+                fillImage.DOColor(Color.red, 0.1f).OnComplete(() =>
+                {
+                    fillImage.DOColor(Color.green, 0.5f);
+                });
+            }
+            else
             {
-                fillImage.DOColor(Color.green, 0.5f);
-                isHealing = false;
-            });
+                fillImage.DOKill();
+                fillImage.color = Color.green;
+                fillImage.DOColor(Color.HSVToRGB(120f / 360f, 0.3f, 1f), 0.1f).OnComplete(() =>
+                {
+                    fillImage.DOColor(Color.green, 0.5f);
+                    isHealing = false;
+                });
+            }
         }
     }
 

@@ -297,7 +297,7 @@ public class WeaponBase : MonoBehaviour
                 int tier = GameManager.Instance.upgradeManager.GetUpgradeTier(upgrade);
                 if (tier > 0)
                 {
-                    upgrade.Upgrade(this, tier);
+                    upgrade.Apply(this, tier);
                 }
             }
         }

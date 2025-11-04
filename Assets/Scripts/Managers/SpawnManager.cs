@@ -175,9 +175,13 @@ public class SpawnManager : MonoBehaviour
             enemyData.attackDamage = data.enemyData.attackDamage;
         }
         GameObject enemy = Instantiate(enemyPrefab, position, Quaternion.identity);
-        spawnedEnemies.Add(enemy);
         EnemyController ec = enemy.GetComponent<EnemyController>();
         ec.Initialize(enemyData);
+    }
+
+    public void StopSpawning()
+    {
+        StopAllCoroutines();
     }
 
     public void CloseDoors()

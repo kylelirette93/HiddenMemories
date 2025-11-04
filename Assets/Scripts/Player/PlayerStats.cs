@@ -3,6 +3,7 @@ using NUnit.Framework.Interfaces;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 [DefaultExecutionOrder(-1)]
 
@@ -56,10 +57,11 @@ public class PlayerStats : MonoBehaviour
     {
         while (soulHealth > 0)
         {
-            yield return new WaitForSeconds(0.6f);
+            yield return new WaitForSeconds(0.4f);
             soulHealth--;
             GameManager.Instance.hud.UpdateSlider(soulHealth, maxSoulHealth);
         }
+        GameManager.Instance.gameStateManager.lastDeathResult = "You ran out of soul health!";
         PlayerHealthActions.PlayerDied?.Invoke();
     }
 
@@ -89,7 +91,7 @@ public class PlayerStats : MonoBehaviour
             int tier = GameManager.Instance.upgradeManager.GetUpgradeTier(upgrade);
             if (tier > 0)
             {
-                upgrade.Upgrade(null, tier);
+                upgrade.Apply(null, tier);
             }
         }
     }

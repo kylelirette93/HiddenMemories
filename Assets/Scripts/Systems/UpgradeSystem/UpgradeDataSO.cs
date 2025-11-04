@@ -33,7 +33,7 @@ public class UpgradeDataSO : ScriptableObject, IUpgrade
         GameManager.Instance.upgradeManager.PurchaseUpgrade(this);
     }
 
-    public void Upgrade(WeaponBase weapon, int tier)
+    public void Apply(WeaponBase weapon, int tier)
     {
         if (tier <= 0 || tier > maxTier) return;
 
@@ -94,8 +94,16 @@ public class UpgradeDataSO : ScriptableObject, IUpgrade
             }
         }
     }
-}
 
+    public void ApplyWeaponUpgrade(UpgradeType upgradeType, int tier)
+    {
+        float value = 0f;
+        for (int i = 0; i < tier; i++)
+        {
+            value += statValues[i];
+        }
+    }
+}
 public enum UpgradeType
 {
     ClipCapacity,
@@ -103,5 +111,5 @@ public enum UpgradeType
     Recoil,
     PowerRate,
     ReloadSpeed,
-    MaxHealth
+    MaxHealth,
 }

@@ -171,12 +171,12 @@ MonoBehaviour:
   isMoving: 0
   movementSpeed: 0
   walkSpeed: 3
-  runSpeed: 6
+  runSpeed: 5
   isGrounded: 0
   groundCheckDistance: 5
   canLook: 1
-  lookSensitivityX: 17
-  lookSensitivityY: 17
+  lookSensitivityX: 14
+  lookSensitivityY: 14
   initialCamRot: {x: 0, y: 0, z: 0, w: 0}
   oof: {fileID: 0}
 --- !u!1 &2742512021909404296

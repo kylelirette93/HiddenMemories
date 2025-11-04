@@ -1,9 +1,10 @@
+using DG.Tweening;
 using System;
+using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
-using DG.Tweening;
-using System.Collections;
 
 [DefaultExecutionOrder(1)]
 public class PlayerHealth : Health
@@ -22,6 +23,8 @@ public class PlayerHealth : Health
     [SerializeField] float holdTime = 0.25f;
 
     public AudioClip oofSound;
+
+    private ResultDisplay results;
     private void Awake()
     {
         playerStats = GetComponent<PlayerStats>();
@@ -44,6 +47,7 @@ public class PlayerHealth : Health
 
     private void OnDisable()
     {
+        StopAllCoroutines();
         currentHealth = playerStats.MaxHealth;
         PlayerHealthActions.OnPlayerHealthChanged?.Invoke(currentHealth, maxHealth);
     }
@@ -63,6 +67,7 @@ public class PlayerHealth : Health
         currentHealth = Math.Clamp(currentHealth, 0, maxHealth);
         if (currentHealth <= 0)
         {
+            GameManager.Instance.gameStateManager.lastDeathResult = "The demon got your soul...";
             PlayerHealthActions.PlayerDied?.Invoke();
             Heal(maxHealth);
         }

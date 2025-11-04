@@ -7,11 +7,12 @@ public class ResultDisplay : MonoBehaviour
     public TextMeshProUGUI resultText;
     public TextMeshProUGUI currencyText;
     public TextMeshProUGUI doorsText;
+    public string deathResult;
+    public TextMeshProUGUI deathText;
 
     private void OnEnable()
     {
         GameManager.Instance.dataPersistenceManager.SaveGame();
-        resultText.text = "";
         if (resultText != null)
         {
             resultText.text = "Enemies killed this run: " + GameManager.Instance.progressManager.EnemiesKilled;
@@ -45,5 +46,14 @@ public class ResultDisplay : MonoBehaviour
                 doorsText.text = doorCount.ToString() + "/2 doors opened. " + doorLeft + " doors left to open";
             }
        }
+        if (deathText != null && deathResult != null)
+        {
+            deathText.text = GameManager.Instance.gameStateManager.lastDeathResult;
+        }
+    }
+
+    private void OnDisable()
+    {
+        GameManager.Instance.gameStateManager.lastDeathResult = "";
     }
 }

@@ -26,7 +26,7 @@ MonoBehaviour:
   bulletSpread: 0
   IsUnlocked: 1
   weaponPrefab: {fileID: 6646739322383903588, guid: 2b758decf246f8d48a7db63f64c14303, type: 3}
-  gun_fire: {fileID: 8300000, guid: 10a650b9a4cde6940ba50ed842ecfd5c, type: 3}
+  gun_fire: {fileID: 8300000, guid: c67b9e80d31b1ac41bf5fc0985129899, type: 3}
   gun_reload: {fileID: 8300000, guid: 6ccb7982afe8f7f4091ec4a599b0d4ad, type: 3}
   gun_cock: {fileID: 8300000, guid: 842db0c12b40f1842b03db288b0339c5, type: 3}
   firePoint: {x: 0, y: 1, z: 0}
