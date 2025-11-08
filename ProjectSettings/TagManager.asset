@@ -10,6 +10,7 @@ TagManager:
   - Bullet
   - GunSpawn
   - PlayerCam
+  - Walls
   layers:
   - Default
   - TransparentFX

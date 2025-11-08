@@ -1,15 +1,19 @@
+using System.Collections;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
     public float Damage;
     Rigidbody rb;
-    ParticleSystem impactParticles;
+    MeshRenderer mr;
+    TrailRenderer trailRenderer;
+    public GameObject impactParticles;
 
     private void OnEnable()
     {
         rb = GetComponent<Rigidbody>();
-        impactParticles = GetComponentInChildren<ParticleSystem>();
+        mr = GetComponent<MeshRenderer>();
+        trailRenderer = GetComponent<TrailRenderer>();
     }
 
 
@@ -26,12 +30,10 @@ public class Bullet : MonoBehaviour
             {
                 enemy.TakeDamage((int)Damage * 10, contactPoint);
             }
-            Destroy(gameObject, 0.1f);
+            Destroy(gameObject);
         }
-        else
-        {
-            impactParticles.Play();
-            Destroy(gameObject, 0.1f);
-        }
+        mr.enabled = false;
+        GameObject temp = Instantiate(impactParticles, transform.position, impactParticles.transform.rotation);
+        Destroy(gameObject);
     }
 }

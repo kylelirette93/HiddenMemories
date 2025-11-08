@@ -50,10 +50,12 @@ public class WeaponBase : MonoBehaviour
     protected bool isShootingHeld = false;
 
     UIManager uiManager;
+    GameStateManager gameStateManager;
 
     public virtual void Awake()
     {
         input = GameManager.Instance.inputManager;
+        gameStateManager = GameManager.Instance.gameStateManager;
         playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
         playerCamera = GameObject.Find("Camera").GetComponent<Camera>();
         cameraHolder = GameObject.Find("CameraRoot").transform;
@@ -233,7 +235,6 @@ public class WeaponBase : MonoBehaviour
                 }
                 Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
 
-                // Fire the bullet. No need to normalize here as the velocity handles the speed.
                 bulletRb.linearVelocity = bullet.transform.forward * bulletSpeed;
             }
         }
@@ -241,6 +242,7 @@ public class WeaponBase : MonoBehaviour
 
     protected void OnShoot(InputAction.CallbackContext context)
     {
+        if (gameStateManager.currentState != GameState.Gameplay) return;
         if (context.started) isShootingHeld = true;
         if (context.canceled) isShootingHeld = false;
     }

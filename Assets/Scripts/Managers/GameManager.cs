@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     public SpawnManager spawnManager;
     public CurrencyManager currencyManager;
     public DataPersistenceManager dataPersistenceManager;
+    public SoundMixerManager soundMixerManager;
 
     private void Awake()
     {
@@ -45,6 +46,7 @@ public class GameManager : MonoBehaviour
         spawnManager = GetComponentInChildren<SpawnManager>();
         currencyManager = GetComponentInChildren<CurrencyManager>();
         dataPersistenceManager = GetComponentInChildren<DataPersistenceManager>();
+        soundMixerManager = GetComponentInChildren<SoundMixerManager>();
         #endregion
     }
 }

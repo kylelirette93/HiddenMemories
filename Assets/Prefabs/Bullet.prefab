@@ -34,8 +34,7 @@ Transform:
   m_LocalPosition: {x: -2.4221926, y: 0.36252558, z: 0.5347014}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 8902693320930408636}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7725115494429593692
@@ -152,6 +151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Damage: 0
+  impactParticles: {fileID: 4013462749318216519, guid: 32e545af00c173645a04817c034c3f1d, type: 3}
 --- !u!96 &3716964412438875405
 TrailRenderer:
   serializedVersion: 3
@@ -197,7 +197,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 0.2
+  m_Time: 0.4
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
@@ -207,7 +207,7 @@ TrailRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.13102913
+        value: 0.8148594
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -215,22 +215,22 @@ TrailRenderer:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.33540243
-        value: 0
-        inSlope: -1.0231221
-        outSlope: -1.0231221
+        time: 0.58141255
+        value: 0.12499282
+        inSlope: -0.08220333
+        outSlope: -0.08220333
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.33333334
+        inWeight: 0.3612117
         outWeight: 0.33333334
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.7075472, g: 0.7075472, b: 0.7075472, a: 0.5686275}
-      key1: {r: 1, g: 1, b: 1, a: 0.32941177}
-      key2: {r: 0, g: 0, b: 0, a: 0}
+      key0: {r: 0.7075472, g: 0.7075472, b: 0.7075472, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0.43137255}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
@@ -245,8 +245,8 @@ TrailRenderer:
       ctime6: 0
       ctime7: 0
       atime0: 0
-      atime1: 11180
-      atime2: 0
+      atime1: 14649
+      atime2: 65535
       atime3: 0
       atime4: 0
       atime5: 0
@@ -255,7 +255,7 @@ TrailRenderer:
       m_Mode: 0
       m_ColorSpace: 0
       m_NumColorKeys: 2
-      m_NumAlphaKeys: 2
+      m_NumAlphaKeys: 3
     numCornerVertices: 0
     numCapVertices: 0
     alignment: 0
@@ -263,74 +263,8 @@ TrailRenderer:
     textureScale: {x: 1, y: 1}
     shadowBias: 0.5
     generateLightingData: 0
-  m_MinVertexDistance: 0.1
+  m_MinVertexDistance: 0.3
   m_MaskInteraction: 0
-  m_Autodestruct: 0
+  m_Autodestruct: 1
   m_Emitting: 1
   m_ApplyActiveColorSpace: 1
---- !u!1001 &5292432837989570578
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 447701667979494637}
-    m_Modifications:
-    - target: {fileID: 2404673388897459995, guid: 32e545af00c173645a04817c034c3f1d, type: 3}
-      propertyPath: lengthInSec
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3674594007850655918, guid: 32e545af00c173645a04817c034c3f1d, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3674594007850655918, guid: 32e545af00c173645a04817c034c3f1d, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3674594007850655918, guid: 32e545af00c173645a04817c034c3f1d, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3674594007850655918, guid: 32e545af00c173645a04817c034c3f1d, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3674594007850655918, guid: 32e545af00c173645a04817c034c3f1d, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3674594007850655918, guid: 32e545af00c173645a04817c034c3f1d, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3674594007850655918, guid: 32e545af00c173645a04817c034c3f1d, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3674594007850655918, guid: 32e545af00c173645a04817c034c3f1d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3674594007850655918, guid: 32e545af00c173645a04817c034c3f1d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3674594007850655918, guid: 32e545af00c173645a04817c034c3f1d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4013462749318216519, guid: 32e545af00c173645a04817c034c3f1d, type: 3}
-      propertyPath: m_Name
-      value: Impact
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 32e545af00c173645a04817c034c3f1d, type: 3}
---- !u!4 &8902693320930408636 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3674594007850655918, guid: 32e545af00c173645a04817c034c3f1d, type: 3}
-  m_PrefabInstance: {fileID: 5292432837989570578}
-  m_PrefabAsset: {fileID: 0}

@@ -1064,7 +1064,7 @@ ParticleSystem:
           outWeight: 0.33333334
         - serializedVersion: 3
           time: 1
-          value: 0
+          value: 0.10713959
           inSlope: 1
           outSlope: 1
           tangentMode: 0
@@ -5043,15 +5043,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3771408447181565798, guid: cc03c6018cf60c94380b3f67568f9efc, type: 3}
       propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[2].time
-      value: 1
+      value: 0.9825073
       objectReference: {fileID: 0}
     - target: {fileID: 3771408447181565798, guid: cc03c6018cf60c94380b3f67568f9efc, type: 3}
       propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[2].value
-      value: 0
+      value: 0.14285389
       objectReference: {fileID: 0}
     - target: {fileID: 3771408447181565798, guid: cc03c6018cf60c94380b3f67568f9efc, type: 3}
       propertyPath: EmissionModule.m_Bursts.Array.data[0].countCurve.scalar
       value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 3771408447181565798, guid: cc03c6018cf60c94380b3f67568f9efc, type: 3}
+      propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[2].inSlope
+      value: 1.837656
+      objectReference: {fileID: 0}
+    - target: {fileID: 3771408447181565798, guid: cc03c6018cf60c94380b3f67568f9efc, type: 3}
+      propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[2].inWeight
+      value: 0.1997866
+      objectReference: {fileID: 0}
+    - target: {fileID: 3771408447181565798, guid: cc03c6018cf60c94380b3f67568f9efc, type: 3}
+      propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[2].outSlope
+      value: 1.837656
       objectReference: {fileID: 0}
     - target: {fileID: 3771408447181565798, guid: cc03c6018cf60c94380b3f67568f9efc, type: 3}
       propertyPath: InitialModule.gravityModifier.maxCurve.m_Curve.Array.size
