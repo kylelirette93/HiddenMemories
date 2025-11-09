@@ -9,11 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8834273252850730872}
-  - component: {fileID: 8815383371816236764}
   - component: {fileID: 3780285937938746169}
   - component: {fileID: 7954784168196588040}
   - component: {fileID: 7074845591815468091}
   - component: {fileID: 2604780595988476632}
+  - component: {fileID: 5433152046129853028}
   m_Layer: 11
   m_Name: HealthPotion
   m_TagString: Interactable
@@ -36,20 +36,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8815383371816236764
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1533605283338148701}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 445a1415efe10164fb5083000b91458d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 0
-  itemData: {fileID: 11400000, guid: 68f2dbf04dd702846af351549eb08d21, type: 2}
 --- !u!33 &3780285937938746169
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -318,3 +304,18 @@ MonoBehaviour:
     - {x: 0.25354415, y: -0.34897342, z: 0.9021823}
     - {x: 0.4102428, y: 0.13329595, z: 0.90218234}
     - {x: 0.41024283, y: -0.13329597, z: 0.9021824}
+--- !u!114 &5433152046129853028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1533605283338148701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9e1b8816c88a834f835b3d419199c62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
+  itemData: {fileID: 11400000, guid: 68f2dbf04dd702846af351549eb08d21, type: 2}
+  rotateScript: {fileID: 0}

@@ -10,14 +10,14 @@ GameObject:
   m_Component:
   - component: {fileID: 135857719064649342}
   - component: {fileID: 2062381589981631714}
-  - component: {fileID: 7208871007739096025}
   - component: {fileID: 875281030717622802}
   - component: {fileID: 7264859539676539507}
   - component: {fileID: 1842640772351285257}
   - component: {fileID: 8409403134187165912}
-  m_Layer: 11
+  - component: {fileID: 8734609715643527737}
+  m_Layer: 0
   m_Name: Money
-  m_TagString: Interactable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -82,20 +82,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &7208871007739096025
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7452763399633447479}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 445a1415efe10164fb5083000b91458d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 0
-  itemData: {fileID: 11400000, guid: 7d89d3a43e5742c449100fc38547bd58, type: 2}
 --- !u!33 &875281030717622802
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -433,9 +419,23 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Radius: 2.5
   m_Center: {x: 0, y: 0.29349998, z: 0}
+--- !u!114 &8734609715643527737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7452763399633447479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9282808205dfded4f90997d6612cf86b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotateScript: {fileID: 7264859539676539507}
+  coinData: {fileID: 11400000, guid: 7d89d3a43e5742c449100fc38547bd58, type: 2}

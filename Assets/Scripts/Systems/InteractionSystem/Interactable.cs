@@ -2,14 +2,14 @@ using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Interactable : MonoBehaviour
+public class Interactable : BaseInteractable
 {
     public InteractionType type;
 
     // Reference to scriptable object associated with this interactable.
     public ItemDataSO itemData;
 
-    public void Interact()
+    public override void OnInteract()
     {
         switch (type)
         {

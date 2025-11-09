@@ -86,7 +86,7 @@ public class PlayerInventory : MonoBehaviour, IDataPersistence
         if (potion is HealingPotionSO Potion)
         {
             HealingPotions.Add(Potion);
-            hud.InitiatePopup("Press H to heal!", Vector2.zero, false);
+            hud.InitiatePopup("Press H to heal!", new Vector2(0, 100), false);
         }
     }
 

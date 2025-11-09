@@ -3,47 +3,87 @@ using UnityEngine.InputSystem;
 
 public class InteractionManager : MonoBehaviour
 {
-    public float interactionRadius = 0.5f; 
-    public float interactionDistance = 2f; 
-    public LayerMask interactableLayer; 
+    [Header("Interaction Settings")]
+    private LayerMask interactableLayer;
+    [SerializeField] private float interactionDistance = 5f;
 
-    public void Update()
+    // Interface reference used internally.
+    private IInteractable currentFocusedInteractable;
+
+    private Transform cameraRoot;
+
+    private InputManager inputManager => GameManager.Instance.inputManager;
+    private HUD hud => GameManager.Instance.hud;
+
+    private void Start()
     {
-        CheckForInteractable();
+        interactableLayer = LayerMask.GetMask("Interactable");
+        cameraRoot = GameObject.Find("CameraRoot").transform;
     }
-    public void CheckForInteractable()
-    {
-        // Sphere cast to detect objects in front of player.
-        if (Physics.SphereCast(
-            transform.position,
-            interactionRadius,
-            transform.forward, 
-            out RaycastHit hit,
-            interactionDistance,
-            interactableLayer))
-        { 
-            Interactable interactable = hit.collider.GetComponent<Interactable>();
 
-            if (interactable != null)
+    private void Update()
+    {
+        HandleInteractionDetection();
+    }
+
+    private void HandleInteractionDetection()
+    {
+        if (Physics.Raycast(cameraRoot.position, cameraRoot.forward, out RaycastHit hitInfo, interactionDistance, interactableLayer))
+        {
+            //Debug.Log(hitInfo.transform.name);
+            // Get the interactable component from the hit object.
+            IInteractable hitInteractable = hitInfo.transform.GetComponent<IInteractable>();
+
+            if (hitInteractable != null)
             {
-                interactable.Interact();
-                if (interactable.type != InteractionType.Door)
+                if (hitInteractable != currentFocusedInteractable)
                 {
-                    interactable.gameObject.SetActive(false);
+                    if (currentFocusedInteractable != null)
+                    {
+                        // Clear focus from previous interactable.
+                        currentFocusedInteractable.SetFocus(false);
+                    }
+                    // Set new focus.
+                    currentFocusedInteractable = hitInteractable;
+
+                    currentFocusedInteractable.SetFocus(true);
+
+                    // Use reference to show interaction prompt.
+                    if (hitInteractable is BaseInteractable baseInteractable)
+                    {
+                        string promptText = baseInteractable.GetInteractionPrompt();
+                        hud.DisplayPrompt(promptText, cameraRoot.transform.position);
+                    }
                 }
-                //Debug.Log("Interacting with: " + interactable.gameObject.name);
-            }
+            }           
+        }
+        else if (currentFocusedInteractable != null)
+        {
+            // If no hit, clear focus from current interactable.
+            currentFocusedInteractable?.SetFocus(false);
+            // Clear reference.
+            currentFocusedInteractable = null;
+            // Hide interaction prompt.
+            hud.HidePrompt();
         }
     }
 
-    /*private void OnDrawGizmosSelected()
+    private void OnInteractInput(InputAction.CallbackContext context)
     {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, interactionRadius);
-
-        Vector3 endPoint = transform.position + transform.forward * interactionDistance;
-        Gizmos.DrawWireSphere(endPoint, interactionRadius);
-
-        Gizmos.DrawLine(transform.position, endPoint);
-    }*/
+        if (context.performed)
+        {
+            if (currentFocusedInteractable != null)
+            {
+                currentFocusedInteractable?.OnInteract();
+            }
+        }
+    }
+    private void OnEnable()
+    {
+        inputManager.InteractInputEvent += OnInteractInput;
+    }
+    private void OnDisable()
+    {
+        inputManager.InteractInputEvent -= OnInteractInput;
+    }
 }

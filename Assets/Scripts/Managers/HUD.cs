@@ -13,6 +13,7 @@ public class HUD : MonoBehaviour
     public TextMeshProUGUI currencyText;
     public Slider healthBarSlider;
     public TextMeshProUGUI popupText;
+    public TextMeshProUGUI promptText;
     Coroutine popupCoroutine;
 
     bool isCurrentlyReloading = false;
@@ -120,7 +121,7 @@ public class HUD : MonoBehaviour
     {
         if (isCurrentlyReloading)
         {
-            InitiatePopup("Press R to reload", Vector2.zero, true);
+            InitiatePopup("Press R to reload", new Vector2(0, 100), true);
         }
     }
 
@@ -128,7 +129,22 @@ public class HUD : MonoBehaviour
     {
         isCurrentlyReloading = true;
 
-        InitiatePopup("Press R to reload", Vector2.zero, true);      
+        InitiatePopup("Press R to reload", new Vector2(0, 100), true);      
+    }
+
+    public void DisplayPrompt(string text, Vector2 anchoredPosition)
+    {
+        RectTransform rect = promptText.GetComponent<RectTransform>();
+        rect.anchoredPosition = anchoredPosition;
+        promptText.transform.localScale = Vector3.one;
+        promptText.text = text;
+        promptText.gameObject.SetActive(true);
+    }
+
+    public void HidePrompt()
+    {
+        promptText.text = "";
+        promptText.gameObject.SetActive(false);
     }
 
     public void RemoveReloadText()
@@ -151,6 +167,7 @@ public class HUD : MonoBehaviour
 
     private IEnumerator ShowPopupText(string text, bool isReloading)
     {
+        HidePrompt();
         popupText.text = text;
         popupText.transform.localScale = Vector3.one;
         popupText.gameObject.SetActive(true);

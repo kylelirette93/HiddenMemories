@@ -32,6 +32,7 @@ public class InputManager : MonoBehaviour, Input.IPlayerActions
     public event Action PauseEvent;
     public event Action<Vector2> ScrollWeaponEvent;
     public event Action<InputAction.CallbackContext> ReloadEvent;
+    public event Action<InputAction.CallbackContext> InteractInputEvent;
     #endregion
 
     void OnEnable()
@@ -103,5 +104,10 @@ public class InputManager : MonoBehaviour, Input.IPlayerActions
     public void OnCrouch(InputAction.CallbackContext context)
     {
         CrouchInputEvent?.Invoke(context);
+    }
+
+    public void OnInteract(InputAction.CallbackContext context)
+    {
+        InteractInputEvent?.Invoke(context);
     }
 }

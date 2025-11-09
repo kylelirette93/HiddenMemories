@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 6397161221080366978}
   - component: {fileID: 9089583890912321126}
   - component: {fileID: 4545587004973746435}
-  - component: {fileID: 8965402602950668783}
   - component: {fileID: 5641079920225828242}
   - component: {fileID: 3542649706828947189}
+  - component: {fileID: 6776750394474576426}
   m_Layer: 11
   m_Name: KeyPickup2
   m_TagString: Interactable
@@ -113,20 +113,6 @@ CapsuleCollider:
   m_Height: 0.04156514
   m_Direction: 1
   m_Center: {x: -0.0014131884, y: 0.001001101, z: 0.0017122268}
---- !u!114 &8965402602950668783
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 992107102819613834}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 445a1415efe10164fb5083000b91458d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 0
-  itemData: {fileID: 11400000, guid: 175046b963feed14d99e40dee2aaf438, type: 2}
 --- !u!114 &5641079920225828242
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1127,3 +1113,18 @@ MonoBehaviour:
     - {x: 0.8784547, y: -0.47771925, z: 0.010083308}
     - {x: 0.92965776, y: -0.20417063, z: -0.306677}
     - {x: 0.90490746, y: -0.14314876, z: -0.40081286}
+--- !u!114 &6776750394474576426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 992107102819613834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 890e673691a49df428e24f1496391168, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
+  itemData: {fileID: 11400000, guid: 175046b963feed14d99e40dee2aaf438, type: 2}
+  rotateScript: {fileID: 5641079920225828242}

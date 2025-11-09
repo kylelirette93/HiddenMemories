@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 2365798021875949793}
   - component: {fileID: 3424751941240272034}
   - component: {fileID: 6750717617637659988}
-  - component: {fileID: 4459131005508821845}
   - component: {fileID: 254079809903699919}
   - component: {fileID: 8558765423390796326}
   - component: {fileID: 850133526396632470}
+  - component: {fileID: 7833278820606566354}
   m_Layer: 11
   m_Name: KeyPickup1
   m_TagString: Interactable
@@ -90,20 +90,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &4459131005508821845
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6105037983751498221}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 445a1415efe10164fb5083000b91458d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 0
-  itemData: {fileID: 11400000, guid: 324711d6252d17d4dae11bea4feb13be, type: 2}
 --- !u!136 &254079809903699919
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1127,3 +1113,18 @@ MonoBehaviour:
     - {x: 0.8784547, y: -0.47771925, z: 0.010083308}
     - {x: 0.92965776, y: -0.20417063, z: -0.306677}
     - {x: 0.90490746, y: -0.14314876, z: -0.40081286}
+--- !u!114 &7833278820606566354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6105037983751498221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 890e673691a49df428e24f1496391168, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
+  itemData: {fileID: 11400000, guid: 324711d6252d17d4dae11bea4feb13be, type: 2}
+  rotateScript: {fileID: 8558765423390796326}

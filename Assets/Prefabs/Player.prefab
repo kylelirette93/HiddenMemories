@@ -223,11 +223,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c968010085f4124faf4fe1b958e2e85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactionRadius: 0.5
   interactionDistance: 1
-  interactableLayer:
-    serializedVersion: 2
-    m_Bits: 2048
 --- !u!1 &3537667057294288547
 GameObject:
   m_ObjectHideFlags: 0
@@ -817,6 +813,7 @@ MonoBehaviour:
   weaponParent: {fileID: 6311976742390332600}
   inventory: {fileID: 2726675757025881812}
   inputManager: {fileID: 4966219369866819758}
+  swapDuration: 0.3
 --- !u!1001 &7775398181703036104
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -835,7 +832,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 215968201995407239, guid: cdfd974bb53ea8540878e7359fba72ae, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2
+      value: 1.162
       objectReference: {fileID: 0}
     - target: {fileID: 215968201995407239, guid: cdfd974bb53ea8540878e7359fba72ae, type: 3}
       propertyPath: m_LocalRotation.w

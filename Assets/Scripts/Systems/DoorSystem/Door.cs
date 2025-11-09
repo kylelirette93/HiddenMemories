@@ -14,6 +14,7 @@ public class Door : MonoBehaviour, IDataPersistence
     float rotationSpeed = 2.5f;
     public AudioClip doorSound;
     public NavMeshObstacle obstacle;
+    InteractionManager interactionManager;
 
     void Start()
     {
