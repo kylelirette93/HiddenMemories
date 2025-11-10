@@ -34,6 +34,14 @@ public class WeaponManager : MonoBehaviour
             currentWeaponInstance.transform.DOKill();
         }
     }
+
+    private void OnDestroy()
+    {
+        if (currentWeaponInstance != null)
+        {
+            currentWeaponInstance.transform.DOKill();
+        }
+    }
     private void Start()
     {
         inputManager.ScrollWeaponEvent += SwitchWeapon;

@@ -58,7 +58,6 @@ public class Door : MonoBehaviour, IDataPersistence
         {
             data.doorsOpened.Add(false);
         }
-
         data.doorsOpened[doorNumber] = isOpen;
     }
 
@@ -69,6 +68,7 @@ public class Door : MonoBehaviour, IDataPersistence
         if (hasKey && !isOpen)
         {
             GameManager.Instance.audioManager.PlaySound("door_open");
+            GameManager.Instance.hud.DisplayPrompt("Door unlocked", new Vector2(0, 100));
             isOpen = true;
             if (obstacle != null) obstacle.enabled = false;
             targetRotation = openRotation;

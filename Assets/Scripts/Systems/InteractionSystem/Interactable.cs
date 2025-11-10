@@ -13,8 +13,9 @@ public class Interactable : BaseInteractable
     {
         if (type == InteractionType.Door)
         {
-            Door door = GetComponent<Door>();
-            interactionPromptText = door.isOpen ? "Press E to Open" : "No key found in Inventory...";
+            PlayerInventory playerInventory = GameObject.FindWithTag("Player").GetComponent<PlayerInventory>();
+            Door door = GetComponent<Door>();         
+            interactionPromptText = playerInventory.Keys.Contains(door.keyToUnlock) ? "Press E to Open" : "No key found in Inventory...";
         }
     }
 
