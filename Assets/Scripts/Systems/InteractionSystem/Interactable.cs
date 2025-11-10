@@ -9,6 +9,15 @@ public class Interactable : BaseInteractable
     // Reference to scriptable object associated with this interactable.
     public ItemDataSO itemData;
 
+    private void Start()
+    {
+        if (type == InteractionType.Door)
+        {
+            Door door = GetComponent<Door>();
+            interactionPromptText = door.isOpen ? "Press E to Open" : "No key found in Inventory...";
+        }
+    }
+
     public override void OnInteract()
     {
         switch (type)

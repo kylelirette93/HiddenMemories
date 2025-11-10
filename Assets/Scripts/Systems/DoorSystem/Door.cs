@@ -78,6 +78,12 @@ public class Door : MonoBehaviour, IDataPersistence
         }
     }
 
+    public bool IsUnlocked()
+    {
+        if (isOpen) return true;
+        else return false;
+    }
+
     private void Update()
     {
         if (obstacle == null) return;

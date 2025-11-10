@@ -42,6 +42,7 @@ public class EnemyController : MonoBehaviour
     public AudioClip demon_die;
     public ParticleSystem explosionParticles;
     public ParticleSystem soulParticles;
+    private CapsuleCollider collider;
 
     protected void Awake()
     {
@@ -50,6 +51,7 @@ public class EnemyController : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         health.OnEnemyDied += OnDeath;
         animator = GetComponentInChildren<Animator>();
+        collider = GetComponent<CapsuleCollider>();
     }
 
     private void OnEnable()
@@ -81,6 +83,7 @@ public class EnemyController : MonoBehaviour
     }
     protected void Update()
     {
+        if (isDead) return;
         // Check if player is in sight or attack range.
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange - 0.5f, whatIsPlayer);
@@ -205,7 +208,10 @@ public class EnemyController : MonoBehaviour
             agent.ResetPath();
             agent.enabled = false;
         }
-        GameObject explosion = Instantiate(explosionParticles.gameObject, transform.position, Quaternion.identity);
+        collider.enabled = false;
+        animator.SetBool("isAttacking", false);
+        animator.SetTrigger("Death");
+        //GameObject explosion = Instantiate(explosionParticles.gameObject, transform.position, Quaternion.identity);
         GameObject soul = Instantiate(soulParticles.gameObject, transform.position + new Vector3(0, 1, 0), Quaternion.identity);
         GameManager.Instance.audioManager.PlaySound("woosh");
         soul.transform.DOMove(player.position, 1.5f).SetEase(Ease.InQuad).OnComplete(()=>
@@ -219,7 +225,7 @@ public class EnemyController : MonoBehaviour
         GameObject temp = Instantiate(cashPrefab, spawnPos, cashPrefab.transform.rotation);
         //Debug.Log("Enemy's current position: " + transform.position);
         //Debug.Log("Game object spawned at: " + spawnPos);
-        GameManager.Instance.audioManager.PlaySound("gory_explosion");
+        GameManager.Instance.audioManager.PlaySound("demon_die");
         Vector3 respawnPosition = transform.position;
         GameManager.Instance.spawnManager.RemoveEnemy(gameObject);
         GameManager.Instance.spawnManager.RespawnEnemyAtPosition(respawnPosition, 20f);

@@ -27,6 +27,13 @@ public class WeaponManager : MonoBehaviour
         weaponUI = FindFirstObjectByType<WeaponUI>();
     }
 
+    private void OnDisable()
+    {
+        if (currentWeaponInstance != null)
+        {
+            currentWeaponInstance.transform.DOKill();
+        }
+    }
     private void Start()
     {
         inputManager.ScrollWeaponEvent += SwitchWeapon;
