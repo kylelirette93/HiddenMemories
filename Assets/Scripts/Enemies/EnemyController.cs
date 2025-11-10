@@ -212,13 +212,7 @@ public class EnemyController : MonoBehaviour
         animator.SetBool("isAttacking", false);
         animator.SetTrigger("Death");
         //GameObject explosion = Instantiate(explosionParticles.gameObject, transform.position, Quaternion.identity);
-        GameObject soul = Instantiate(soulParticles.gameObject, transform.position + new Vector3(0, 1, 0), Quaternion.identity);
-        GameManager.Instance.audioManager.PlaySound("woosh");
-        soul.transform.DOMove(player.position, 1.5f).SetEase(Ease.InQuad).OnComplete(()=>
-        {
-            Destroy(soul);
-            PlayerStats.Instance.IncrementSoulHealth();
-        });
+        SpawnSoul();
         GameManager.Instance.progressManager.EnemyKilled();
         health.OnEnemyDied -= OnDeath;
         Vector3 spawnPos = new Vector3(transform.position.x, 1.5f, transform.position.z);
@@ -229,6 +223,27 @@ public class EnemyController : MonoBehaviour
         Vector3 respawnPosition = transform.position;
         GameManager.Instance.spawnManager.RemoveEnemy(gameObject);
         GameManager.Instance.spawnManager.RespawnEnemyAtPosition(respawnPosition, 20f);
+    }
+
+    private void SpawnSoul()
+    {
+        Camera mainCam = Camera.main;
+        GameObject soul = Instantiate(soulParticles.gameObject, transform.position + new Vector3(0, 1, 0), Quaternion.identity);
+        RectTransform soulMeter = GameManager.Instance.hud.soulMeterSlider.GetComponent<RectTransform>();
+        float soulZ = mainCam.WorldToScreenPoint(soulMeter.transform.position).z;
+        Vector3 screenPos = RectTransformUtility.WorldToScreenPoint(mainCam, soulMeter.position);
+
+        transform.eulerAngles = Vector3.zero;
+
+        Vector3 worldPos = mainCam.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, soulZ));
+        Sequence sequence = DOTween.Sequence();
+        GameManager.Instance.audioManager.PlaySound("woosh");
+        sequence.Append(soul.transform.DOMove(worldPos, 1f).SetEase(Ease.InQuad));
+        sequence.OnComplete(() =>
+        {
+            Destroy(soul);
+            PlayerStats.Instance.IncrementSoulHealth();
+        });
     }
 
 
