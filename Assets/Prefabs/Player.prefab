@@ -224,6 +224,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionDistance: 1
+  cameraRoot: {fileID: 1919791148901302686}
 --- !u!1 &3537667057294288547
 GameObject:
   m_ObjectHideFlags: 0

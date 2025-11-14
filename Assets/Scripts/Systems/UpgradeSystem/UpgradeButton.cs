@@ -1,4 +1,4 @@
-using System.Net;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,6 +10,8 @@ public class UpgradeButton : MonoBehaviour
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI costText;
     [SerializeField] private Button button;
+    [SerializeField] private List<Image> tierIcons = new List<Image>();
+    
     public WeaponDataSO weapon;
     UpgradeManager upgradeManager;
     bool isInitialized = false;
@@ -72,6 +74,17 @@ public class UpgradeButton : MonoBehaviour
     public void UpdateUI()
     {
         int currentTier = GameManager.Instance.upgradeManager.GetUpgradeTier(upgrade);
+        for (int i = 0; i < tierIcons.Count; i++)
+        {
+            if (i < currentTier)
+            {
+                tierIcons[i].color = Color.white;
+            }
+            else
+            {
+                tierIcons[i].color = Color.black;
+            }
+        }
 
         if (nameText != null)
         {

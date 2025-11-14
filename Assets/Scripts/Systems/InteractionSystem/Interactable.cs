@@ -9,13 +9,13 @@ public class Interactable : BaseInteractable
     // Reference to scriptable object associated with this interactable.
     public ItemDataSO itemData;
 
-    private void Start()
+    protected void OnCollisionEnter(Collision collision)
     {
-        if (type == InteractionType.Door)
+        if (type == InteractionType.Door && collision.gameObject.CompareTag("Player"))
         {
-            PlayerInventory playerInventory = GameObject.FindWithTag("Player").GetComponent<PlayerInventory>();
+            PlayerInventory playerInventory = collision.gameObject.GetComponent<PlayerInventory>();
             Door door = GetComponent<Door>();
-            if (playerInventory != null && door != null)
+            if (playerInventory != null)
             {
                 interactionPromptText = playerInventory.Keys.Contains(door.keyToUnlock) ? "Press E to Open" : "No key found in Inventory...";
             }
@@ -29,6 +29,7 @@ public class Interactable : BaseInteractable
             case InteractionType.Pickup:
                 if (itemData.itemType == ItemType.Weapon)
                 {
+                    isFocused = false;
                     InteractableActions.AddWeapon?.Invoke(itemData);
                     GameManager.Instance.audioManager.PlaySound("key_pickup");
                 }

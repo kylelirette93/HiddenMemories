@@ -230,15 +230,15 @@ public class EnemyController : MonoBehaviour
         Camera mainCam = Camera.main;
         GameObject soul = Instantiate(soulParticles.gameObject, transform.position + new Vector3(0, 1, 0), Quaternion.identity);
         RectTransform soulMeter = GameManager.Instance.hud.soulMeterSlider.GetComponent<RectTransform>();
-        float soulZ = mainCam.WorldToScreenPoint(soulMeter.transform.position).z;
+
         Vector3 screenPos = RectTransformUtility.WorldToScreenPoint(mainCam, soulMeter.position);
+        float distanceToSoul = Vector3.Distance(mainCam.transform.position, soul.transform.position);
 
+        Vector3 worldPos = mainCam.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, distanceToSoul));
         transform.eulerAngles = Vector3.zero;
-
-        Vector3 worldPos = mainCam.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, soulZ));
         Sequence sequence = DOTween.Sequence();
         GameManager.Instance.audioManager.PlaySound("woosh");
-        sequence.Append(soul.transform.DOMove(worldPos, 1f).SetEase(Ease.InQuad));
+        sequence.Append(soul.transform.DOMove(worldPos, 2f).SetEase(Ease.InQuad));
         sequence.OnComplete(() =>
         {
             Destroy(soul);

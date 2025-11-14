@@ -76,6 +76,10 @@ public class Door : MonoBehaviour, IDataPersistence
 
             GameManager.Instance.dataPersistenceManager.SaveGame();
         }
+        else
+        {
+            GameManager.Instance.hud.DisplayPrompt("You need a key to unlock this door", new Vector2(0, 100));
+        }
     }
 
     public bool IsUnlocked()

@@ -76,6 +76,7 @@ public class DataPersistenceManager : MonoBehaviour
     {
         dataHandler.DeleteFile();
         PlayerPrefs.DeleteAll();
+        GameManager.Instance.audioManager.PlaySound("deletefile");
         GameManager.Instance.soundMixerManager.ResetAudioLevelsToDefault();
     }
 

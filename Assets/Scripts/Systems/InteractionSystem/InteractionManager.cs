@@ -10,7 +10,7 @@ public class InteractionManager : MonoBehaviour
     // Interface reference used internally.
     private IInteractable currentFocusedInteractable;
 
-    private Transform cameraRoot;
+    [SerializeField] private Transform cameraRoot;
 
     private InputManager inputManager => GameManager.Instance.inputManager;
     private HUD hud => GameManager.Instance.hud;
@@ -18,7 +18,6 @@ public class InteractionManager : MonoBehaviour
     private void Start()
     {
         interactableLayer = LayerMask.GetMask("Interactable");
-        cameraRoot = GameObject.Find("CameraRoot").transform;
     }
 
     private void Update()

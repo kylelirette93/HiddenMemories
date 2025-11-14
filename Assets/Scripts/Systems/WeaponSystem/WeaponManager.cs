@@ -23,7 +23,7 @@ public class WeaponManager : MonoBehaviour
     bool isSwapping = false;
 
     private void Awake()
-    {   
+    {
         weaponUI = FindFirstObjectByType<WeaponUI>();
     }
 
@@ -32,7 +32,10 @@ public class WeaponManager : MonoBehaviour
         if (currentWeaponInstance != null)
         {
             currentWeaponInstance.transform.DOKill();
+            currentWeaponInstance.transform.localPosition = Vector3.zero;
+            currentWeaponInstance.transform.localRotation = Quaternion.identity;
         }
+        isSwapping = false;
     }
 
     private void OnDestroy()
@@ -40,7 +43,10 @@ public class WeaponManager : MonoBehaviour
         if (currentWeaponInstance != null)
         {
             currentWeaponInstance.transform.DOKill();
+            currentWeaponInstance.transform.localPosition = Vector3.zero;
+            currentWeaponInstance.transform.localRotation = Quaternion.identity;
         }
+        isSwapping = false;
     }
     private void Start()
     {
@@ -52,7 +58,7 @@ public class WeaponManager : MonoBehaviour
         if (equippedWeapon != null && weaponUI != null && weaponData != null)
         {
             UpdateUI();
-        } 
+        }
     }
 
     public void SwitchWeapon(Vector2 scrollInput)
@@ -101,10 +107,10 @@ public class WeaponManager : MonoBehaviour
             weaponSwap.Append(currentWeaponInstance.transform.DOLocalMoveX(-1f, swapDuration).SetEase(Ease.InBack));
             weaponSwap.Join(currentWeaponInstance.transform.DOLocalRotate(new Vector3(-90, 90, -90), swapDuration).SetEase(Ease.InBack));
             weaponSwap.OnComplete(() => {
-                    Destroy(currentWeaponInstance);
-                    SpawnNewWeapon(index);
-                });
-           
+                Destroy(currentWeaponInstance);
+                SpawnNewWeapon(index);
+            });
+
         }
         else
         {
