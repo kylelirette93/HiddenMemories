@@ -82,7 +82,7 @@ public class SpawnManager : MonoBehaviour
         {
             spawnedEnemies.Remove(enemy);
         }
-        //Destroy(enemy);
+        Destroy(enemy, 3f);
     }
 
     public void DespawnEnemies()

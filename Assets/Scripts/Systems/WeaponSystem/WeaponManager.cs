@@ -1,4 +1,3 @@
-using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,36 +17,11 @@ public class WeaponManager : MonoBehaviour
     public InputManager inputManager;
     public Dictionary<int, int> ammoCounts = new Dictionary<int, int>();
 
-    [Header("Weapon Swapping Settings")]
-    [SerializeField] float swapDuration = 0.1f;
-    bool isSwapping = false;
-
     private void Awake()
     {
         weaponUI = FindFirstObjectByType<WeaponUI>();
     }
 
-    private void OnDisable()
-    {
-        if (currentWeaponInstance != null)
-        {
-            currentWeaponInstance.transform.DOKill();
-            currentWeaponInstance.transform.localPosition = Vector3.zero;
-            currentWeaponInstance.transform.localRotation = Quaternion.identity;
-        }
-        isSwapping = false;
-    }
-
-    private void OnDestroy()
-    {
-        if (currentWeaponInstance != null)
-        {
-            currentWeaponInstance.transform.DOKill();
-            currentWeaponInstance.transform.localPosition = Vector3.zero;
-            currentWeaponInstance.transform.localRotation = Quaternion.identity;
-        }
-        isSwapping = false;
-    }
     private void Start()
     {
         inputManager.ScrollWeaponEvent += SwitchWeapon;
@@ -63,6 +37,12 @@ public class WeaponManager : MonoBehaviour
 
     public void SwitchWeapon(Vector2 scrollInput)
     {
+        if (inventory == null || inventory.availableWeapons.Count == 0)
+        {
+            Debug.LogWarning("No weapons available in inventory.");
+            return;
+        }
+
         int newIndex = currentWeaponIndex;
         if (scrollInput.y > 0)
         {
@@ -72,9 +52,18 @@ public class WeaponManager : MonoBehaviour
         {
             newIndex--;
         }
+        else
+        {
+            Debug.Log("NO SCROLL detected (scrollInput.y == 0)");
+        }
 
         if (newIndex < 0) newIndex = inventory.availableWeapons.Count - 1;
         else if (newIndex >= inventory.availableWeapons.Count) newIndex = 0;
+
+        if (newIndex == currentWeaponIndex)
+        {
+            return;
+        }
 
         EquipWeaponByIndex(newIndex);
     }
@@ -86,69 +75,57 @@ public class WeaponManager : MonoBehaviour
 
     public void EquipWeaponByIndex(int index)
     {
-        if (isSwapping) return;
         if (equippedWeapon != null && equippedWeapon.IsReloading) return;
-        if (inventory == null || inventory.availableWeapons.Count == 0) return;
-        if (index < 0 || index >= inventory.availableWeapons.Count) return;
+        if (inventory == null || inventory.availableWeapons.Count == 0)
+        {
+            Debug.LogWarning("No weapons available in inventory.");
+            return;
+        }
+
+        if (index < 0 || index >= inventory.availableWeapons.Count)
+        {
+            Debug.LogWarning($"Invalid weapon index: {index}");
+            return;
+        }
+
         if (index == currentWeaponIndex) return;
+
+        if (currentWeaponInstance != null) Destroy(currentWeaponInstance);
 
         if (weaponData != null && equippedWeapon != null)
         {
             ammoCounts[weaponData.index] = equippedWeapon.CurrentAmmo;
         }
-
-        isSwapping = true;
-
-        // Animate weapon swap.
-        if (currentWeaponInstance != null)
-        {
-            Sequence weaponSwap = DOTween.Sequence();
-            weaponSwap.Append(currentWeaponInstance.transform.DOLocalMoveY(-1f, swapDuration).SetEase(Ease.InBack));
-            weaponSwap.Append(currentWeaponInstance.transform.DOLocalMoveX(-1f, swapDuration).SetEase(Ease.InBack));
-            weaponSwap.Join(currentWeaponInstance.transform.DOLocalRotate(new Vector3(-90, 90, -90), swapDuration).SetEase(Ease.InBack));
-            weaponSwap.OnComplete(() => {
-                Destroy(currentWeaponInstance);
-                SpawnNewWeapon(index);
-            });
-
-        }
-        else
-        {
-            SpawnNewWeapon(index);
-        }
-    }
-
-
-    private void SpawnNewWeapon(int index)
-    {
         WeaponDataSO weaponToEquip = inventory.availableWeapons[index];
         if (weaponToEquip != null && weaponParent != null)
         {
             currentWeaponInstance = Instantiate(weaponToEquip.weaponPrefab, weaponParent);
-            currentWeaponInstance.transform.localPosition = new Vector3(0, -1f, 0); // Start below
+            currentWeaponInstance.transform.localPosition = Vector3.zero;
             currentWeaponInstance.transform.localRotation = Quaternion.identity;
             currentWeaponIndex = index;
-
-            Sequence weaponSwapIn = DOTween.Sequence();
-            weaponSwapIn.Append(currentWeaponInstance.transform.DOLocalMoveY(0f, swapDuration));
-            weaponSwapIn.Append(currentWeaponInstance.transform.DOLocalMoveX(0f, swapDuration).SetEase(Ease.InBack));
-            weaponSwapIn.Join(currentWeaponInstance.transform.DOLocalRotate(Vector3.zero, swapDuration).SetEase(Ease.OutBack));
-            weaponSwapIn.OnComplete(() => isSwapping = false);
         }
+
 
         WeaponBase weaponBase = currentWeaponInstance.GetComponent<WeaponBase>();
         if (weaponBase != null)
         {
             weaponBase.Initialize(weaponToEquip);
             equippedWeapon = weaponBase;
-            if (ammoCounts.ContainsKey(weaponToEquip.index))
+            if (ammoCounts.Count > 0 && ammoCounts.ContainsKey(weaponToEquip.index))
             {
                 equippedWeapon.CurrentAmmo = ammoCounts[weaponToEquip.index];
             }
+            else
+            {
+                Debug.Log("No saved ammo for this weapon yet.");
+            }
             weaponData = weaponToEquip;
         }
+        else
+        {
+            Debug.LogWarning("Weapon prefab does not have a WeaponBase component.");
+        }
     }
-
 
     public void UpdateUI()
     {

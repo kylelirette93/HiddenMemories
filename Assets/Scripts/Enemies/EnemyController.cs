@@ -1,8 +1,5 @@
 using DG.Tweening;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Net.NetworkInformation;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -198,6 +195,7 @@ public class EnemyController : MonoBehaviour
 
     protected void OnDeath()
     {
+        Vector3 respawnPosition = transform.position;
         if (isDead) return;
         isDead = true;
 
@@ -209,7 +207,7 @@ public class EnemyController : MonoBehaviour
             agent.enabled = false;
         }
         collider.enabled = false;
-        animator.SetBool("isAttacking", false);
+        animator.SetBool("IsAttacking", false);
         animator.SetTrigger("Death");
         //GameObject explosion = Instantiate(explosionParticles.gameObject, transform.position, Quaternion.identity);
         SpawnSoul();
@@ -220,7 +218,6 @@ public class EnemyController : MonoBehaviour
         //Debug.Log("Enemy's current position: " + transform.position);
         //Debug.Log("Game object spawned at: " + spawnPos);
         GameManager.Instance.audioManager.PlaySound("demon_die");
-        Vector3 respawnPosition = transform.position;
         GameManager.Instance.spawnManager.RemoveEnemy(gameObject);
         GameManager.Instance.spawnManager.RespawnEnemyAtPosition(respawnPosition, 20f);
     }
@@ -228,24 +225,29 @@ public class EnemyController : MonoBehaviour
     private void SpawnSoul()
     {
         Camera mainCam = Camera.main;
-        GameObject soul = Instantiate(soulParticles.gameObject, transform.position + new Vector3(0, 1, 0), Quaternion.identity);
+        GameObject soul = Instantiate(soulParticles.gameObject, transform.position + Vector3.up * 1.5f, Quaternion.identity);
         RectTransform soulMeter = GameManager.Instance.hud.soulMeterSlider.GetComponent<RectTransform>();
 
-        Vector3 screenPos = RectTransformUtility.WorldToScreenPoint(mainCam, soulMeter.position);
-        float distanceToSoul = Vector3.Distance(mainCam.transform.position, soul.transform.position);
+        float duration = 1f;
+        float elapsed = 0f;
+        Vector3 startPos = soul.transform.position;
 
-        Vector3 worldPos = mainCam.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, distanceToSoul));
-        transform.eulerAngles = Vector3.zero;
-        Sequence sequence = DOTween.Sequence();
-        GameManager.Instance.audioManager.PlaySound("woosh");
-        sequence.Append(soul.transform.DOMove(worldPos, 2f).SetEase(Ease.InQuad));
-        sequence.OnComplete(() =>
-        {
-            Destroy(soul);
-            PlayerStats.Instance.IncrementSoulHealth();
-        });
+        DOTween.To(() => elapsed, x => elapsed = x, duration, duration)
+            .OnUpdate(() =>
+            {
+                if (soul != null)
+                {
+                    Vector3 targetPos = mainCam.ScreenToWorldPoint(new Vector3(soulMeter.position.x - 50f, soulMeter.position.y, 1));
+                    soul.transform.position = Vector3.Lerp(startPos, targetPos, DOVirtual.EasedValue(0, 1, elapsed / duration, Ease.InQuad));
+                }
+            })
+            .OnComplete(() =>
+            {
+                Destroy(soul.gameObject);
+                PlayerStats.Instance.IncrementSoulHealth();
+            })
+            .SetLink(gameObject);
     }
-
 
     protected void SetPlayer(GameObject player)
     {
