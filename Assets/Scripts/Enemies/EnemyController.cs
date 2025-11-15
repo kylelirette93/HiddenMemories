@@ -40,6 +40,7 @@ public class EnemyController : MonoBehaviour
     public ParticleSystem explosionParticles;
     public ParticleSystem soulParticles;
     private CapsuleCollider collider;
+    PlayerHealth playerHealth;
 
     protected void Awake()
     {
@@ -59,6 +60,7 @@ public class EnemyController : MonoBehaviour
             if (playerObj != null)
             {
                 player = playerObj.transform;
+                playerHealth = player.GetComponent<PlayerHealth>();
             }
         }
 
@@ -130,12 +132,17 @@ public class EnemyController : MonoBehaviour
     public virtual void AttackPlayer()
     {
         if (player == null) player = GameObject.FindGameObjectWithTag("Player").transform;
+        playerHealth = player.GetComponent<PlayerHealth>();
+        if (playerHealth.CurrentHealth <= 0) return; 
         agent.isStopped = true;
         RotateInstantlyTowardsTarget(transform, player.transform);
         if (!alreadyAttacked)
         {
             alreadyAttacked = true;
-            StartCoroutine(AttackSequence());
+            if (!isDead)
+            {
+                StartCoroutine(AttackSequence());
+            }
         }
     }
 
@@ -151,14 +158,13 @@ public class EnemyController : MonoBehaviour
 
         if (Vector3.Distance(transform.position, player.position) <= attackRange)
         {
-            PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
             if (playerHealth != null)
             {
-                playerHealth.TakeDamage(attackDamage);
                 PlayerController playerController = player.GetComponent<PlayerController>();
                 if (playerController != null)
                 {
                     playerController.ShakeCam();
+                    playerHealth.TakeDamage(attackDamage);
                 }
             }
         }

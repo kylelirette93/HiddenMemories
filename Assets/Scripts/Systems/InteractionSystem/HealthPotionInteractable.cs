@@ -22,10 +22,12 @@ public class HealthPotionInteractable : Interactable
         Sequence sequence = DOTween.Sequence();
         sequence.Append(transform.DOMove(worldPos, duration).SetEase(Ease.InQuad));
         sequence.Join(transform.DOScale(Vector3.zero, duration).SetEase(Ease.InQuad));
-            
+
         sequence.OnComplete(() =>
         {
             Destroy(gameObject);
         });
+        sequence.SetLink(gameObject);
+
     }
 }

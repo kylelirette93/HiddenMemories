@@ -29,10 +29,11 @@ public class CoinPickup : MonoBehaviour
             float duration = 1f;
             float elapsed = 0f;
             Vector3 startPos = transform.position;
+            transform.localRotation = Quaternion.Euler(-90f, 0f, 0f);
             DOTween.To(() => elapsed, x => elapsed = x, duration, duration)
                 .OnUpdate(() =>
                 {
-                    Vector3 targetPos = mainCam.ScreenToWorldPoint(new Vector3(currencyRect.position.x, currencyRect.position.y, 1));
+                    Vector3 targetPos = mainCam.ScreenToWorldPoint(new Vector3(currencyRect.position.x, currencyRect.position.y, 1000));
                     transform.position = Vector3.Lerp(startPos, targetPos, DOVirtual.EasedValue(0, 1, elapsed / duration, Ease.InQuad));
                     Vector3 smallerCoin = new Vector3(0.25f, 0.25f, 0.25f);
                     transform.localScale = Vector3.Lerp(smallerCoin, Vector3.zero, elapsed / duration);

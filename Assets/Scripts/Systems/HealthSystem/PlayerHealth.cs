@@ -16,6 +16,7 @@ public class PlayerHealth : Health
     Vignette vignette;
     [SerializeField] Color damageColor;
     [SerializeField] Color healColor;
+    [SerializeField] Color originalColor;
     [SerializeField] float maxIntensity = 0.4f;
     [SerializeField] float maxHealIntensity = 0.6f;
     [SerializeField] float fadeDuration = 0.25f;
@@ -35,7 +36,7 @@ public class PlayerHealth : Health
             vignette.intensity.value = maxIntensity;
             vignette.color.overrideState = true;
             vignette.intensity.overrideState = true;
-
+            originalColor = vignette.color.value;
             vignette.intensity.value = 0f;
         }
         else
@@ -52,6 +53,7 @@ public class PlayerHealth : Health
     private void OnDisable()
     {
         StopAllCoroutines();
+        vignette.color.value = originalColor;
         currentHealth = playerStats.MaxHealth;
         PlayerHealthActions.OnPlayerHealthChanged?.Invoke(currentHealth, maxHealth);
     }
@@ -71,10 +73,26 @@ public class PlayerHealth : Health
         currentHealth = Math.Clamp(currentHealth, 0, maxHealth);
         if (currentHealth <= 0)
         {
-            GameManager.Instance.gameStateManager.lastDeathResult = "The demon got your soul...";
-            PlayerHealthActions.PlayerDied?.Invoke();
-            Heal(maxHealth);
+            Camera mainCam = Camera.main;
+            Quaternion originalRotation = mainCam.transform.rotation;
+            Sequence sequence = DOTween.Sequence();
+            sequence.SetLink(mainCam.gameObject);
+            sequence.Append(mainCam.transform.DORotate(new Vector3(mainCam.transform.eulerAngles.x, mainCam.transform.eulerAngles.y, -85f), 0.7f).SetEase(Ease.InQuad));
+            sequence.Join(mainCam.transform.DOLocalMoveY(mainCam.transform.localPosition.y - 1f, 0.7f).SetEase(Ease.InQuad));         
+            sequence.OnComplete(() =>
+             {
+                mainCam.transform.eulerAngles = originalRotation.eulerAngles;
+                mainCam.transform.localPosition = new Vector3(mainCam.transform.localPosition.x, 0f, mainCam.transform.localPosition.z);
+             });
+            Invoke("Die", 0.7f);
         }
+    }
+
+    public void Die()
+    {
+        GameManager.Instance.gameStateManager.lastDeathResult = "The demon got your soul...";
+        PlayerHealthActions.PlayerDied?.Invoke();
+        Heal(maxHealth);
     }
 
     IEnumerator DamageFlash()
