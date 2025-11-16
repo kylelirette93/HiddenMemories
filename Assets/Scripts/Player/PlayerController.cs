@@ -39,8 +39,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] bool canLook = true;
     public Vector2 LookInput { get { return lookInput; } }
     Vector2 lookInput;
-    [SerializeField] float lookSensitivityX = 17f;
-    [SerializeField] float lookSensitivityY = 17f;
+    [SerializeField] float lookSensitivityX = 0.5f;
+    [SerializeField] float lookSensitivityY = 0.5f;
     public Quaternion initialCamRot;
 
     Vector2 recoilVelocity = Vector2.zero;
@@ -60,8 +60,16 @@ public class PlayerController : MonoBehaviour
         health = GetComponent<PlayerHealth>();
     }
 
+    private void Start()
+    {
+        lookSensitivityX = GameManager.Instance.gameSettings.MouseSensitivity;
+        lookSensitivityY = GameManager.Instance.gameSettings.MouseSensitivity;
+    }
+
     public void EnableLook()
     {
+        lookSensitivityX = GameManager.Instance.gameSettings.MouseSensitivity;
+        lookSensitivityY = GameManager.Instance.gameSettings.MouseSensitivity;
         canLook = true;
     }
     public void DisableLook()
