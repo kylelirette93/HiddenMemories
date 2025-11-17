@@ -41,6 +41,7 @@ public class EnemyController : MonoBehaviour
     public ParticleSystem soulParticles;
     private CapsuleCollider collider;
     PlayerHealth playerHealth;
+    bool canDealDamage = true;
 
     protected void Awake()
     {
@@ -169,8 +170,11 @@ public class EnemyController : MonoBehaviour
                 PlayerController playerController = player.GetComponent<PlayerController>();
                 if (playerController != null)
                 {
-                    playerController.ShakeCam();
-                    playerHealth.TakeDamage(attackDamage);
+                    if (canDealDamage)
+                    {
+                        playerController.ShakeCam();
+                        playerHealth.TakeDamage(attackDamage);
+                    }
                 }
             }
         }
@@ -207,7 +211,7 @@ public class EnemyController : MonoBehaviour
 
     protected void OnDeath()
     {
-        StopAllCoroutines();
+        canDealDamage = false;
         Vector3 respawnPosition = transform.position;
         if (isDead) return;
         isDead = true;

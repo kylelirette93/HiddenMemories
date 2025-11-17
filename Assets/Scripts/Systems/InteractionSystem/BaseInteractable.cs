@@ -8,6 +8,8 @@ public abstract class BaseInteractable : MonoBehaviour, IInteractable
     protected Outline outline;
     protected bool isFocused = false;
     protected string interactionPromptText;
+    public bool CanInteract { get { return canInteract; } set { canInteract = value; } }
+    protected bool canInteract = true;
 
 
     void Awake()
@@ -23,7 +25,7 @@ public abstract class BaseInteractable : MonoBehaviour, IInteractable
         outline.enabled = false;
         #endregion
     }
-    public string GetInteractionPrompt()
+    public virtual string GetInteractionPrompt()
     {
         if (string.IsNullOrWhiteSpace(interactionPromptText))
         {
@@ -42,6 +44,10 @@ public abstract class BaseInteractable : MonoBehaviour, IInteractable
 
     public void SetFocus(bool focused)
     {
+        if (!canInteract)
+        {
+            outline.enabled = false;
+        }
         if (isFocused == focused) return;
 
         isFocused = focused;

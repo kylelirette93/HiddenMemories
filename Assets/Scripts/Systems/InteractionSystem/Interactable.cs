@@ -22,6 +22,31 @@ public class Interactable : BaseInteractable
         }
     }
 
+    public override string GetInteractionPrompt()
+    {
+        if (type == InteractionType.Door)
+        {
+            PlayerInventory playerInventory = GameObject.FindWithTag("Player").GetComponent<PlayerInventory>();
+            Door door = GetComponent<Door>();
+            if (playerInventory != null)
+            {
+                if (door.isOpen)
+                {
+                    canInteract = false;
+                }
+                else if (!door.isOpen && canInteract)
+                {
+                    return playerInventory.Keys.Contains(door.keyToUnlock) ? "Press E to Open" : "No key found in Inventory...";
+                }
+            }
+        }
+        else
+        {
+            return base.GetInteractionPrompt();
+        }
+        return string.Empty;
+    }
+
     public override void OnInteract()
     {
         switch (type)

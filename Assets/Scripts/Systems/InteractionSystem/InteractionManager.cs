@@ -33,6 +33,11 @@ public class InteractionManager : MonoBehaviour
             // Get the interactable component from the hit object.
             IInteractable hitInteractable = hitInfo.transform.GetComponent<IInteractable>();
 
+            if (hitInteractable is BaseInteractable baseInteract && !baseInteract.CanInteract)
+            {
+                return;
+            }
+
             if (hitInteractable != null)
             {
                 if (hitInteractable != currentFocusedInteractable)

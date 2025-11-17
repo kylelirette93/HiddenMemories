@@ -190,6 +190,11 @@ public class SpawnManager : MonoBehaviour
         {
             Door door = doors[i].GetComponent<Door>();
             door.isOpen = false;
+            if (door != null)
+            {
+                Interactable doorInteractable = door.GetComponent<Interactable>();
+                doorInteractable.CanInteract = true;
+            }
         }
     }
 
