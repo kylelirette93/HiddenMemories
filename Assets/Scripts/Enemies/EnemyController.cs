@@ -207,6 +207,7 @@ public class EnemyController : MonoBehaviour
 
     protected void OnDeath()
     {
+        StopAllCoroutines();
         Vector3 respawnPosition = transform.position;
         if (isDead) return;
         isDead = true;
