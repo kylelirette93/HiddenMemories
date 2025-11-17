@@ -60,7 +60,10 @@ public class EnemyController : MonoBehaviour
             if (playerObj != null)
             {
                 player = playerObj.transform;
-                playerHealth = player.GetComponent<PlayerHealth>();
+                if (player != null)
+                {
+                    playerHealth = player.GetComponent<PlayerHealth>();
+                }
             }
         }
 
@@ -132,7 +135,10 @@ public class EnemyController : MonoBehaviour
     public virtual void AttackPlayer()
     {
         if (player == null) player = GameObject.FindGameObjectWithTag("Player").transform;
-        playerHealth = player.GetComponent<PlayerHealth>();
+        if (player != null)
+        {
+            playerHealth = player.gameObject.GetComponent<PlayerHealth>();
+        }
         if (playerHealth.CurrentHealth <= 0) return; 
         agent.isStopped = true;
         RotateInstantlyTowardsTarget(transform, player.transform);
@@ -158,7 +164,7 @@ public class EnemyController : MonoBehaviour
 
         if (Vector3.Distance(transform.position, player.position) <= attackRange)
         {
-            if (playerHealth != null)
+            if (playerHealth != null && player != null)
             {
                 PlayerController playerController = player.GetComponent<PlayerController>();
                 if (playerController != null)
