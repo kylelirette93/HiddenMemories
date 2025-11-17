@@ -107,6 +107,9 @@ public class WeaponManager : MonoBehaviour
 
 
         WeaponBase weaponBase = currentWeaponInstance.GetComponent<WeaponBase>();
+
+        // Adjust weapon parent based on which weapon it is.
+       
         if (weaponBase != null)
         {
             weaponBase.Initialize(weaponToEquip);

@@ -273,9 +273,9 @@ public class WeaponBase : MonoBehaviour
 
     protected void ApplyShootRecoil()
     {
-        float recoilRot = -5f;
-        float recoilBack = -0.3f;
-        float cameraRecoil = recoil * 1.1f;
+        float recoilRot = -1f;
+        float recoilBack = -0.1f;
+        float cameraRecoil = recoil * 1.05f;
 
         playerController.AddRecoil(new Vector2(Random.Range(-cameraRecoil * 0.1f, cameraRecoil * 0.5f), cameraRecoil * 0.4f));
 
