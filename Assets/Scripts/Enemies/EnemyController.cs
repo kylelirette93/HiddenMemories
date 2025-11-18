@@ -26,21 +26,21 @@ public class EnemyController : MonoBehaviour
     // Attack State variables
     [SerializeField] protected float sightRange, attackRange;
     protected bool playerInSightRange, playerInAttackRange;
-    bool isAttacking = false;
+    protected bool isAttacking = false;
 
     protected EnemyHealth health;
     [SerializeField] protected GameObject cashPrefab;
     protected bool canTakeDamage = true;
     protected bool isDead = false;
     [SerializeField] protected ParticleSystem bloodParticles;
-    Animator animator;
-    public AudioClip demon_grunt;
+    protected Animator animator;
+    protected AudioClip demon_grunt;
     bool isInAttackSequence = false;
     public AudioClip demon_die;
     public ParticleSystem explosionParticles;
     public ParticleSystem soulParticles;
     private CapsuleCollider collider;
-    PlayerHealth playerHealth;
+    protected PlayerHealth playerHealth;
     bool canDealDamage = true;
     bool isBlockedByDoor = false;
 
@@ -54,7 +54,7 @@ public class EnemyController : MonoBehaviour
         collider = GetComponent<CapsuleCollider>();
     }
 
-    private void OnEnable()
+    protected void OnEnable()
     {
         if (player == null)
         {
@@ -77,7 +77,7 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    private void OnDisable()
+    protected void OnDisable()
     {
         StateActions.PlayerSpawned -= SetPlayer;
         if (health != null)
@@ -154,7 +154,7 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    private IEnumerator AttackSequence()
+    public virtual IEnumerator AttackSequence()
     {
         isAttacking = true;
         animator.SetBool("IsAttacking", true);
@@ -190,7 +190,7 @@ public class EnemyController : MonoBehaviour
         agent.isStopped = false;
     }
 
-    void RotateInstantlyTowardsTarget(Transform objectTransform, Transform targetTransform)
+    protected void RotateInstantlyTowardsTarget(Transform objectTransform, Transform targetTransform)
     {
         Vector3 direction = targetTransform.position - objectTransform.position;
         direction.y = 0; // Ignore vertical difference
@@ -240,7 +240,7 @@ public class EnemyController : MonoBehaviour
         GameManager.Instance.spawnManager.RespawnEnemyAtPosition(respawnPosition, 20f);
     }
 
-    private void SpawnSoul()
+    protected void SpawnSoul()
     {
         Camera mainCam = Camera.main;
         GameObject soul = Instantiate(soulParticles.gameObject, transform.position + Vector3.up * 1.5f, Quaternion.identity);

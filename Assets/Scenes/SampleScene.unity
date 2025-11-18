@@ -9275,7 +9275,6 @@ MonoBehaviour:
   attackRange: 2
   cashPrefab: {fileID: 7452763399633447479, guid: bf83bbcde8f5ea440aa5e356e81af3ab, type: 3}
   bloodParticles: {fileID: 3771408447181565798, guid: cc03c6018cf60c94380b3f67568f9efc, type: 3}
-  demon_grunt: {fileID: 0}
   demon_die: {fileID: 0}
   explosionParticles: {fileID: 0}
   soulParticles: {fileID: 0}
@@ -67453,6 +67452,71 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 18.31, z: 0}
+--- !u!1001 &1709152230
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 941714129753005038, guid: a9244dfbafbaf7248bef75fde5d5d26b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 43.94
+      objectReference: {fileID: 0}
+    - target: {fileID: 941714129753005038, guid: a9244dfbafbaf7248bef75fde5d5d26b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 941714129753005038, guid: a9244dfbafbaf7248bef75fde5d5d26b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -8.59
+      objectReference: {fileID: 0}
+    - target: {fileID: 941714129753005038, guid: a9244dfbafbaf7248bef75fde5d5d26b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 941714129753005038, guid: a9244dfbafbaf7248bef75fde5d5d26b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 941714129753005038, guid: a9244dfbafbaf7248bef75fde5d5d26b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 941714129753005038, guid: a9244dfbafbaf7248bef75fde5d5d26b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 941714129753005038, guid: a9244dfbafbaf7248bef75fde5d5d26b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 941714129753005038, guid: a9244dfbafbaf7248bef75fde5d5d26b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 941714129753005038, guid: a9244dfbafbaf7248bef75fde5d5d26b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3008759988798230242, guid: a9244dfbafbaf7248bef75fde5d5d26b, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: e3bdbc6de4b6ddf428bebc854a1c6b4e, type: 2}
+    - target: {fileID: 6907162566757613464, guid: a9244dfbafbaf7248bef75fde5d5d26b, type: 3}
+      propertyPath: m_Speed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8563448151292640453, guid: a9244dfbafbaf7248bef75fde5d5d26b, type: 3}
+      propertyPath: m_Name
+      value: RangedEnemyPrefab
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a9244dfbafbaf7248bef75fde5d5d26b, type: 3}
 --- !u!1 &1709907606
 GameObject:
   m_ObjectHideFlags: 0
@@ -85887,3 +85951,4 @@ SceneRoots:
   - {fileID: 1609538856}
   - {fileID: 1512322505}
   - {fileID: 2015934561}
+  - {fileID: 1709152230}

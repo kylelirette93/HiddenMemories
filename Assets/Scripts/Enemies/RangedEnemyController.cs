@@ -1,8 +1,6 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
-using System;
-using Random = UnityEngine.Random;
 
 public class RangedEnemyController : EnemyController
 {
@@ -10,23 +8,27 @@ public class RangedEnemyController : EnemyController
 
     public override void AttackPlayer()
     {
-        // Gonna fire a projectile here.
-        agent.SetDestination(transform.position);
+        base.AttackPlayer();
+    }
 
-        transform.LookAt(player);
+    public override IEnumerator AttackSequence()
+    {
+        isAttacking = true;
+        animator.SetBool("IsAttacking", true);
 
-        if (!alreadyAttacked)
-        {
-            GameManager.Instance.audioManager.PlaySound("vomit");
-            vomitParticles.Play();
-            alreadyAttacked = true;
-            Invoke(nameof(ResetAttack), timeBetweenAttacks);
-        }
+        GameManager.Instance.audioManager.PlaySound("vomit");
+        vomitParticles.Play();
+        float animationHitTime = timeBetweenAttacks * 0.5f;
+        yield return new WaitForSeconds(animationHitTime);
+
+        isAttacking = false;
+        animator.SetBool("IsAttacking", false);
+        alreadyAttacked = false;
+        agent.isStopped = false;
     }
 
     public void DealDamageToPlayer()
     {
-        PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
         playerHealth.TakeDamage(5);
     }
 
