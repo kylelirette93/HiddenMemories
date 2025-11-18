@@ -42,6 +42,7 @@ public class EnemyController : MonoBehaviour
     private CapsuleCollider collider;
     PlayerHealth playerHealth;
     bool canDealDamage = true;
+    bool isBlockedByDoor = false;
 
     protected void Awake()
     {
@@ -260,6 +261,7 @@ public class EnemyController : MonoBehaviour
             })
             .OnComplete(() =>
             {
+                elapsed = 0f;
                 Destroy(soul.gameObject);
                 PlayerStats.Instance.IncrementSoulHealth();
             })

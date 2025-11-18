@@ -142,6 +142,7 @@ public class GameStateManager : MonoBehaviour, IDataPersistence
     }
     public void PlayGame()
     {
+        Debug.Log("Play game called.");
         if (sceneCamera.isActiveAndEnabled)
         {
             sceneCamera.gameObject.SetActive(false);

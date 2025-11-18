@@ -67,7 +67,7 @@ public class PlayerStats : MonoBehaviour
 
     public void IncrementSoulHealth()
     {
-        soulHealth += 10;
+        soulHealth += 15;
         OnSoulGained?.Invoke();
         GameManager.Instance.uiManager.hud.UpdateSlider(soulHealth, maxSoulHealth);
         GameManager.Instance.uiManager.hud.UpdateSliderColor();

@@ -5016,6 +5016,7 @@ MonoBehaviour:
   demon_grunt: {fileID: 0}
   demon_die: {fileID: 0}
   explosionParticles: {fileID: 5252791036670798447, guid: d8ab42521fbece3408c32d1597756785, type: 3}
+  soulParticles: {fileID: 0}
   vomitParticles: {fileID: 3153338675163282394}
 --- !u!1001 &8686594918725945850
 PrefabInstance:

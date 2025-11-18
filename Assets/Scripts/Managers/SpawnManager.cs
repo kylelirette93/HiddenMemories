@@ -13,6 +13,7 @@ public class SpawnManager : MonoBehaviour
     public List<GameObject> pickups = new List<GameObject>();
     public List<GameObject> spawnedEnemies = new List<GameObject>();
     public GameObject[] keys;
+    List<GameObject> spawnedKeys = new List<GameObject>();
     EnemyData enemyData;
     GameObject player;
 
@@ -115,6 +116,11 @@ public class SpawnManager : MonoBehaviour
 
     public void SpawnKeys()
     {
+        if (keys.Length == spawnedKeys.Count)
+        {
+            Debug.LogError("Keys: " + keys.Length + "Spawned keys: " + spawnedKeys.Count);
+            return;
+        }
         for (int i = 0; i < keys.Length; i++)
         {
             if (keys[i] != null)
@@ -131,6 +137,7 @@ public class SpawnManager : MonoBehaviour
                 }
                 //Debug.Log("Spawning key: " + keys[i].name);
                 GameObject key = Instantiate(keys[i], keys[i].transform.position, keys[i].transform.rotation);
+                spawnedKeys.Add(key);
             }
             else
             {
