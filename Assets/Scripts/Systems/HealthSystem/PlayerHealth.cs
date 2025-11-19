@@ -54,6 +54,7 @@ public class PlayerHealth : Health
     {
         StopAllCoroutines();
         vignette.color.value = originalColor;
+        vignette.intensity.value = 0f;
         currentHealth = playerStats.MaxHealth;
         PlayerHealthActions.OnPlayerHealthChanged?.Invoke(currentHealth, maxHealth);
     }

@@ -15,7 +15,6 @@ public class UpgradeButton : MonoBehaviour
     public WeaponDataSO weapon;
     UpgradeManager upgradeManager;
     bool isInitialized = false;
-    bool isPurchasing = false;
     private void OnEnable()
     {
         // Prevent adding numerous buttons.

@@ -195,7 +195,7 @@ public class SpawnManager : MonoBehaviour
     {
         for (int i = 0; i < doors.Length; i++)
         {
-            Door door = doors[i].GetComponent<Door>();
+            Door door = doors[i].GetComponentInChildren<Door>();
             door.isOpen = false;
             if (door != null)
             {
