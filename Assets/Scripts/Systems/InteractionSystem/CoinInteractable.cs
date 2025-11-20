@@ -7,6 +7,7 @@ public class CoinPickup : MonoBehaviour
     [SerializeField] ItemDataSO coinData;
     float duration = 4f;
     Sequence sequence;
+
     public void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -20,29 +21,35 @@ public class CoinPickup : MonoBehaviour
                 rotateScript.enabled = false;
             }
             Camera mainCam = Camera.main;
-            RectTransform currencyRect = GameManager.Instance.hud.currencyText.GetComponent<RectTransform>();
-            if (currencyRect == null)
+            HUD hud = GameManager.Instance.hud;
+            if (hud != null)
             {
-                Debug.Log("Currency rect is null!");
-            }
+                RectTransform currencyRect = GameManager.Instance.hud.currencyText.GetComponent<RectTransform>();
 
-            float duration = 1f;
-            float elapsed = 0f;
-            Vector3 startPos = transform.position;
-            transform.localRotation = Quaternion.Euler(-90f, 0f, 0f);
-            DOTween.To(() => elapsed, x => elapsed = x, duration, duration)
-                .OnUpdate(() =>
+                if (currencyRect == null)
                 {
-                    Vector3 targetPos = mainCam.ScreenToWorldPoint(new Vector3(currencyRect.position.x, currencyRect.position.y, 1000));
-                    transform.position = Vector3.Lerp(startPos, targetPos, DOVirtual.EasedValue(0, 1, elapsed / duration, Ease.InQuad));
-                    Vector3 smallerCoin = new Vector3(0.25f, 0.25f, 0.25f);
-                    transform.localScale = Vector3.Lerp(smallerCoin, Vector3.zero, elapsed / duration);
-                })
-                .OnComplete(() =>
-                {
-                    Destroy(gameObject);
-                })
-                .SetLink(gameObject);
+                    Debug.Log("Currency rect is null!");
+                }
+
+
+                float duration = 1f;
+                float elapsed = 0f;
+                Vector3 startPos = transform.position;
+                transform.localRotation = Quaternion.Euler(-90f, 0f, 0f);
+                DOTween.To(() => elapsed, x => elapsed = x, duration, duration)
+                    .OnUpdate(() =>
+                    {
+                        Vector3 targetPos = mainCam.ScreenToWorldPoint(new Vector3(currencyRect.position.x, currencyRect.position.y, 1000));
+                        transform.position = Vector3.Lerp(startPos, targetPos, DOVirtual.EasedValue(0, 1, elapsed / duration, Ease.InQuad));
+                        Vector3 smallerCoin = new Vector3(0.25f, 0.25f, 0.25f);
+                        transform.localScale = Vector3.Lerp(smallerCoin, Vector3.zero, elapsed / duration);
+                    })
+                    .OnComplete(() =>
+                    {
+                        Destroy(gameObject);
+                    })
+                    .SetLink(gameObject);
+            }
         }
     }
 }

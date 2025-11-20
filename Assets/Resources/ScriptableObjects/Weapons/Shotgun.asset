@@ -19,7 +19,7 @@ MonoBehaviour:
   powerRate: 1
   fireRate: 0.8
   clipCapacity: 3
-  reloadSpeed: 0.5
+  reloadSpeed: 0.7
   spread: 5
   spreadAngle: 5
   recoil: 1.6
