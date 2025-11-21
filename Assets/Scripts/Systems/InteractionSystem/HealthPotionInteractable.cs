@@ -1,8 +1,9 @@
 using DG.Tweening;
 using UnityEngine;
 
-public class HealthPotionInteractable : Interactable
+public class HealthPotionInteractable : BaseInteractable
 {
+    [SerializeField] ItemDataSO itemData;
     public override void OnInteract()
     {
         InteractableActions.AddPotion?.Invoke(itemData);
@@ -11,13 +12,13 @@ public class HealthPotionInteractable : Interactable
         collider.enabled = false;
 
         Camera mainCam = Camera.main;
-        RectTransform potionRect = GameManager.Instance.hud.potionText.GetComponent<RectTransform>();
+        RectTransform potionRect = GameManager.Instance.hud.potionText.GetComponentInParent<RectTransform>();
         if (potionRect == null)
         {
             Debug.Log("Potion rect is null!");
         }
 
-        float duration = 1f;
+        float duration = 3f;
         float elapsed = 0f;
         Vector3 startPos = transform.position;
         transform.localRotation = Quaternion.Euler(-90f, 0f, 0f);
@@ -26,8 +27,6 @@ public class HealthPotionInteractable : Interactable
             {
                 Vector3 targetPos = mainCam.ScreenToWorldPoint(new Vector3(potionRect.position.x, potionRect.position.y, 1000f));
                 transform.position = Vector3.Lerp(startPos, targetPos, DOVirtual.EasedValue(0, 1, elapsed / duration, Ease.InQuad));
-                Vector3 smallerPotion = new Vector3(0.25f, 0.25f, 0.25f);
-                transform.localScale = Vector3.Lerp(smallerPotion, Vector3.zero, elapsed / duration);
             })
             .OnComplete(() =>
             {

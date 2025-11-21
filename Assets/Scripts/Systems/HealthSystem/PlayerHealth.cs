@@ -89,6 +89,30 @@ public class PlayerHealth : Health
         }
     }
 
+    public override void TakeRangedDamage(int damage)
+    {
+        currentHealth -= damage;
+        StopAllCoroutines();
+        StartCoroutine(DamageFlash());
+        PlayerHealthActions.OnPlayerHealthChanged?.Invoke(currentHealth, maxHealth);
+        currentHealth = Math.Clamp(currentHealth, 0, maxHealth);
+        if (currentHealth <= 0)
+        {
+            Camera mainCam = Camera.main;
+            Quaternion originalRotation = mainCam.transform.rotation;
+            Sequence sequence = DOTween.Sequence();
+            sequence.SetLink(mainCam.gameObject);
+            sequence.Append(mainCam.transform.DORotate(new Vector3(mainCam.transform.eulerAngles.x, mainCam.transform.eulerAngles.y, -85f), 0.7f).SetEase(Ease.InQuad));
+            sequence.Join(mainCam.transform.DOLocalMoveY(mainCam.transform.localPosition.y - 1f, 0.7f).SetEase(Ease.InQuad));
+            sequence.OnComplete(() =>
+            {
+                mainCam.transform.eulerAngles = originalRotation.eulerAngles;
+                mainCam.transform.localPosition = new Vector3(mainCam.transform.localPosition.x, 0f, mainCam.transform.localPosition.z);
+            });
+            Invoke("Die", 0.7f);
+        }
+    }
+
     public void Die()
     {
         GameManager.Instance.gameStateManager.lastDeathResult = "The demon got your soul...";

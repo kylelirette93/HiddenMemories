@@ -58,14 +58,22 @@ public class SoundMixerManager : MonoBehaviour
         PlayerPrefs.SetFloat("musicVolume", audioMixer.GetFloat("musicVolume", out float musicVol) ? musicVol : 0.5f);
     }
 
+    private float ConvertToDecibels(float level)
+    {
+        return Mathf.Log10(level) * 20f;
+    }
+
     public void ResetAudioLevelsToDefault()
     {
-        audioMixer.SetFloat("masterVolume", 0.5f);
-        audioMixer.SetFloat("soundFXVolume", 0.5f);
-        audioMixer.SetFloat("musicVolume", 0.5f);
+        float defaultMusicDB = ConvertToDecibels(0.3f);
+        float defaultSFXDB = ConvertToDecibels(0.5f);
+        float defaultDB = ConvertToDecibels(0.5f);
+        audioMixer.SetFloat("masterVolume", defaultDB);
+        audioMixer.SetFloat("soundFXVolume", defaultSFXDB);
+        audioMixer.SetFloat("musicVolume", defaultMusicDB);
         masterSlider.value = 0.5f;
-        soundFXSlider.value = 0.5f;
-        musicSlider.value = 0.5f;
+        soundFXSlider.value = 0.7f;
+        musicSlider.value = 0.3f;
         SaveVolumeLevel();
     }
 }

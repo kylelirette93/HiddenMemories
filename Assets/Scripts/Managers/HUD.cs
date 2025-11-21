@@ -3,7 +3,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-using UnityEngine.InputSystem;
 
 public class HUD : MonoBehaviour
 {
@@ -24,6 +23,10 @@ public class HUD : MonoBehaviour
     [Header("Potion Display")]
     public TextMeshProUGUI potionText;
 
+    float lowHealthThreshold = 0.2f;
+    bool isLowHealth = false;
+    Tweener lowHealthPulse;
+
     private void Start()
     {
         PlayerStats.Instance.OnSoulGained += ScaleSoulSlider;
@@ -41,6 +44,11 @@ public class HUD : MonoBehaviour
         popupText.DOKill();
         soulMeterSlider.DOKill();
         soulMeterRect.DOKill();
+        if (lowHealthPulse != null)
+        {
+            lowHealthPulse.Kill();
+            lowHealthPulse = null;
+        }
         popupText.text = "";
         popupText.gameObject.SetActive(false);
         PlayerStats.Instance.OnSoulGained -= ScaleSoulSlider;
@@ -52,6 +60,11 @@ public class HUD : MonoBehaviour
         popupText.DOKill();
         soulMeterSlider.DOKill();
         soulMeterRect.DOKill();
+        if (lowHealthPulse != null)
+        {
+            lowHealthPulse.Kill();
+            lowHealthPulse = null;
+        }
         popupText.text = "";
         popupText.gameObject.SetActive(false);
         StopAllCoroutines();
@@ -71,17 +84,71 @@ public class HUD : MonoBehaviour
         float targetValue = (float)newSoulHealth / (float)maxSoulHealth;
 
         soulMeterSlider.DOValue(targetValue, 0.5f).SetEase(Ease.OutCubic);
+
+        CheckLowHealth(targetValue);
+    }
+
+    private void CheckLowHealth(float soulHealthPercent)
+    {
+        Image fillImage = soulMeterSlider.fillRect.GetComponent<Image>();
+        if (soulHealthPercent <= lowHealthThreshold && !isLowHealth)
+        {
+            isLowHealth = true;
+            LowHealthEffect(fillImage);
+        }
+        else if (soulHealthPercent > lowHealthThreshold && isLowHealth)
+        {
+            isLowHealth = false;
+            StopHealthEffect(fillImage);
+        }     
+    }
+
+    private void LowHealthEffect(Image fillImage)
+    {
+        fillImage.DOKill();
+        fillImage.DOColor(Color.red, 0.3f);
+
+        soulMeterRect.DOKill();
+
+        soulMeterRect.localScale = originalScale;
+
+        if (lowHealthPulse != null)
+        {
+            lowHealthPulse.Kill();
+        }
+
+        lowHealthPulse = soulMeterRect.DOScale(originalScale * 1.1f, 0.5f)
+            .SetEase(Ease.InOutSine)
+            .SetLoops(-1, LoopType.Yoyo);
+    }
+
+    private void StopHealthEffect(Image fillImage)
+    {
+        if (lowHealthPulse != null)
+        {
+            lowHealthPulse.Kill();
+            lowHealthPulse = null;
+        }
+
+        soulMeterRect.DOKill();
+        soulMeterRect.DOScale(originalScale, 0.3f).SetEase(Ease.InBack);
+
+        fillImage.DOKill();
+        fillImage.DOColor(Color.white, 0.3f);
     }
 
     public void UpdateSliderColor()
     {
-        Image fillImage = soulMeterSlider.fillRect.GetComponent<Image>();
-        fillImage.DOKill();
-        fillImage.color = Color.white;
-        fillImage.DOColor(Color.blue, 0.1f).OnComplete(() =>
+        if (!isLowHealth)
         {
-            fillImage.DOColor(Color.white, 0.5f);
-        });
+            Image fillImage = soulMeterSlider.fillRect.GetComponent<Image>();
+            fillImage.DOKill();
+            fillImage.color = Color.white;
+            fillImage.DOColor(Color.blue, 0.1f).OnComplete(() =>
+            {
+                fillImage.DOColor(Color.white, 0.5f);
+            });
+        }
     }
 
     public void AddKeyToHud()
@@ -101,13 +168,16 @@ public class HUD : MonoBehaviour
 
     public void ScaleSoulSlider()
     {
-        soulMeterRect.DOKill();
-        soulMeterRect.DOScale(originalScale * 1.05f, 0.3f)
-            .SetEase(Ease.OutBack)
-            .OnComplete(() =>
-            {
-                soulMeterRect.DOScale(originalScale, 0.3f).SetEase(Ease.InBack);
-            });
+        if (!isLowHealth)
+        {
+            soulMeterRect.DOKill();
+            soulMeterRect.DOScale(originalScale * 1.05f, 0.3f)
+                .SetEase(Ease.OutBack)
+                .OnComplete(() =>
+                {
+                    soulMeterRect.DOScale(originalScale, 0.3f).SetEase(Ease.InBack);
+                });
+        }
     }
     public void InitiatePopup(string text, Vector2 anchoredPosition, bool isReloading)
     {

@@ -5,6 +5,7 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     public GameObject enemyPrefab;
+    public GameObject rangedEnemyPrefab;
     public GameObject gunPickupPrefab;
     public Transform[] spawnPoints;
     public Transform[] gunSpawns;
@@ -42,6 +43,7 @@ public class SpawnManager : MonoBehaviour
     public void ClearPickups()
     {
         pickups.Clear();
+        spawnedKeys.Clear();
     }
     public void SpawnGuns()
     {
@@ -214,7 +216,15 @@ public class SpawnManager : MonoBehaviour
             enemyData.timeBetweenAttacks = data.enemyData.timeBetweenAttacks;
             enemyData.attackDamage = data.enemyData.attackDamage;
         }
-        GameObject enemy = Instantiate(enemyPrefab, spawn.position, Quaternion.identity);
+        GameObject enemy;
+        if (Random.value < 0.3f)
+        {
+            enemy = Instantiate(rangedEnemyPrefab, spawn.position, Quaternion.identity);
+        }
+        else
+        {
+            enemy = Instantiate(enemyPrefab, spawn.position, Quaternion.identity);
+        }
         spawnedEnemies.Add(enemy);
         EnemyController ec = enemy.GetComponent<EnemyController>();
         ec.Initialize(enemyData);

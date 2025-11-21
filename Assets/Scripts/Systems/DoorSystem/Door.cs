@@ -82,6 +82,7 @@ public class Door : MonoBehaviour, IDataPersistence
         }
         else
         {
+            GameManager.Instance.audioManager.PlaySound("door_locked");
             GameManager.Instance.hud.DisplayPrompt("You need a key to unlock this door", new Vector2(0, 100));
         }
     }

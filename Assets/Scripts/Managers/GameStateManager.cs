@@ -96,9 +96,15 @@ public class GameStateManager : MonoBehaviour, IDataPersistence
                 uiManager.DisableAllMenuUI();
                 uiManager.EnableGameplayUI();
                 GameManager.Instance.progressManager.Reset();
-                GameManager.Instance.audioManager.ResumeMusic();
-                GameManager.Instance.audioManager.PlayMusic("gameplay");
-                break;
+                if (previousState == GameState.Instructions2 || previousState == GameState.Upgrades)
+                {
+                    GameManager.Instance.audioManager.PlayMusic("gameplay");
+                }
+                else
+                {
+                    GameManager.Instance.audioManager.ResumeMusic();
+                }
+                    break;
             case GameState.Pause:
                 playerController.DisableLook();
                 Time.timeScale = 0f;
@@ -125,6 +131,7 @@ public class GameStateManager : MonoBehaviour, IDataPersistence
                 EnableCursor();
                 uiManager.DisableAllMenuUI();
                 uiManager.EnableGameWinUI();
+                GameManager.Instance.audioManager.PlayMusic("upgrade");
                 break;
         }
     }

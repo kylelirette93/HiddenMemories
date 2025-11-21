@@ -12,7 +12,7 @@ public class VomitCollision : MonoBehaviour
             if (playerHealth != null)
             {
                 if (canDealDamage) 
-                playerHealth.TakeDamage(5);
+                playerHealth.TakeRangedDamage(5);
                 canDealDamage = false;
 
             }

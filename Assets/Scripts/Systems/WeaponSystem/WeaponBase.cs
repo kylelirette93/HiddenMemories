@@ -87,6 +87,12 @@ public class WeaponBase : MonoBehaviour
         }
         input.ShootEvent -= OnShoot;
         input.ReloadEvent -= OnReload;
+
+        if (isShowingReloadText)
+        {
+            isShowingReloadText = false;
+            uiManager.hud.RemoveReloadText();
+        }
     }   
 
     public virtual void OnDestroy()
@@ -161,7 +167,7 @@ public class WeaponBase : MonoBehaviour
         crosshairUI.sizeDelta = new Vector2(40, 40);
         crosshairUI.position = new Vector3(Screen.width / 2, Screen.height / 2, 0f);
 
-        if (currentAmmo == 0 && !isReloading && !isShowingReloadText)
+        if (currentAmmo == 0 && !isReloading && !isShowingReloadText && gameObject.activeInHierarchy)
         {
             isShowingReloadText = true;
             uiManager.hud.DisplayReloadText();

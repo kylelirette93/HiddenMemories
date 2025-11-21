@@ -29,7 +29,7 @@ public class RangedEnemyController : EnemyController
 
     public void DealDamageToPlayer()
     {
-        playerHealth.TakeDamage(5);
+        playerHealth.TakeRangedDamage(5);
     }
 
     public override void TakeDamage(int damage, Vector3 contactPoint)

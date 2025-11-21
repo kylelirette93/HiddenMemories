@@ -43,7 +43,7 @@ public class ResultDisplay : MonoBehaviour
             }
             else
             {
-                doorsText.text = doorCount.ToString() + "/2 doors opened. " + doorLeft + " doors left to open";
+                doorsText.text = doorCount.ToString() + "/2 doors opened. " + "\n" + doorLeft + " doors left to open";
             }
        }
         if (deathText != null && deathResult != null)
