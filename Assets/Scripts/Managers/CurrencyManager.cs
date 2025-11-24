@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class CurrencyManager : MonoBehaviour, IDataPersistence
@@ -18,6 +19,11 @@ public class CurrencyManager : MonoBehaviour, IDataPersistence
         GameManager.Instance.uiManager.hud.InitiatePopup("+1", new Vector2(1200, 500), false);
         currency += itemData.value;
         GameManager.Instance.progressManager.CurrencyAdded();
+    }
+
+    private void DecreaseCurrency(int amount)
+    {
+        currency -= amount;
     }
 
     public int GetCurrency() { return currency; }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -6,10 +7,10 @@ using UnityEngine;
 public class UpgradeManager : MonoBehaviour, IDataPersistence
 {
     private Dictionary<string, int> purchasedUpgrades = new();
-    public TextMeshProUGUI currencyTXT;
+    public TextMeshProUGUI currencyText;
     public List<UpgradeButton> upgradeButtons = new List<UpgradeButton>();
     public List<WeaponDataSO> unlockedWeapons = new List<WeaponDataSO>();
-    public AudioClip purchaseSound;
+    CurrencyManager currencyManager => GameManager.Instance.currencyManager;
 
     private void Awake()
     {
@@ -59,9 +60,9 @@ public class UpgradeManager : MonoBehaviour, IDataPersistence
 
     private void Update()
     {
-        if (currencyTXT != null && currencyTXT.isActiveAndEnabled)
+        if (currencyText != null && currencyText.isActiveAndEnabled)
         {
-            currencyTXT.text = GameManager.Instance.currencyManager.GetCurrency().ToString();
+            currencyText.text = GameManager.Instance.currencyManager.GetCurrency().ToString();
         }
     }
 
@@ -86,6 +87,8 @@ public class UpgradeManager : MonoBehaviour, IDataPersistence
 
     public void LoadData(GameData data)
     {
+        if (data.purchasedUpgrades == null) return;
+
         purchasedUpgrades = new Dictionary<string, int>();
 
         // Convert each upgrade data into dictionary entries.
@@ -93,6 +96,7 @@ public class UpgradeManager : MonoBehaviour, IDataPersistence
         {
             purchasedUpgrades[upgradeData.upgradeID] = upgradeData.tier;
         }
+        UpdateAllButtons();
     }
 
     public void SaveData(ref GameData data)
