@@ -4,19 +4,21 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    public GameObject enemyPrefab;
-    public GameObject rangedEnemyPrefab;
-    public GameObject gunPickupPrefab;
-    public Transform[] spawnPoints;
-    public Transform[] gunSpawns;
-    public GameObject[] guns;
-    public GameObject[] doors;
-    public List<GameObject> pickups = new List<GameObject>();
-    public List<GameObject> spawnedEnemies = new List<GameObject>();
-    public GameObject[] keys;
+    [SerializeField] GameObject enemyPrefab;
+    [SerializeField] GameObject rangedEnemyPrefab;
+    [SerializeField] GameObject gunPickupPrefab;
+    [SerializeField] Transform[] spawnPoints;
+    [SerializeField] Transform[] gunSpawns;
+    [SerializeField] GameObject[] guns;
+    [SerializeField] GameObject[] doors;
+    [SerializeField] List<GameObject> pickups = new List<GameObject>();
+    [SerializeField] List<GameObject> spawnedEnemies = new List<GameObject>();
+    [SerializeField] GameObject[] keys;
+    GameObject[] spawnPointObjects;
     List<GameObject> spawnedKeys = new List<GameObject>();
     EnemyData enemyData;
     GameObject player;
+    DataPersistenceManager dataPersistenceManager => GameManager.Instance.dataPersistenceManager;
 
     private void Start()
     {
@@ -25,7 +27,7 @@ public class SpawnManager : MonoBehaviour
         StateActions.Start += SpawnEnemies;
 
         enemyData = new EnemyData();
-        GameObject[] spawnPointObjects = GameObject.FindGameObjectsWithTag("EnemySpawn");
+        spawnPointObjects = GameObject.FindGameObjectsWithTag("EnemySpawn");
         spawnPoints = new Transform[spawnPointObjects.Length];
         for (int i = 0; i < spawnPoints.Length; i++)
         {
@@ -50,12 +52,13 @@ public class SpawnManager : MonoBehaviour
         // Only spawn guns if none in scene.
         if (pickups.Count == 0)
         { 
-            GameData data = GameManager.Instance.dataPersistenceManager.GetGameData();
+            GameData data = dataPersistenceManager.GetGameData();
             for (int i = 0; i < gunSpawns.Length; i++)
             {
                 if (guns[i] != null)
                 {
-                    Interactable interactable = guns[i].GetComponent<Interactable>();
+                    var interactable = guns[i].GetComponent<Interactable>();
+                    if (interactable == null) continue;
                     if (data != null && data.inventoryData.Count > 0 && data.inventoryData[0].weaponIDs.Contains(interactable.itemData.name))
                     {
                         // Player already has this gun, don't spawn it.
@@ -112,6 +115,7 @@ public class SpawnManager : MonoBehaviour
         }
         if (pickups.Count == 0)
         {
+            // If all guns are spawned, unsubscribe.
             StateActions.Start -= SpawnGuns;
         }
     }
@@ -150,9 +154,16 @@ public class SpawnManager : MonoBehaviour
 
     public void RespawnKeys()
     {
+        // Applying same filtering logic as spawn keys to avoid duplicates.
+        if (keys.Length == spawnedKeys.Count)
+        {
+            Debug.LogError("Keys: " + keys.Length + "Spawned keys: " + spawnedKeys.Count);
+            return;
+        }
         for (int i = 0; i < keys.Length; i++)
         {
             GameObject key = Instantiate(keys[i], keys[i].transform.position, keys[i].transform.rotation);
+            spawnedKeys.Add(key);
         }
     }
 
@@ -176,7 +187,7 @@ public class SpawnManager : MonoBehaviour
             waitTime += 0.5f;
         }
 
-        GameData data = GameManager.Instance.dataPersistenceManager.GetGameData();
+        GameData data = dataPersistenceManager.GetGameData();
         if (data != null)
         {
             enemyData.navSpeed = data.enemyData.navSpeed;
@@ -197,8 +208,8 @@ public class SpawnManager : MonoBehaviour
     {
         for (int i = 0; i < doors.Length; i++)
         {
-            Door door = doors[i].GetComponentInChildren<Door>();
-            door.isOpen = false;
+            var door = doors[i].GetComponentInChildren<Door>();
+            door.Close();
             if (door != null)
             {
                 Interactable doorInteractable = door.GetComponent<Interactable>();
@@ -209,7 +220,8 @@ public class SpawnManager : MonoBehaviour
 
     public void SpawnEnemy(Transform spawn)
     {
-        GameData data = GameManager.Instance.dataPersistenceManager.GetGameData();
+        // Set enemy data from save data.
+        GameData data = dataPersistenceManager.GetGameData();
         if (data != null)
         {
             enemyData.navSpeed = data.enemyData.navSpeed;
@@ -217,7 +229,7 @@ public class SpawnManager : MonoBehaviour
             enemyData.attackDamage = data.enemyData.attackDamage;
         }
         GameObject enemy;
-        if (Random.value < 0.3f)
+        if (Random.value < 0.4f)
         {
             enemy = Instantiate(rangedEnemyPrefab, spawn.position, Quaternion.identity);
         }
@@ -226,7 +238,7 @@ public class SpawnManager : MonoBehaviour
             enemy = Instantiate(enemyPrefab, spawn.position, Quaternion.identity);
         }
         spawnedEnemies.Add(enemy);
-        EnemyController ec = enemy.GetComponent<EnemyController>();
-        ec.Initialize(enemyData);
+        EnemyController enemyController = enemy.GetComponent<EnemyController>();
+        enemyController.Initialize(enemyData);
     }
 }

@@ -24,31 +24,24 @@ public class Door : MonoBehaviour, IDataPersistence
 
     public void LoadData(GameData data)
     {
+        // If door number is valid, set door state.
         if (doorNumber >= 0 && doorNumber < data.doorsOpened.Count)
         {
             bool shouldBeOpen = data.doorsOpened[doorNumber];
 
             if (shouldBeOpen)
             {
-                isOpen = true;
-                if (obstacle != null) obstacle.enabled = false;
-                transform.rotation = openRotation;
-                targetRotation = openRotation;
+                Open();
             }
             else
             {
-                isOpen = false;
-                if (obstacle != null) obstacle.enabled = true;
-                transform.rotation = closedRotation;
-                targetRotation = closedRotation;
+                Close();
             }
         }
+        // If door number invalid, door is closed by default.
         else
         {
-            isOpen = false;
-            if (obstacle != null) obstacle.enabled = true;
-            transform.rotation = closedRotation;
-            targetRotation = closedRotation;
+            Close();
         }
     }
 
@@ -69,21 +62,39 @@ public class Door : MonoBehaviour, IDataPersistence
         {
             GameManager.Instance.audioManager.PlaySound("door_open");
             GameManager.Instance.hud.DisplayPrompt("Door unlocked", new Vector2(0, 100));
-            isOpen = true;
-            if (obstacle != null) obstacle.enabled = false;
-            targetRotation = openRotation;
+            Open();
             inventory.RemoveKey(keyToUnlock);
 
             GameManager.Instance.dataPersistenceManager.SaveGame();
         }
         else if (!hasKey && isOpen) 
         {
-            
+            Open();
         }
         else
         {
             GameManager.Instance.audioManager.PlaySound("door_locked");
             GameManager.Instance.hud.DisplayPrompt("You need a key to unlock this door", new Vector2(0, 100));
+        }
+    }
+
+    public void Close()
+    {
+        if (isOpen) 
+        {
+            if (obstacle != null) obstacle.enabled = true;
+            transform.rotation = closedRotation;
+            targetRotation = closedRotation;
+        }
+    }
+
+    public void Open()
+    {
+        if (!isOpen)
+        {
+            isOpen = true;
+            if (obstacle != null) obstacle.enabled = false;
+            targetRotation = openRotation;
         }
     }
 

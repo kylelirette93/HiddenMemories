@@ -58434,7 +58434,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 889457897345005749, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 913170087975147038, guid: 244036e27eb21c4469911e6392f2ac5f, type: 3}
       propertyPath: tierIcons.Array.size
