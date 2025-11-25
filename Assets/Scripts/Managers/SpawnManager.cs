@@ -255,6 +255,7 @@ public class SpawnManager : MonoBehaviour
         }
         spawnedEnemies.Add(enemy);
         EnemyController enemyController = enemy.GetComponent<EnemyController>();
+        //Debug.Log($"Initializing enemy with navSpeed: {enemyData.navSpeed}");
         enemyController.Initialize(enemyData);
     }
 }

@@ -46,6 +46,7 @@ public class UpgradeManager : MonoBehaviour, IDataPersistence
 
     public int GetUpgradeTier(UpgradeDataSO upgrade)
     {
+        UpdateShopCurrency();
         return purchasedUpgrades.TryGetValue(upgrade.UpgradeID, out int tier) ? tier : 0;
     }
     public void PurchaseUpgrade(UpgradeDataSO upgrade)

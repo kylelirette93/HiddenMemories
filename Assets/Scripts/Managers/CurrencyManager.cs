@@ -21,11 +21,6 @@ public class CurrencyManager : MonoBehaviour, IDataPersistence
         GameManager.Instance.progressManager.CurrencyAdded();
     }
 
-    private void DecreaseCurrency(int amount)
-    {
-        currency -= amount;
-    }
-
     public int GetCurrency() { return currency; }
 
     public void LoadData(GameData data)

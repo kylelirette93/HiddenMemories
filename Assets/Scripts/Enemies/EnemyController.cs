@@ -42,7 +42,7 @@ public class EnemyController : MonoBehaviour
     private CapsuleCollider collider;
     protected PlayerHealth playerHealth;
     bool canDealDamage = true;
-    bool isBlockedByDoor = false;
+    int lastCheckedHealth;
 
     protected void Awake()
     {
@@ -84,6 +84,11 @@ public class EnemyController : MonoBehaviour
         {
             health.OnEnemyDied -= OnDeath;
         }
+    }
+
+    protected void OnDestroy()
+    {
+        CancelInvoke("ResumeMovement");
     }
     protected void Update()
     {
@@ -142,10 +147,11 @@ public class EnemyController : MonoBehaviour
             playerHealth = player.gameObject.GetComponent<PlayerHealth>();
         }
         if (playerHealth.CurrentHealth <= 0) return; 
-        agent.isStopped = true;
-        RotateInstantlyTowardsTarget(transform, player.transform);
+  
         if (!alreadyAttacked)
         {
+            agent.isStopped = true;
+            RotateInstantlyTowardsTarget(transform, player.transform);
             alreadyAttacked = true;
             if (!isDead)
             {
@@ -206,9 +212,42 @@ public class EnemyController : MonoBehaviour
 
     public virtual void TakeDamage(int damage, Vector3 contactPoint)
     {
+        if (isDead || agent == null || !agent.enabled || !agent.isOnNavMesh)
+            return;
+
+        StopAllCoroutines();
+        ResetAttack();
+
+        agent.isStopped = true;
         animator.SetTrigger("Hurt");
+        // Once hurt animation finished, resume movmeent.
+
         health.TakeDamage(damage);
+        lastCheckedHealth = health.CurrentHealth;
+        StartCoroutine(ResumeMovementCoroutine());
         ParticleSystem particles = Instantiate(bloodParticles, contactPoint, transform.rotation);
+    }
+    private IEnumerator ResumeMovementCoroutine()
+    {
+        yield return new WaitForSeconds(1f);
+        ResumeMovement();
+    }
+    private void ResumeMovement()
+    {
+        if (agent == null || !agent.isOnNavMesh || !agent.enabled)
+        {
+            return;
+        }
+
+        if (lastCheckedHealth != health.CurrentHealth)
+        {
+            agent.isStopped = true;
+        }
+        else
+        {
+            agent.isStopped = false;
+            agent.speed = moveSpeed;
+        }
     }
 
     protected void OnDeath()

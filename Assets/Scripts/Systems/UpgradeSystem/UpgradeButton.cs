@@ -10,6 +10,7 @@ public class UpgradeButton : MonoBehaviour
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI costText;
     [SerializeField] private Button button;
+    [SerializeField] Image lockIcon;
     [SerializeField] private List<Image> tierIcons = new List<Image>();
     
     public WeaponDataSO weapon;
@@ -51,6 +52,8 @@ public class UpgradeButton : MonoBehaviour
             }
             else
             {
+                // Put lock icon over area.
+                lockIcon.enabled = true;
                 transform.parent.gameObject.SetActive(false);
             }
         }
