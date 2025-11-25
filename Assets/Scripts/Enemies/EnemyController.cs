@@ -206,6 +206,7 @@ public class EnemyController : MonoBehaviour
 
     public virtual void TakeDamage(int damage, Vector3 contactPoint)
     {
+        animator.SetTrigger("Hurt");
         health.TakeDamage(damage);
         ParticleSystem particles = Instantiate(bloodParticles, contactPoint, transform.rotation);
     }
@@ -225,6 +226,7 @@ public class EnemyController : MonoBehaviour
             agent.enabled = false;
         }
         collider.enabled = false;
+        animator.ResetTrigger("Hurt");
         animator.SetBool("IsAttacking", false);
         animator.SetTrigger("Death");
         //GameObject explosion = Instantiate(explosionParticles.gameObject, transform.position, Quaternion.identity);
