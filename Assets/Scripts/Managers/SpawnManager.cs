@@ -4,39 +4,51 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
+    [Header("Spawn Prefabs")]
     [SerializeField] GameObject enemyPrefab;
     [SerializeField] GameObject rangedEnemyPrefab;
     [SerializeField] GameObject gunPickupPrefab;
-    [SerializeField] Transform[] spawnPoints;
-    [SerializeField] Transform[] gunSpawns;
-    [SerializeField] GameObject[] guns;
-    [SerializeField] GameObject[] doors;
-    [SerializeField] List<GameObject> pickups = new List<GameObject>();
-    [SerializeField] List<GameObject> spawnedEnemies = new List<GameObject>();
-    [SerializeField] GameObject[] keys;
-    GameObject[] spawnPointObjects;
-    List<GameObject> spawnedKeys = new List<GameObject>();
-    EnemyData enemyData;
-    GameObject player;
+
+    [Header("Enemy Spawning")]
+    GameObject[] enemySpawnPointObjects; // Enemy spawn points in scene.
+    [SerializeField] Transform[] enemySpawnPoints; // Enemy spawn locations.
+    [SerializeField] List<GameObject> spawnedEnemies = new List<GameObject>(); // Enemies currently spawned in scene.
+
+    [Header("Gun Spawning")]
+    [SerializeField] Transform[] gunSpawnPoints; // Gun spawn locations.
+    [SerializeField] GameObject[] guns; // Guns to be spawned.
+    [SerializeField] List<GameObject> pickedUpWeapons = new List<GameObject>(); // Weapons that have been picked up.
+
+    [Header("Keys and Doors")]
+    [SerializeField] GameObject[] doors; // Doors in the scene, to be closed when resetting.
+    [SerializeField] GameObject[] keys; // Keys pickups in the scene, to be respawned if not picked up.
+    List<GameObject> spawnedKeys = new List<GameObject>(); // Keys currently spawned in scene.
+
+    
+    EnemyData enemyData; // Enemy data that's applied to spawned enemies.
+    GameObject player; // Player ref used with enemy spawning logic.
     DataPersistenceManager dataPersistenceManager => GameManager.Instance.dataPersistenceManager;
 
     private void Start()
     {
+        // Subscribe to state actions.
         StateActions.Reset += DespawnEnemies;
         StateActions.Reset += DespawnObjects;
         StateActions.Start += SpawnEnemies;
 
         enemyData = new EnemyData();
-        spawnPointObjects = GameObject.FindGameObjectsWithTag("EnemySpawn");
-        spawnPoints = new Transform[spawnPointObjects.Length];
-        for (int i = 0; i < spawnPoints.Length; i++)
+        // Find each enemy spawn in scene and store positions.
+        enemySpawnPointObjects = GameObject.FindGameObjectsWithTag("EnemySpawn");
+        enemySpawnPoints = new Transform[enemySpawnPointObjects.Length];
+        for (int i = 0; i < enemySpawnPoints.Length; i++)
         {
-            spawnPoints[i] = spawnPointObjects[i].transform;
+            enemySpawnPoints[i] = enemySpawnPointObjects[i].transform;
         }
     }
 
     private void OnDestroy()
     {
+        // Cleanup subscriptions.
         StateActions.Reset -= DespawnEnemies;
         StateActions.Reset -= DespawnObjects;
         StateActions.Start -= SpawnEnemies;
@@ -44,16 +56,17 @@ public class SpawnManager : MonoBehaviour
 
     public void ClearPickups()
     {
-        pickups.Clear();
+        // To be called when starting new game plus or new game.
+        pickedUpWeapons.Clear();
         spawnedKeys.Clear();
     }
     public void SpawnGuns()
     {
         // Only spawn guns if none in scene.
-        if (pickups.Count == 0)
+        if (pickedUpWeapons.Count == 0)
         { 
             GameData data = dataPersistenceManager.GetGameData();
-            for (int i = 0; i < gunSpawns.Length; i++)
+            for (int i = 0; i < gunSpawnPoints.Length; i++)
             {
                 if (guns[i] != null)
                 {
@@ -64,8 +77,8 @@ public class SpawnManager : MonoBehaviour
                         // Player already has this gun, don't spawn it.
                         continue;
                     }
-                    GameObject gun = Instantiate(guns[i], gunSpawns[i].position, Quaternion.identity);
-                    pickups.Add(gun);
+                    GameObject gun = Instantiate(guns[i], gunSpawnPoints[i].position, Quaternion.identity);
+                    pickedUpWeapons.Add(gun);
                 }
             }
         }
@@ -73,9 +86,10 @@ public class SpawnManager : MonoBehaviour
     public void SpawnEnemies()
     {
         spawnedEnemies.Clear();
-        if (spawnPoints != null)
+        if (enemySpawnPoints != null)
         {
-            foreach (Transform spawn in spawnPoints)
+            // Spawn enemies at their spawn points.
+            foreach (Transform spawn in enemySpawnPoints)
             {
                 SpawnEnemy(spawn);
             }
@@ -93,6 +107,7 @@ public class SpawnManager : MonoBehaviour
 
     public void DespawnEnemies()
     {
+        // Despawn all enemies on reset.
         foreach (GameObject enemy in spawnedEnemies)
         {
             if (enemy != null)
@@ -105,15 +120,16 @@ public class SpawnManager : MonoBehaviour
 
     public void DespawnObjects()
     {
-        for (int i = pickups.Count - 1; i >= 0; i--)
+        // Despawn picked up weapons on reset.
+        for (int i = pickedUpWeapons.Count - 1; i >= 0; i--)
         {
-            if (pickups[i] == null)
+            if (pickedUpWeapons[i] == null)
             {
                 // If a gun was picked up, don't try to respawn it, this is merely across scenes.
-                pickups.RemoveAt(i);
+                pickedUpWeapons.RemoveAt(i);
             }
         }
-        if (pickups.Count == 0)
+        if (pickedUpWeapons.Count == 0)
         {
             // If all guns are spawned, unsubscribe.
             StateActions.Start -= SpawnGuns;
@@ -137,9 +153,9 @@ public class SpawnManager : MonoBehaviour
                 if (data != null && data.inventoryData.Count >= 0)
                 {
                     if (data.doorsOpened[keyData.doorNumber] || inventory.Keys.Contains(keyData))
-                   {
+                    {
                         continue;
-                   }
+                    }
                 }
                 //Debug.Log("Spawning key: " + keys[i].name);
                 GameObject key = Instantiate(keys[i], keys[i].transform.position, keys[i].transform.rotation);

@@ -87,7 +87,7 @@ public class Door : MonoBehaviour, IDataPersistence
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
         }
-        else
+        else if (!isOpen)
         {
             transform.rotation = closedRotation;
         }
