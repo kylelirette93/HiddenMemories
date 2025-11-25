@@ -22,8 +22,9 @@ MonoBehaviour:
   reloadSpeed: 0.2
   spread: 1
   spreadAngle: 0
-  recoil: 1
+  recoil: 1.6
   bulletSpread: 0
+  weight: 1
   IsUnlocked: 1
   weaponPrefab: {fileID: 897810322435277991, guid: 9edc07da20cc70d499a59dbbbb7908ec, type: 3}
   gun_fire: {fileID: 8300000, guid: 540326e185a550349b7b4bf170c5df01, type: 3}

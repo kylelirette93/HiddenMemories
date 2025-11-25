@@ -4,6 +4,7 @@ using UnityEngine;
 public class EnemyHealth : Health
 {
     public event Action OnEnemyDied;
+    [SerializeField] Rigidbody limbTest;
     public override void Start()
     {
         base.Start();
@@ -14,7 +15,6 @@ public class EnemyHealth : Health
         base.TakeDamage(damage);
         if (currentHealth <= 0)
         {
-
             OnEnemyDied?.Invoke();
         }
     }

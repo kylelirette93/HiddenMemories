@@ -24,6 +24,7 @@ MonoBehaviour:
   spreadAngle: 0
   recoil: 0.8
   bulletSpread: 0
+  weight: 4
   IsUnlocked: 1
   weaponPrefab: {fileID: 6646739322383903588, guid: 2b758decf246f8d48a7db63f64c14303, type: 3}
   gun_fire: {fileID: 8300000, guid: c67b9e80d31b1ac41bf5fc0985129899, type: 3}

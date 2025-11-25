@@ -280,18 +280,19 @@ public class WeaponBase : MonoBehaviour
     protected void ApplyShootRecoil()
     {
         float recoilRot = -1f;
-        float recoilBack = -0.1f;
-        float cameraRecoil = recoil * 1.05f;
+        float recoilBack = -0.2f;
+        float cameraRecoil = recoil * 2.05f;
 
-        playerController.AddRecoil(new Vector2(Random.Range(-cameraRecoil * 0.1f, cameraRecoil * 0.5f), cameraRecoil * 0.4f));
+        playerController.AddRecoil(new Vector2(Random.Range(-cameraRecoil * 0.2f, cameraRecoil * 0.2f), cameraRecoil * 0.2f));
 
         recoilSequence?.Kill();
         recoilSequence = DOTween.Sequence();
+        recoilSequence.SetLink(gameObject);
         recoilSequence.SetAutoKill(true);
-        recoilSequence.Append(transform.DOLocalRotate(new Vector3(recoilRot, 0f, 0f), 0.05f, RotateMode.LocalAxisAdd));
-        recoilSequence.Join(transform.DOLocalMove(transform.localPosition + new Vector3(0, 0, recoilBack), 0.05f));
-        recoilSequence.Append(transform.DOLocalRotate(new Vector3(-recoilRot, 0f, 0f), 0.05f, RotateMode.LocalAxisAdd));
-        recoilSequence.Join(transform.DOLocalMove(transform.localPosition, 0.05f));
+        recoilSequence.Append(transform.DOLocalRotate(new Vector3(recoilRot, 0f, 0f), 0.1f, RotateMode.LocalAxisAdd)).SetEase(Ease.InBounce);
+        recoilSequence.Join(transform.DOLocalMove(transform.localPosition + new Vector3(0, 0, recoilBack * weaponData.weight), 0.01f)).SetEase(Ease.InOutCirc);
+        recoilSequence.Append(transform.DOLocalRotate(new Vector3(-recoilRot, 0f, 0f), 0.1f, RotateMode.LocalAxisAdd)).SetEase(Ease.OutBounce);
+        recoilSequence.Join(transform.DOLocalMove(transform.localPosition, 0.1f)).SetEase(Ease.OutCirc);
     }
 
     protected void ApplyAllUpgrades()

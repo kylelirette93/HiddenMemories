@@ -24,6 +24,7 @@ public class Bullet : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemy"))
         {
             EnemyController enemy = collision.gameObject.GetComponent<EnemyController>();
+            // Detect limb based on collision point.
             ContactPoint contact = collision.GetContact(0);
             Vector3 contactPoint = contact.point;
             if (enemy != null)
