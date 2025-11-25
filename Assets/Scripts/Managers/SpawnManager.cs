@@ -209,7 +209,7 @@ public class SpawnManager : MonoBehaviour
         for (int i = 0; i < doors.Length; i++)
         {
             var door = doors[i].GetComponentInChildren<Door>();
-            door.Close();
+            door.SetDoorState(false);
             if (door != null)
             {
                 Interactable doorInteractable = door.GetComponent<Interactable>();

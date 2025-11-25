@@ -10,7 +10,7 @@ public class UpgradeManager : MonoBehaviour, IDataPersistence
     public TextMeshProUGUI currencyText;
     public List<UpgradeButton> upgradeButtons = new List<UpgradeButton>();
     public List<WeaponDataSO> unlockedWeapons = new List<WeaponDataSO>();
-    CurrencyManager currencyManager => GameManager.Instance.currencyManager;
+    CurrencyManager CurrencyManager => GameManager.Instance.currencyManager;
 
     private void Awake()
     {
@@ -54,15 +54,16 @@ public class UpgradeManager : MonoBehaviour, IDataPersistence
         int currentTier = purchasedUpgrades.GetValueOrDefault(id, 0);
         int cost = upgrade.GetCost(currentTier);
         purchasedUpgrades[id] = currentTier + 1;
-        GameManager.Instance.currencyManager.Currency -= cost;
+        CurrencyManager.Currency -= cost;
+        UpdateShopCurrency();
         UpdateAllButtons();
     }
 
-    private void Update()
+    private void UpdateShopCurrency()
     {
         if (currencyText != null && currencyText.isActiveAndEnabled)
         {
-            currencyText.text = GameManager.Instance.currencyManager.GetCurrency().ToString();
+            currencyText.text = CurrencyManager.GetCurrency().ToString();
         }
     }
 

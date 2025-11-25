@@ -15,11 +15,13 @@ public class Door : MonoBehaviour, IDataPersistence
     public AudioClip doorSound;
     public NavMeshObstacle obstacle;
     InteractionManager interactionManager;
+    AudioManager AudioManager => GameManager.Instance.audioManager;
+    HUD HUD => GameManager.Instance.hud;
+    DataPersistenceManager DataPersistenceManager => GameManager.Instance.dataPersistenceManager;
 
     void Start()
     {
-        transform.rotation = closedRotation;
-        targetRotation = closedRotation;
+        SetDoorState(false);
     }
 
     public void LoadData(GameData data)
@@ -27,21 +29,11 @@ public class Door : MonoBehaviour, IDataPersistence
         // If door number is valid, set door state.
         if (doorNumber >= 0 && doorNumber < data.doorsOpened.Count)
         {
-            bool shouldBeOpen = data.doorsOpened[doorNumber];
-
-            if (shouldBeOpen)
-            {
-                Open();
-            }
-            else
-            {
-                Close();
-            }
+            SetDoorState(data.doorsOpened[doorNumber]);
         }
-        // If door number invalid, door is closed by default.
         else
         {
-            Close();
+            SetDoorState(false);
         }
     }
 
@@ -56,66 +48,48 @@ public class Door : MonoBehaviour, IDataPersistence
 
     public void TryUnlock()
     {
+        if (isOpen) return; // Door is already unlocked.
         PlayerInventory inventory = GameObject.FindWithTag("Player").GetComponent<PlayerInventory>();
+        if (inventory == null) return;
         bool hasKey = inventory.Keys.Any(key => key.itemName == keyToUnlock.itemName);
-        if (hasKey && !isOpen)
+        if (hasKey)
         {
-            GameManager.Instance.audioManager.PlaySound("door_open");
-            GameManager.Instance.hud.DisplayPrompt("Door unlocked", new Vector2(0, 100));
-            Open();
+            // If player has key, unlock door.
+            AudioManager.PlaySound("door_open");
+            HUD.DisplayPrompt("Door unlocked.", new Vector2(0, 100));
+            SetDoorState(true);
             inventory.RemoveKey(keyToUnlock);
-
-            GameManager.Instance.dataPersistenceManager.SaveGame();
-        }
-        else if (!hasKey && isOpen) 
-        {
-            Open();
+            DataPersistenceManager.SaveGame();
         }
         else
         {
-            GameManager.Instance.audioManager.PlaySound("door_locked");
-            GameManager.Instance.hud.DisplayPrompt("You need a key to unlock this door", new Vector2(0, 100));
+            // If player doesn't have key, give feedback.
+            AudioManager.PlaySound("door_locked");
+            HUD.DisplayPrompt("Door is locked. No key found...", new Vector2(0, 100));
         }
     }
 
-    public void Close()
+    public void SetDoorState(bool open)
     {
-        if (isOpen) 
-        {
-            if (obstacle != null) obstacle.enabled = true;
-            transform.rotation = closedRotation;
-            targetRotation = closedRotation;
-        }
-    }
-
-    public void Open()
-    {
-        if (!isOpen)
-        {
-            isOpen = true;
-            if (obstacle != null) obstacle.enabled = false;
-            targetRotation = openRotation;
-        }
+        isOpen = open;
+        targetRotation = open ? openRotation : closedRotation;
+        if (obstacle != null) obstacle.enabled = !open;
     }
 
     public bool IsUnlocked()
     {
-        if (isOpen) return true;
-        else return false;
+        return isOpen;
     }
 
     private void Update()
     {
-        if (obstacle == null) return;
-        if (isOpen)
+        if (isOpen && transform.rotation != targetRotation)
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
-            obstacle.enabled = false;
         }
         else
         {
-            obstacle.enabled = true;
-            targetRotation = closedRotation;
+            transform.rotation = closedRotation;
         }
     }
 }
