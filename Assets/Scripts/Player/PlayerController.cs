@@ -19,9 +19,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float sprintFov = 75f;
 
     [Header("Movement Settings")]
+    public Vector2 MoveInput { get { return moveInput; } }
     Vector2 moveInput;
+    public bool IsSprinting { get { return isSprinting; } }
     [SerializeField] bool isSprinting = false;
-    public bool isMoving;
+    public bool IsMoving { get { return isMoving; } } 
+    bool isMoving;
+    public float MovementSpeed { get { return movementSpeed; } }
     [SerializeField] float movementSpeed;
     [SerializeField] float walkSpeed = 3f;
     [SerializeField] float runSpeed = 20f;

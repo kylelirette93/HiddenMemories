@@ -49,11 +49,12 @@ public class UpgradeButton : MonoBehaviour
             {
                 button.onClick.AddListener(OnPurchaseClicked);
                 isInitialized = true;
+                lockIcon.gameObject.SetActive(false);
             }
             else
             {
                 // Put lock icon over area.
-                lockIcon.enabled = true;
+                lockIcon.gameObject.SetActive(true);
                 transform.parent.gameObject.SetActive(false);
             }
         }

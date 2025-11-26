@@ -136,6 +136,9 @@ MonoBehaviour:
   powerRate: 0
   recoil: 0
   bulletSpeed: 200
+  smoothing: 4
+  swayMultiplier: 3
+  bobSpeed: 7
 --- !u!1 &1466702170970905792
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -41,6 +42,21 @@ public class WeaponBase : MonoBehaviour
     public bool IsUnlocked { get { return isUnlocked; } set { isUnlocked = value; } }
     protected bool isUnlocked = false;
     protected bool isInitialized = false;
+
+    [Header("Weapon Sway")]
+    [SerializeField] private float smoothing;
+    [SerializeField] private float swayMultiplier;
+
+    [Header("Weapon Bobbing")]
+    float speedCurve;
+    float curveSin;
+    float curveCos;
+    Vector3 travelLimit = Vector3.one * 0.025f; // The max limit of travel from move input.
+    Vector3 bobLimit = Vector3.one * 0.01f; // Limit of travel from bobbing over time.
+    float bobTimer = 0f;
+    [SerializeField] float bobSpeed = 5f;
+    Vector3 bobPosition;
+    Vector3 initialPosition;
 
     // Shooting variables.
     public bool IsReloading { get { return isReloading; } }
@@ -93,7 +109,12 @@ public class WeaponBase : MonoBehaviour
             isShowingReloadText = false;
             uiManager.hud.RemoveReloadText();
         }
-    }   
+    }
+
+    private void Start()
+    {
+        initialPosition = transform.localPosition;
+    }
 
     public virtual void OnDestroy()
     {
@@ -181,7 +202,36 @@ public class WeaponBase : MonoBehaviour
         {
             isShowingReloadText = false;
         }
-    }
+        // Handle weapon sway.
+        float mouseX = playerController.LookInput.x * swayMultiplier;
+        float mouseY = playerController.LookInput.y * swayMultiplier;
+
+        // Calculate target rotation.
+        Quaternion targetRotationX = Quaternion.AngleAxis(-mouseY, Vector3.right);
+        Quaternion targetRotationY = Quaternion.AngleAxis(mouseX, Vector3.up);
+        Quaternion targetRotation = targetRotationX * targetRotationY;
+
+        // Smoothly lerp to target rotation.
+        transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotation, smoothing * Time.deltaTime);
+
+        if (!isShootingHeld)
+        {
+            bobTimer += Time.deltaTime * bobSpeed;
+            curveCos = Mathf.Cos(bobTimer);
+            curveSin = Mathf.Sin(bobTimer);
+
+            // Handle weapon bobbing.
+            Vector2 playerVelocity = playerController.MovementSpeed * playerController.MoveInput;
+            float velocityMagnitude = playerVelocity.magnitude;
+            speedCurve = Mathf.Lerp(speedCurve, velocityMagnitude * 0.35f, Time.deltaTime * 5f);
+            Vector3 travelOffset = new Vector3(curveCos * 2f, Mathf.Abs(curveSin), 0f) * velocityMagnitude * 0.01f;
+            Vector3 bobOffset = new Vector3(curveCos * 1.5f, curveSin * 2f, 0f) * 0.0025f;
+            bobPosition = Vector3.Lerp(bobPosition, travelOffset, Time.deltaTime * 8f);
+
+            // APPLY THE BOB TO THE GUN
+            transform.localPosition = initialPosition + bobPosition;
+        }
+    }  
 
     protected void HandleShooting()
     {

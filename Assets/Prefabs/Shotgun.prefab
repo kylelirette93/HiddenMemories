@@ -318,6 +318,9 @@ MonoBehaviour:
   powerRate: 0
   recoil: 0
   bulletSpeed: 200
+  smoothing: 4
+  swayMultiplier: 3
+  bobSpeed: 7
 --- !u!64 &3530845828697617106
 MeshCollider:
   m_ObjectHideFlags: 0
