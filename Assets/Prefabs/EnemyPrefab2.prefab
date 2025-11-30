@@ -83,7 +83,6 @@ MonoBehaviour:
   attackRange: 2.5
   cashPrefab: {fileID: 7452763399633447479, guid: bf83bbcde8f5ea440aa5e356e81af3ab, type: 3}
   bloodParticles: {fileID: 3771408447181565798, guid: cc03c6018cf60c94380b3f67568f9efc, type: 3}
-  demon_grunt: {fileID: 8300000, guid: 60de379e447fa654099fcceeabcd69ee, type: 3}
   demon_die: {fileID: 8300000, guid: 7820d1400a889fe4b83c1cd27a8f5d24, type: 3}
   explosionParticles: {fileID: 5252791036670798447, guid: d8ab42521fbece3408c32d1597756785, type: 3}
   soulParticles: {fileID: 2815536979745313704, guid: 1baa849147ee7914bbf4dca781258c6a, type: 3}
@@ -99,6 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9540474851d1bb49b9a717dd7f9c23c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  limbTest: {fileID: 0}
 --- !u!195 &6907162566757613464
 NavMeshAgent:
   m_ObjectHideFlags: 0

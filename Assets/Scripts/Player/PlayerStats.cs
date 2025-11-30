@@ -76,7 +76,7 @@ public class PlayerStats : MonoBehaviour
     public void AddMaxHealth(int amount)
     {
         maxHealth += amount;
-        Debug.Log("Max Health increased to: " + maxHealth);
+        //Debug.Log("Max Health increased to: " + maxHealth);
     }
     public void ResetToBaseStat()
     {

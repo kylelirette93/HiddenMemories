@@ -18,6 +18,7 @@ public class GameData
         purchasedUpgrades = new List<UpgradeData>();
         inventoryData = new List<InventoryData>();
         doorsOpened = new List<bool> { false, false };
+        Debug.Log("Game data initialized.." + "Doors opened = " + doorsOpened.ToString());
         timesWon = 0;
         enemyData = new EnemyData();
     }

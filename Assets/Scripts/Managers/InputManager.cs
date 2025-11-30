@@ -33,6 +33,7 @@ public class InputManager : MonoBehaviour, Input.IPlayerActions
     public event Action<Vector2> ScrollWeaponEvent;
     public event Action<InputAction.CallbackContext> ReloadEvent;
     public event Action<InputAction.CallbackContext> InteractInputEvent;
+    GameStateManager gameStateManager => GameManager.Instance.gameStateManager;
     #endregion
 
     void OnEnable()
@@ -86,6 +87,8 @@ public class InputManager : MonoBehaviour, Input.IPlayerActions
     {
         if (context.performed)
         {
+            if (gameStateManager.currentState == GameState.Pause) return;
+
             Vector2 scrollValue = context.ReadValue<Vector2>();
             ScrollWeaponEvent?.Invoke(scrollValue);
         }

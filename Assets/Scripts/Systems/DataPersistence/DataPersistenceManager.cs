@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Linq;
-using NUnit.Framework;
 using System.Collections.Generic;
+using TMPro;
 
 public class DataPersistenceManager : MonoBehaviour
 {
@@ -12,7 +12,11 @@ public class DataPersistenceManager : MonoBehaviour
 
     public List<IDataPersistence> dataPersistenceObjects;
     private FileDataHandler dataHandler;
+
+    [SerializeField] private GameObject confirmationPanel;
+    [SerializeField] private TextMeshProUGUI confirmationText;
     public static DataPersistenceManager instance { get; private set; }
+
     private void Awake()
     {
         if (instance != null)
@@ -60,6 +64,11 @@ public class DataPersistenceManager : MonoBehaviour
 
     public void SaveGame()
     {
+        if (this.gameData == null)
+        {
+            Debug.LogWarning("Attempted to save game but no data was found. Initializing default data.");
+            return;
+        }
         // Pass data to other scripts so they can update it.
         // Save data to a file using data handler.
         foreach (IDataPersistence dataPersistenceObj in dataPersistenceObjects)
@@ -72,7 +81,39 @@ public class DataPersistenceManager : MonoBehaviour
         dataHandler.Save(gameData);
     }
 
-    public void ClearSaveFile()
+    public void OnClearSaveClicked()
+    {
+        if (confirmationPanel != null)
+        {
+            confirmationPanel.SetActive(true);
+            confirmationText.text = "Warning: if you clear the save file, this can not be undone. continue?";
+        }
+    }
+
+    public void ConfirmDeleteSave()
+    {
+        DeleteSave();
+        if (confirmationPanel != null)
+        {
+            confirmationText.text = "Save file deleted.";
+            Invoke("ResetConfirmationPanel", 1f);
+        }
+    }
+
+    private void ResetConfirmationPanel()
+    {
+        confirmationPanel.SetActive(false);
+    }
+
+    public void CancelDeleteSave()
+    {
+        if (confirmationPanel != null)
+        {
+            confirmationPanel.SetActive(false);
+        }
+    }
+
+    public void DeleteSave()
     {
         dataHandler.DeleteFile();
         PlayerPrefs.DeleteAll();
@@ -94,7 +135,10 @@ public class DataPersistenceManager : MonoBehaviour
         gameData.enemyData.timeBetweenAttacks -= 0.2f;
         gameData.enemyData.attackDamage += 5;
         PlayerInventory playerInventory = FindFirstObjectByType<PlayerInventory>();
-        playerInventory.Keys.Clear();
+        if (playerInventory != null)
+        {
+            playerInventory.Keys.Clear();
+        }
         gameData.doorsOpened.Clear();
         gameData.doorsOpened = new List<bool> { false, false };
     }

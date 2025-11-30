@@ -15,6 +15,7 @@ public class UIManager : MonoBehaviour
     public GameObject ResultsPanel;
     public GameObject GameWinPanel;
     public HUD hud;
+    GameStateManager gameStateManager => GameManager.Instance.gameStateManager;
 
     private void Awake()
     {

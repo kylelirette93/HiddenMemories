@@ -35,7 +35,7 @@ public class WeaponBase : MonoBehaviour
     [SerializeField] protected float spreadAngle = 0f;
     [SerializeField] protected float powerRate;
     [SerializeField] protected float recoil;
-    [SerializeField] protected float bulletSpeed = 200f;
+    [SerializeField] protected float bulletSpeed = 350f;
     protected Sequence recoilSequence;
 
     [Header("Weapon Upgrades")]
@@ -141,6 +141,7 @@ public class WeaponBase : MonoBehaviour
         spreadAngle = weaponData.spreadAngle;
         powerRate = (int)weaponData.powerRate;
         recoil = weaponData.recoil;
+        bulletSpeed = weaponData.muzzleVelocity;
         lastShotTime = -1;
         firePoint = transform.Find("Firepoint");
         muzzleFlash = GetComponentInChildren<ParticleSystem>();
@@ -167,6 +168,7 @@ public class WeaponBase : MonoBehaviour
     public virtual void Update()
     {
         GameState currentState = GameManager.Instance.gameStateManager.currentState;
+        if (currentState != GameState.Gameplay) return;
 
         // Check if it just entered gameplay.
         if (lastFrameState != GameState.Gameplay && currentState == GameState.Gameplay)
@@ -185,8 +187,11 @@ public class WeaponBase : MonoBehaviour
         }
 
         // Set crosshair in center of screen.
-        crosshairUI.sizeDelta = new Vector2(40, 40);
-        crosshairUI.position = new Vector3(Screen.width / 2, Screen.height / 2, 0f);
+        if (crosshairUI.gameObject.activeInHierarchy)
+        {
+            crosshairUI.sizeDelta = new Vector2(40, 40);
+            crosshairUI.position = new Vector3(Screen.width / 2, Screen.height / 2, 0f);
+        }
 
         if (currentAmmo == 0 && !isReloading && !isShowingReloadText && gameObject.activeInHierarchy)
         {

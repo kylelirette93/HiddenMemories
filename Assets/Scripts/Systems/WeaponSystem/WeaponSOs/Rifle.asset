@@ -24,10 +24,11 @@ MonoBehaviour:
   spreadAngle: 0
   recoil: 0.8
   bulletSpread: 0
-  weight: 3
+  weight: 0.2
+  muzzleVelocity: 800
   IsUnlocked: 1
   weaponPrefab: {fileID: 6646739322383903588, guid: 2b758decf246f8d48a7db63f64c14303, type: 3}
-  gun_fire: {fileID: 8300000, guid: c67b9e80d31b1ac41bf5fc0985129899, type: 3}
+  gun_fire: {fileID: 8300000, guid: 845a5140d21559e47ad0de7966a3165a, type: 3}
   gun_reload: {fileID: 8300000, guid: 6ccb7982afe8f7f4091ec4a599b0d4ad, type: 3}
   gun_cock: {fileID: 8300000, guid: 842db0c12b40f1842b03db288b0339c5, type: 3}
   firePoint: {x: 0, y: 1, z: 0}

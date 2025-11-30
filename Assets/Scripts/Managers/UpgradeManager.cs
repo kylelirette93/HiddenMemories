@@ -7,7 +7,7 @@ using UnityEngine;
 public class UpgradeManager : MonoBehaviour, IDataPersistence
 {
     private Dictionary<string, int> purchasedUpgrades = new();
-    public TextMeshProUGUI currencyText;
+    [SerializeField] TextMeshProUGUI currencyText;
     public List<UpgradeButton> upgradeButtons = new List<UpgradeButton>();
     public List<WeaponDataSO> unlockedWeapons = new List<WeaponDataSO>();
     CurrencyManager CurrencyManager => GameManager.Instance.currencyManager;

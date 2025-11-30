@@ -25,6 +25,7 @@ MonoBehaviour:
   recoil: 4.6
   bulletSpread: 5
   weight: 6
+  muzzleVelocity: 400
   IsUnlocked: 1
   weaponPrefab: {fileID: 6038615681917709824, guid: cb438ac7b6e6264409dcb3a86d97b086, type: 3}
   gun_fire: {fileID: 8300000, guid: 25c902f473996f64a8e029be2759dc80, type: 3}

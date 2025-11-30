@@ -49,7 +49,10 @@ public class UpgradeButton : MonoBehaviour
             {
                 button.onClick.AddListener(OnPurchaseClicked);
                 isInitialized = true;
-                lockIcon.gameObject.SetActive(false);
+                if (lockIcon != null)
+                {
+                    lockIcon.gameObject.SetActive(false);
+                }
             }
             else
             {

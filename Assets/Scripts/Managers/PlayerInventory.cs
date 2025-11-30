@@ -172,7 +172,10 @@ public class PlayerInventory : MonoBehaviour, IDataPersistence
             if (HealingPotions.Count > 0)
             {
                 HealingPotionSO potion = HealingPotions[0];
-                playerHealth.Heal(potion.HealAmount);
+                if (playerHealth != null)
+                {
+                    playerHealth.Heal(potion.HealAmount);
+                }
                 HealingPotions.RemoveAt(0);
                 hud.InitiatePopup("+" + potion.HealAmount, new Vector2(-60, -490), false);
                 GameManager.Instance.audioManager.PlaySound("heal");

@@ -15,6 +15,7 @@ public class WeaponDataSO : ItemDataSO
     public float recoil = 0;
     public float bulletSpread = 0;
     public float weight = 1;
+    public float muzzleVelocity;
     public bool IsUnlocked = false;
     public GameObject weaponPrefab;
     public AudioClip gun_fire;

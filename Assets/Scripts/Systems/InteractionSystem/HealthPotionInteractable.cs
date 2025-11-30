@@ -11,8 +11,9 @@ public class HealthPotionInteractable : BaseInteractable
         Collider collider = GetComponent<Collider>();
         collider.enabled = false;
 
+        HUD hud = GameManager.Instance.hud;
         Camera mainCam = Camera.main;
-        RectTransform potionRect = GameManager.Instance.hud.potionText.GetComponentInParent<RectTransform>();
+        RectTransform potionRect = GameManager.Instance.hud.potionText.GetComponent<RectTransform>();
         if (potionRect == null)
         {
             Debug.Log("Potion rect is null!");

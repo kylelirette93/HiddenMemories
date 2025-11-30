@@ -55,10 +55,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1
+  m_Radius: 0.5337437
   m_Height: 2.5014176
   m_Direction: 1
-  m_Center: {x: 0.1, y: 1.2, z: 0.13}
+  m_Center: {x: -0.0289011, y: 1.2, z: 0.06403035}
 --- !u!114 &6028103344545344529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71,6 +71,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9540474851d1bb49b9a717dd7f9c23c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  limbTest: {fileID: 0}
 --- !u!195 &6907162566757613464
 NavMeshAgent:
   m_ObjectHideFlags: 0

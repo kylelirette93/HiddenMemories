@@ -120,7 +120,7 @@ public class WeaponManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("No saved ammo for this weapon yet.");
+                //Debug.Log("No saved ammo for this weapon yet.");
             }
             weaponData = weaponToEquip;
         }

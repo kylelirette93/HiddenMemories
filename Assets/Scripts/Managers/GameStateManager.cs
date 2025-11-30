@@ -2,6 +2,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class GameStateManager : MonoBehaviour, IDataPersistence
 {
@@ -57,6 +58,7 @@ public class GameStateManager : MonoBehaviour, IDataPersistence
     {
         previousState = currentState;
         currentState = newState;
+        EventSystem.current.SetSelectedGameObject(null);
 
         switch (currentState)
         {
@@ -87,6 +89,8 @@ public class GameStateManager : MonoBehaviour, IDataPersistence
                 break;
             case GameState.Gameplay:
                 Time.timeScale = 1;
+                isPaused = false;
+                Debug.Log("Is paused: " + isPaused);
                 DisableCursor();
                 if (!gameInitialized)
                 {
@@ -106,9 +110,11 @@ public class GameStateManager : MonoBehaviour, IDataPersistence
                 }
                     break;
             case GameState.Pause:
-                playerController.DisableLook();
+                isPaused = true;
+                Debug.Log("Is paused: " + isPaused);
                 Time.timeScale = 0f;
                 EnableCursor();
+                playerController.DisableLook();
                 uiManager.DisableAllMenuUI();
                 uiManager.EnablePauseUI();
                 GameManager.Instance.audioManager.PauseMusic();
@@ -149,7 +155,7 @@ public class GameStateManager : MonoBehaviour, IDataPersistence
     }
     public void PlayGame()
     {
-        Debug.Log("Play game called.");
+        //Debug.Log("Play game called.");
         if (sceneCamera.isActiveAndEnabled)
         {
             sceneCamera.gameObject.SetActive(false);
@@ -221,17 +227,14 @@ public class GameStateManager : MonoBehaviour, IDataPersistence
     }
 
     public void PauseGame()
-    {
+    {        
         if (isPaused)
         {
-            playerController.DisableLook();
             ResumeGame();
         }
         else if (!isPaused && currentState == GameState.Gameplay)
         {
-            previousState = currentState;
             ChangeState(GameState.Pause);
-            isPaused = true;
         }
     }
 
@@ -239,8 +242,6 @@ public class GameStateManager : MonoBehaviour, IDataPersistence
     {
         playerController.EnableLook();
         ChangeState(GameState.Gameplay);
-        isPaused = false;
-        Time.timeScale = 1f;
     }
 
     public void Instructions()

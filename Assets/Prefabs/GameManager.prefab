@@ -278,6 +278,7 @@ MonoBehaviour:
   nameText: {fileID: 5972760281405627502}
   costText: {fileID: 1733287385800426374}
   button: {fileID: 8172475581063522147}
+  lockIcon: {fileID: 0}
   tierIcons:
   - {fileID: 7004514670403659732}
   - {fileID: 1521385234301583559}
@@ -1612,21 +1613,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 8563448151292640453, guid: 47d7150bb3470d14fa21403f7471b90c, type: 3}
+  rangedEnemyPrefab: {fileID: 0}
   gunPickupPrefab: {fileID: 7987102532977667543, guid: 4c6e612b75116254e8bc03d1f74b764f, type: 3}
-  spawnPoints: []
-  gunSpawns:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  enemySpawnPoints: []
+  spawnedEnemies: []
+  gunSpawnPoints: []
   guns:
   - {fileID: 7987102532977667543, guid: 4c6e612b75116254e8bc03d1f74b764f, type: 3}
   - {fileID: 7987102532977667543, guid: 408f44a1949247d4fb81243ff06e3e84, type: 3}
   - {fileID: 8122070183236858338, guid: b08d544e88c40364b84a635bf3689ee6, type: 3}
+  pickedUpWeapons: []
   doors:
   - {fileID: 0}
   - {fileID: 0}
-  pickups: []
-  spawnedEnemies: []
   keys:
   - {fileID: 6105037983751498221, guid: 6ba6bd612d34c144a810e1c5708d0431, type: 3}
   - {fileID: 992107102819613834, guid: 013c6f842db13394e9fe787a4a27e99a, type: 3}
@@ -2609,7 +2608,6 @@ GameObject:
   - component: {fileID: 1087012763275858920}
   - component: {fileID: 7373002200660937119}
   - component: {fileID: 3127555896768354771}
-  - component: {fileID: 6335632895396159326}
   m_Layer: 5
   m_Name: UpgradesPanel
   m_TagString: Untagged
@@ -2682,19 +2680,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6335632895396159326
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 889457897345005749}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec623dd40e63fb54190c81f01025109e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  firstSelectedElement: {fileID: 344406132810256329}
 --- !u!1 &1031332924188808951
 GameObject:
   m_ObjectHideFlags: 0
@@ -3071,6 +3056,7 @@ MonoBehaviour:
   currencyManager: {fileID: 0}
   dataPersistenceManager: {fileID: 0}
   soundMixerManager: {fileID: 0}
+  gameSettings: {fileID: 0}
 --- !u!1 &1224279593600564477
 GameObject:
   m_ObjectHideFlags: 0
@@ -4274,7 +4260,6 @@ GameObject:
   - component: {fileID: 1053736013342251160}
   - component: {fileID: 944216270243932837}
   - component: {fileID: 81028070580199418}
-  - component: {fileID: 1178713786596653131}
   m_Layer: 5
   m_Name: GameWinPanel
   m_TagString: Untagged
@@ -4342,19 +4327,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1178713786596653131
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1631491192735627383}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec623dd40e63fb54190c81f01025109e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  firstSelectedElement: {fileID: 8537451380022420800}
 --- !u!1 &1678427566645446612
 GameObject:
   m_ObjectHideFlags: 0
@@ -4956,7 +4928,6 @@ GameObject:
   - component: {fileID: 7557484393977030631}
   - component: {fileID: 3758027280845114161}
   - component: {fileID: 5739226254561146322}
-  - component: {fileID: 437117622931203113}
   m_Layer: 5
   m_Name: MainMenuPanel
   m_TagString: Untagged
@@ -5026,19 +4997,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &437117622931203113
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1936146635840961751}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec623dd40e63fb54190c81f01025109e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  firstSelectedElement: {fileID: 572850512336410682}
 --- !u!1 &1952060656961151444
 GameObject:
   m_ObjectHideFlags: 0
@@ -6166,6 +6124,7 @@ MonoBehaviour:
   nameText: {fileID: 7794517498842472504}
   costText: {fileID: 1156575191405036121}
   button: {fileID: 1502299159514498375}
+  lockIcon: {fileID: 0}
   tierIcons:
   - {fileID: 5031546330732447250}
   - {fileID: 2621616000285551768}
@@ -7733,7 +7692,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7ffe860438dcab43aafc5c6638fc203, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CashPickup: {fileID: 8300000, guid: 1c54b337691286e4b9f67f518a0b0d74, type: 3}
 --- !u!1 &3488025134046765265
 GameObject:
   m_ObjectHideFlags: 0
@@ -8123,7 +8081,6 @@ GameObject:
   - component: {fileID: 7395408519888236869}
   - component: {fileID: 4331498623687077974}
   - component: {fileID: 7032804683029479478}
-  - component: {fileID: 851248894662747557}
   m_Layer: 5
   m_Name: InstructionsPanel
   m_TagString: Untagged
@@ -8193,19 +8150,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &851248894662747557
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3524360381671865266}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec623dd40e63fb54190c81f01025109e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  firstSelectedElement: {fileID: 5691337493884278525}
 --- !u!1 &3557535900129695830
 GameObject:
   m_ObjectHideFlags: 0
@@ -8705,10 +8649,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4253a3b3f6036cd4da84d79ac200cbcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currencyTXT: {fileID: 845887629172280309}
+  currencyText: {fileID: 0}
   upgradeButtons: []
   unlockedWeapons: []
-  purchaseSound: {fileID: 8300000, guid: c541df55050e67547aba550781416671, type: 3}
 --- !u!1 &3865373490983635978
 GameObject:
   m_ObjectHideFlags: 0
@@ -8988,6 +8931,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fileName: saveFile
+  confirmationPanel: {fileID: 0}
+  confirmationText: {fileID: 0}
 --- !u!1 &3936050999044282158
 GameObject:
   m_ObjectHideFlags: 0
@@ -9266,6 +9211,7 @@ MonoBehaviour:
   nameText: {fileID: 7668419116403622785}
   costText: {fileID: 8880597324565025307}
   button: {fileID: 6326469215040194538}
+  lockIcon: {fileID: 0}
   tierIcons:
   - {fileID: 450020424026622308}
   - {fileID: 5303470300767775830}
@@ -9282,7 +9228,6 @@ GameObject:
   - component: {fileID: 5482367933949292029}
   - component: {fileID: 4875253543858705832}
   - component: {fileID: 8151003176190181416}
-  - component: {fileID: 1012259516882871450}
   m_Layer: 5
   m_Name: CreditsPanel
   m_TagString: Untagged
@@ -9350,19 +9295,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1012259516882871450
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3978757798075345328}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec623dd40e63fb54190c81f01025109e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  firstSelectedElement: {fileID: 4979290635402817714}
 --- !u!1 &4041985721081620858
 GameObject:
   m_ObjectHideFlags: 0
@@ -10420,6 +10352,7 @@ MonoBehaviour:
   nameText: {fileID: 4568162840795295021}
   costText: {fileID: 3370826677007298430}
   button: {fileID: 5312980903758407983}
+  lockIcon: {fileID: 0}
   tierIcons:
   - {fileID: 5896849969757538034}
   - {fileID: 4842228534013771143}
@@ -10567,6 +10500,7 @@ MonoBehaviour:
   nameText: {fileID: 8730512956481659028}
   costText: {fileID: 1192704249159146081}
   button: {fileID: 4474384241114335623}
+  lockIcon: {fileID: 0}
   tierIcons:
   - {fileID: 8208104934966826345}
   - {fileID: 7915720065774822905}
@@ -11196,6 +11130,7 @@ MonoBehaviour:
   nameText: {fileID: 2561843292314644950}
   costText: {fileID: 3318592508736551858}
   button: {fileID: 1409680689381565265}
+  lockIcon: {fileID: 0}
   tierIcons:
   - {fileID: 5139519666100459520}
   - {fileID: 2420390193295657894}
@@ -13194,7 +13129,6 @@ GameObject:
   - component: {fileID: 6651517448875179324}
   - component: {fileID: 1094309646180042508}
   - component: {fileID: 7873015456232733905}
-  - component: {fileID: 3389180046432288002}
   m_Layer: 5
   m_Name: PausePanel
   m_TagString: Untagged
@@ -13264,19 +13198,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3389180046432288002
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5450548226000030726}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec623dd40e63fb54190c81f01025109e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  firstSelectedElement: {fileID: 1835462218965721830}
 --- !u!1 &5533340519236184638
 GameObject:
   m_ObjectHideFlags: 0
@@ -14931,6 +14852,7 @@ MonoBehaviour:
   nameText: {fileID: 4693676168497196147}
   costText: {fileID: 7723465158787880276}
   button: {fileID: 5249085088599375902}
+  lockIcon: {fileID: 0}
   tierIcons:
   - {fileID: 3815558382565829957}
   - {fileID: 5502910160083369661}
@@ -16048,7 +15970,6 @@ GameObject:
   - component: {fileID: 7261854646741046028}
   - component: {fileID: 674374497888258939}
   - component: {fileID: 3926296632446777676}
-  - component: {fileID: 5521797564574644957}
   m_Layer: 5
   m_Name: ControlsPanel
   m_TagString: Untagged
@@ -16118,19 +16039,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &5521797564574644957
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6231650623555275458}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec623dd40e63fb54190c81f01025109e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  firstSelectedElement: {fileID: 2632969093809678720}
 --- !u!1 &6262426613737594398
 GameObject:
   m_ObjectHideFlags: 0
@@ -16142,7 +16050,6 @@ GameObject:
   - component: {fileID: 9111711103675444712}
   - component: {fileID: 2029603810558434460}
   - component: {fileID: 8605779115267050602}
-  - component: {fileID: 4961535002913973367}
   m_Layer: 5
   m_Name: InstructionsPanel2
   m_TagString: Untagged
@@ -16212,19 +16119,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4961535002913973367
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6262426613737594398}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec623dd40e63fb54190c81f01025109e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  firstSelectedElement: {fileID: 4754434827755705359}
 --- !u!1 &6300662871897225559
 GameObject:
   m_ObjectHideFlags: 0
@@ -16795,6 +16689,7 @@ MonoBehaviour:
   nameText: {fileID: 5392226383145300882}
   costText: {fileID: 229332654535983069}
   button: {fileID: 344406132810256329}
+  lockIcon: {fileID: 0}
   tierIcons:
   - {fileID: 1964629402303863367}
   - {fileID: 2405703471477143094}
@@ -19418,7 +19313,6 @@ GameObject:
   - component: {fileID: 1068227558800201376}
   - component: {fileID: 6754245823358170941}
   - component: {fileID: 7238018273903588861}
-  - component: {fileID: 9205358982175741410}
   - component: {fileID: 1319926624622607663}
   m_Layer: 5
   m_Name: ResultsPanel
@@ -19490,19 +19384,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &9205358982175741410
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7702370083382786851}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec623dd40e63fb54190c81f01025109e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  firstSelectedElement: {fileID: 8014059366905455764}
 --- !u!114 &1319926624622607663
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19933,7 +19814,6 @@ GameObject:
   - component: {fileID: 1675034246065540992}
   - component: {fileID: 3308832153528372973}
   - component: {fileID: 7817023427234448036}
-  - component: {fileID: 8215083074477734476}
   m_Layer: 5
   m_Name: SettingsPanel
   m_TagString: Untagged
@@ -20007,19 +19887,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8215083074477734476
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7839885748907466727}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec623dd40e63fb54190c81f01025109e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  firstSelectedElement: {fileID: 2903642975747526308}
 --- !u!1 &7873106805786120714
 GameObject:
   m_ObjectHideFlags: 0

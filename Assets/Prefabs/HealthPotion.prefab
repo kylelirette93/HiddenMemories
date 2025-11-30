@@ -19,7 +19,7 @@ GameObject:
   m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &8834273252850730872
 Transform:
@@ -410,5 +410,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9e1b8816c88a834f835b3d419199c62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 0
   itemData: {fileID: 11400000, guid: 68f2dbf04dd702846af351549eb08d21, type: 2}

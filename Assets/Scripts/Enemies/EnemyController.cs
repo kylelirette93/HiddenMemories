@@ -219,6 +219,8 @@ public class EnemyController : MonoBehaviour
         ResetAttack();
 
         agent.isStopped = true;
+        // Stop animator first.
+        animator.ResetTrigger("Hurt");
         animator.SetTrigger("Hurt");
         // Once hurt animation finished, resume movmeent.
 
@@ -226,6 +228,9 @@ public class EnemyController : MonoBehaviour
         lastCheckedHealth = health.CurrentHealth;
         StartCoroutine(ResumeMovementCoroutine());
         ParticleSystem particles = Instantiate(bloodParticles, contactPoint, transform.rotation);
+        // Have particles spray outwards from behind enemy.
+        Vector3 toPlayer = (player.position - transform.position).normalized;
+        particles.transform.rotation = Quaternion.LookRotation(-toPlayer);
     }
     private IEnumerator ResumeMovementCoroutine()
     {

@@ -60,9 +60,10 @@ public class PlayerHealthBar : MonoBehaviour
     {
         if (newHealth >= maxHealth) isHealing = true;
         float targetValue = (float)newHealth / (float)maxHealth;
-
+        Mathf.Clamp(targetValue, 0, maxHealth);
         playerHealthBar.DOKill();
         playerHealthBar.DOValue(targetValue * playerHealthBar.maxValue, 0.25f);
+       
 
         if (fillImage != null)
         {
@@ -90,6 +91,7 @@ public class PlayerHealthBar : MonoBehaviour
 
     private void UpdateHealthText(int newHealth, int maxHealth)
     {
+        if (newHealth <= 0) newHealth = 0;
         healthText.text = "HP: " + newHealth + " / " + maxHealth;
     }
 }

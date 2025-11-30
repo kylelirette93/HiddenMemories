@@ -26,15 +26,15 @@ public class Door : MonoBehaviour, IDataPersistence
 
     public void LoadData(GameData data)
     {
+        bool doorState = false;
         // If door number is valid, set door state.
         if (doorNumber >= 0 && doorNumber < data.doorsOpened.Count)
         {
-            SetDoorState(data.doorsOpened[doorNumber]);
+            doorState = data.doorsOpened[doorNumber];
         }
-        else
-        {
-            SetDoorState(false);
-        }
+        SetDoorState(doorState);
+
+        transform.rotation = targetRotation;
     }
 
     public void SaveData(ref GameData data)

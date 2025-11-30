@@ -5,7 +5,6 @@ public class CurrencyManager : MonoBehaviour, IDataPersistence
 {
     public int Currency { get { return currency; } set { currency = value; } }
     int currency;
-    public AudioClip CashPickup;
 
     private void Awake()
     {
