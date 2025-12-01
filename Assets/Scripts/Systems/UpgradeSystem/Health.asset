@@ -15,9 +15,9 @@ MonoBehaviour:
   name: +Max Health
   upgradeID: health
   maxTier: 3
-  costs: 05000000080000000a000000
+  costs: 03000000070000000c000000
   statValues:
-  - 10
   - 20
   - 40
+  - 60
   upgradeType: 5

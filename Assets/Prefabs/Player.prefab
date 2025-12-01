@@ -113,6 +113,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   availableUpgrades:
   - {fileID: 11400000, guid: 92a4626d5379e88488098ab704f1158c, type: 2}
+  - {fileID: 11400000, guid: fc9c46e214a03e743b4a6c7b206b6cf3, type: 2}
 --- !u!114 &2726675757025881812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,7 +170,6 @@ MonoBehaviour:
   walkFov: 60
   sprintFov: 75
   isSprinting: 0
-  isMoving: 0
   movementSpeed: 0
   walkSpeed: 3
   runSpeed: 5

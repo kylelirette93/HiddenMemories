@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class GameSettings : MonoBehaviour
 {
-    public float MouseSensitivity { get; set; } = 0.5f;
+    public float MouseSensitivity { get; set; } = 0.2f;
 
 
     private void Awake()
@@ -12,7 +12,7 @@ public class GameSettings : MonoBehaviour
 
     private void LoadSettings()
     {
-        MouseSensitivity = PlayerPrefs.GetFloat("MouseSensitivity", 0.5f);
+        MouseSensitivity = PlayerPrefs.GetFloat("MouseSensitivity", 0.2f);
     }
 
     public void SaveSettings()

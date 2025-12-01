@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2b033a50cf336dd40adecea94c2bd5af, type: 3}
-  m_Name: Pistol_FireRate
+  m_Name: SoulMeter
   m_EditorClassIdentifier: 
-  name: +Shoot Speed
-  upgradeID: pistol_fire_rate
+  name: +Soul Health
+  upgradeID: soulhealth
   maxTier: 3
-  costs: 03000000060000000a000000
+  costs: 03000000070000000c000000
   statValues:
-  - -0.2
-  - -0.4
-  - -0.6
-  upgradeType: 1
+  - 20
+  - 40
+  - 60
+  upgradeType: 6

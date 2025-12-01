@@ -51,6 +51,7 @@ public class GameStateManager : MonoBehaviour, IDataPersistence
         if (uiManager != null)
         {
             currentState = GameState.MainMenu;
+            ChangeState(currentState);
         }
     }
 

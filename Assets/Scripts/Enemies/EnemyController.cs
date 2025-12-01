@@ -237,6 +237,7 @@ public class EnemyController : MonoBehaviour
         yield return new WaitForSeconds(1f);
         ResumeMovement();
     }
+
     private void ResumeMovement()
     {
         if (agent == null || !agent.isOnNavMesh || !agent.enabled)

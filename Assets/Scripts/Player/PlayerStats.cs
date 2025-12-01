@@ -16,6 +16,7 @@ public class PlayerStats : MonoBehaviour
         get => soulHealth;
     }
     int soulHealth = 100;
+    float drainSpeed = 0.4f;
 
     public int MaxSoulHealth { get { return maxSoulHealth; } }
     int maxSoulHealth = 100;
@@ -26,6 +27,7 @@ public class PlayerStats : MonoBehaviour
     public int MaxHealth { get { return maxHealth; } }
     int maxHealth = 100;
     int baseHealth = 100;
+    int baseSoulHealth = 100;
     public List<UpgradeDataSO> availableUpgrades = new List<UpgradeDataSO>();
 
     private void Awake()
@@ -57,7 +59,7 @@ public class PlayerStats : MonoBehaviour
     {
         while (soulHealth > 0)
         {
-            yield return new WaitForSeconds(0.65f);
+            yield return new WaitForSeconds(drainSpeed);
             soulHealth--;
             GameManager.Instance.hud.UpdateSlider(soulHealth, maxSoulHealth);
         }
@@ -69,6 +71,7 @@ public class PlayerStats : MonoBehaviour
     {
         soulHealth += 15;
         OnSoulGained?.Invoke();
+        GameManager.Instance.audioManager.PlaySound("soul_increase");
         GameManager.Instance.uiManager.hud.UpdateSlider(soulHealth, maxSoulHealth);
         GameManager.Instance.uiManager.hud.UpdateSliderColor();
     }
@@ -78,9 +81,15 @@ public class PlayerStats : MonoBehaviour
         maxHealth += amount;
         //Debug.Log("Max Health increased to: " + maxHealth);
     }
+
+    public void AddSoulHealth(int amount)
+    {
+        maxSoulHealth += amount;
+    }
     public void ResetToBaseStat()
     {
         maxHealth = baseHealth;
+        maxSoulHealth = baseSoulHealth;
     }
 
     public void ApplyUpgrades()

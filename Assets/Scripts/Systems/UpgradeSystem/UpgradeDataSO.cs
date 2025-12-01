@@ -91,6 +91,9 @@ public class UpgradeDataSO : ScriptableObject, IUpgrade
                 case UpgradeType.MaxHealth:
                     PlayerStats.Instance.AddMaxHealth((int)value);
                     break;
+                case UpgradeType.SoulHealth:
+                    PlayerStats.Instance.AddSoulHealth((int)value);
+                    break;
             }
         }
     }
@@ -112,4 +115,5 @@ public enum UpgradeType
     PowerRate,
     ReloadSpeed,
     MaxHealth,
+    SoulHealth
 }
