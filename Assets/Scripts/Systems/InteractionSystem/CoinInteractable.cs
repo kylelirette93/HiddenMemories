@@ -21,10 +21,9 @@ public class CoinPickup : MonoBehaviour
                 rotateScript.enabled = false;
             }
             Camera mainCam = Camera.main;
-            HUD hud = GameManager.Instance.hud;
-            if (hud != null)
+            if (HUD.Instance != null)
             {
-                RectTransform currencyRect = GameManager.Instance.hud.currencyText.GetComponent<RectTransform>();
+                RectTransform currencyRect = HUD.Instance.currencyText.GetComponent<RectTransform>();
 
                 if (currencyRect == null)
                 {

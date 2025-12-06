@@ -58,7 +58,7 @@ public class Door : MonoBehaviour, IDataPersistence
             AudioManager.PlaySound("door_open");
             HUD.DisplayPrompt("Door unlocked.", new Vector2(0, 100));
             SetDoorState(true);
-            inventory.RemoveKey(keyToUnlock);
+            inventory.RemoveItem(keyToUnlock);
             DataPersistenceManager.SaveGame();
         }
         else

@@ -1,22 +1,32 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
-using TMPro;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerInventory : MonoBehaviour, IDataPersistence
+public class PlayerInventory : Singleton<PlayerInventory>, IDataPersistence
 {
+    [Header("Item Lists")]
     public List<WeaponDataSO> availableWeapons = new List<WeaponDataSO>();
-    public WeaponManager weaponManager;
     public List<KeyDataSO> Keys = new List<KeyDataSO>();
     public List<HealingPotionSO> HealingPotions = new List<HealingPotionSO>();
-    UIManager uiManager;
-    HUD hud;
     PlayerHealth playerHealth;
     InputManager input;
 
+    public Action<int> OnPotionCountChanged;
+    public Action<int> OnKeyCountChanged;
+    private readonly Dictionary<ItemType, IItemAddStrategy> addStrategies = new Dictionary<ItemType, IItemAddStrategy>();
+    private readonly Dictionary<ItemType, IItemRemoveStrategy> removeStrategies = new Dictionary<ItemType, IItemRemoveStrategy>();
+
     private void Awake()
     {
+        // Initialize strategies for adding items.
+        addStrategies.Add(ItemType.Key, new KeyAddStrategy());
+        addStrategies.Add(ItemType.HealthPotion, new PotionAddStrategy());
+        addStrategies.Add(ItemType.Weapon, new WeaponAddStrategy());
+        removeStrategies.Add(ItemType.Key, new KeyRemoveStrategy());
+        removeStrategies.Add(ItemType.HealthPotion, new PotionRemoveStrategy());
+
         // Player Inventory gets instantiated after, but must be saveable.
         GameManager.Instance.dataPersistenceManager.RegisterDataPersistenceObject(this);
     }
@@ -29,106 +39,70 @@ public class PlayerInventory : MonoBehaviour, IDataPersistence
     {
         input = GameManager.Instance.inputManager;
         playerHealth = GetComponent<PlayerHealth>();
-        InteractableActions.AddWeapon += AddWeapon;
-        InteractableActions.AddKey += AddKey;
-        InteractableActions.AddPotion += AddPotion;
+        InteractableActions.AddWeapon += AddItem;
+        InteractableActions.AddKey += AddItem;
+        InteractableActions.AddPotion += AddItem;
         input.UsePotionEvent += UseHealingPotion;
-        uiManager = GameManager.Instance.uiManager;
-        if (uiManager != null)
-        {
-            hud = uiManager.hud;
-        }
     }
 
     private void OnDisable()
     {
-        InteractableActions.AddWeapon -= AddWeapon;
-        InteractableActions.AddKey -= AddKey;
-        InteractableActions.AddPotion -= AddPotion;
+        InteractableActions.AddWeapon -= AddItem;
+        InteractableActions.AddKey -= AddItem;
+        InteractableActions.AddPotion -= AddItem;
         StopAllCoroutines();
     }
 
-    private void AddWeapon(ItemDataSO weapon)
+    private void AddItem(ItemDataSO item)
     {
-        if (weapon is WeaponDataSO _currentWeapon && !availableWeapons.Contains(_currentWeapon))
+        if (addStrategies.TryGetValue(item.itemType, out IItemAddStrategy strategy))
         {
-            availableWeapons.Add(_currentWeapon);
-            weaponManager.EquipWeapon(_currentWeapon);
-            _currentWeapon.IsUnlocked = true;
-            WeaponActions.UnlockWeapon?.Invoke(_currentWeapon);
-            //Debug.Log("Successfully added weapon: " + weapon.name);
+            strategy.Execute(item, this);
         }
     }
 
-    private void AddKey(ItemDataSO key)
+    public void RemoveItem(ItemDataSO item)
     {
-        if (key is KeyDataSO Key)
+        if (removeStrategies.TryGetValue(item.itemType, out IItemRemoveStrategy strategy))
         {
-            if (!Keys.Contains(Key))
-            {
-                Keys.Add(Key);
-            }
-            uiManager.hud.AddKeyToHud(); 
-        }
-    }
-
-    public void RemoveKey(ItemDataSO key)
-    {
-        if (key is KeyDataSO Key && Keys.Contains(Key))
-        {
-            Keys.Remove(Key);
-            uiManager.hud.RemoveKeyFromHud();
-        }
-    }
-
-    private void AddPotion(ItemDataSO potion)
-    {
-        if (potion is HealingPotionSO Potion)
-        {
-            HealingPotions.Add(Potion);
-            hud.InitiatePopup("Press H to heal!", new Vector2(0, 100), false);
+            strategy.Execute(item, this);
         }
     }
 
     public void LoadData(GameData data)
     {
-        //Debug.Log("PlayerInventory.LoadData() called! Inventory data count: " + data.inventoryData.Count);
+        availableWeapons.Clear();
+        Keys.Clear();
+        HealingPotions.Clear();
+
         foreach (var inventoryData in data.inventoryData)
         {
-            foreach (string weaponID in inventoryData.weaponIDs)
-            {
-                WeaponDataSO weaponToUnlock = Resources.Load<WeaponDataSO>("ScriptableObjects/Weapons/" + weaponID);
+            LoadItemsFromIDs(inventoryData.weaponIDs, (id) => Resources.Load<WeaponDataSO>("ScriptableObjects/Weapons/" + id));
+            LoadItemsFromIDs(inventoryData.keyIDs, (id) => Resources.Load<WeaponDataSO>("ScriptableObjects/Weapons/" + id));
+            LoadItemsFromCount(inventoryData.potionCount);
+        }
 
-                if (weaponToUnlock != null && !availableWeapons.Contains(weaponToUnlock))
-                {
-                    availableWeapons.Add(weaponToUnlock);
-                    weaponToUnlock.IsUnlocked = true;
-                    weaponManager.EquipWeapon(weaponToUnlock);
-                    WeaponActions.UnlockWeapon?.Invoke(weaponToUnlock);
-                    //Debug.Log("Successfully loaded weapon: " + weaponToUnlock.name);
-                }
-            }
-            foreach (string keyID in inventoryData.keyIDs)
-            {
-                KeyDataSO keyToAdd = Resources.Load<KeyDataSO>("ScriptableObjects/Keys/" + keyID);
-                //Debug.Log(keyID);
-                if (keyToAdd != null && !Keys.Contains(keyToAdd))
-                {
-                    Keys.Add(keyToAdd);
-                    //Debug.Log("Successfully loaded key: " + keyToAdd.name);
-                }
-            }
+        OnKeyCountChanged?.Invoke(Keys.Count);
+        OnPotionCountChanged?.Invoke(HealingPotions.Count);
+    }
 
-            for (int i = 0; i < inventoryData.potionCount; i++)
-            {
-                HealingPotionSO potionToAdd = Resources.Load<HealingPotionSO>("ScriptableObjects/Potions/HealingPotion");
-                //Debug.Log(potionToAdd);
-                if (potionToAdd != null)
-                {
-                    HealingPotions.Add(potionToAdd);
-                    //Debug.Log("Successfully loaded: " + inventoryData.potionCount + " potions.");
-                }
-            }
+    private void LoadItemsFromIDs(List<string> itemIDs, Func<string, ItemDataSO> loadFunction)
+    {
+        foreach (string itemID in itemIDs)
+        {
+            ItemDataSO item = loadFunction(itemID);
+            if (item != null) AddItem(item);
+            else Debug.LogError("Failed to load item with ID: " + itemID);
+        }
+    }
+
+    private void LoadItemsFromCount(int count)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            HealingPotionSO potion = Resources.Load<HealingPotionSO>("ScriptableObjects/Items/HealingPotion");
+            if (potion != null) AddItem(potion);
+            else Debug.LogError("Failed to load HealingPotionSO from Resources.");
         }
     }
 
@@ -137,32 +111,19 @@ public class PlayerInventory : MonoBehaviour, IDataPersistence
         //Debug.Log("PlayerInventory.SaveData() called! Available weapons: " + availableWeapons.Count);
         data.inventoryData.Clear();
 
-        InventoryData inventoryData = new InventoryData();
-        inventoryData.weaponIDs = new List<string>();
-        inventoryData.keyIDs = new List<string>();
-        inventoryData.potionCount = 0;
+        InventoryData saveState = new InventoryData
+        {
+            weaponIDs = availableWeapons
+            .Where(weapon => weapon.IsUnlocked)
+            .Select(weapon => weapon.name)
+            .ToList(),
 
-        foreach (var weapon in availableWeapons)
-        {
-            //Debug.Log($"Weapon: {weapon.name}, IsUnlocked: {weapon.IsUnlocked}");
-            if (weapon.IsUnlocked)
-            {
-                inventoryData.weaponIDs.Add(weapon.name);
-                //Debug.Log("Added weapon to save: " + weapon.name);
-            }
-        }
-        foreach (var key in Keys)
-        {
-            inventoryData.keyIDs.Add(key.name);
-            //Debug.Log("Added key to save: " + key.name);
-        }
+            keyIDs = Keys.Select(key => key.name).ToList(),
 
-        foreach (var healthPotion in HealingPotions)
-        {
-            inventoryData.potionCount++;
-            //Debug.Log("Added " + inventoryData.potionCount + " potions to save file.");
-        }
-        data.inventoryData.Add(inventoryData);
+            potionCount = HealingPotions.Count
+        };
+
+        data.inventoryData.Add(saveState);
     } 
 
     public void UseHealingPotion(InputAction.CallbackContext context)
@@ -176,25 +137,9 @@ public class PlayerInventory : MonoBehaviour, IDataPersistence
                 {
                     playerHealth.Heal(potion.HealAmount);
                 }
-                HealingPotions.RemoveAt(0);
-                hud.InitiatePopup("+" + potion.HealAmount, new Vector2(-60, -490), false);
+                RemoveItem(potion);
+                HUD.Instance.InitiatePopup("+" + potion.HealAmount, new Vector2(-60, -490), false);
                 GameManager.Instance.audioManager.PlaySound("heal");
-            }
-        }
-    }
-
-    private void Update()
-    {
-        if (hud != null)
-        {
-            hud.UpdatePotionCount(HealingPotions.Count);
-            if (Keys.Count > 0)
-            {
-                hud.AddKeyToHud();
-            }
-            else
-            {
-                hud.RemoveKeyFromHud();
             }
         }
     }

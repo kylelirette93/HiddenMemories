@@ -2,11 +2,15 @@ using NUnit.Framework;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Data", menuName = "ScritableObjects/Items", order = 1)]
-public class ItemDataSO : ScriptableObject
+public abstract class ItemDataSO : ScriptableObject
 {
     public ItemType itemType;
     public string itemName;
-    public int value;
+
+    public virtual void Use()
+    {
+        Debug.Log("Using item: " + itemName);
+    }
 }
 
 public enum ItemType

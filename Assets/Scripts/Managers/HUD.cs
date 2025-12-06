@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
-public class HUD : MonoBehaviour
+public class HUD : Singleton<HUD>
 {
     public RectTransform soulMeterRect;
     private Vector3 originalScale;
@@ -37,6 +37,9 @@ public class HUD : MonoBehaviour
     {
         if (PlayerStats.Instance != null)
             PlayerStats.Instance.OnSoulGained += ScaleSoulSlider;
+
+        PlayerInventory.Instance.OnKeyCountChanged += UpdateKeyCount;
+        PlayerInventory.Instance.OnPotionCountChanged += UpdatePotionCount;
     }
 
     private void OnDisable()
@@ -151,6 +154,11 @@ public class HUD : MonoBehaviour
         }
     }
 
+    private void UpdateKeyCount(int count)
+    {
+        if (count > 0) AddKeyToHud();
+        else RemoveKeyFromHud();
+    }
     public void AddKeyToHud()
     {
         keyIcon.enabled = true;
