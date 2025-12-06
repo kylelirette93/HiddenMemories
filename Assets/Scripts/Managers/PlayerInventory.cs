@@ -10,11 +10,11 @@ public class PlayerInventory : Singleton<PlayerInventory>, IDataPersistence
     public List<WeaponDataSO> availableWeapons = new List<WeaponDataSO>();
     public List<KeyDataSO> Keys = new List<KeyDataSO>();
     public List<HealingPotionSO> HealingPotions = new List<HealingPotionSO>();
-    PlayerHealth playerHealth;
     InputManager input;
 
     public Action<int> OnPotionCountChanged;
     public Action<int> OnKeyCountChanged;
+    public Action<int> OnHealingPotionUsed;
     private readonly Dictionary<ItemType, IItemAddStrategy> addStrategies = new Dictionary<ItemType, IItemAddStrategy>();
     private readonly Dictionary<ItemType, IItemRemoveStrategy> removeStrategies = new Dictionary<ItemType, IItemRemoveStrategy>();
 
@@ -38,7 +38,6 @@ public class PlayerInventory : Singleton<PlayerInventory>, IDataPersistence
     private void OnEnable()
     {
         input = GameManager.Instance.inputManager;
-        playerHealth = GetComponent<PlayerHealth>();
         InteractableActions.AddWeapon += AddItem;
         InteractableActions.AddKey += AddItem;
         InteractableActions.AddPotion += AddItem;
@@ -53,6 +52,10 @@ public class PlayerInventory : Singleton<PlayerInventory>, IDataPersistence
         StopAllCoroutines();
     }
 
+    /// <summary>
+    /// Executes addition strategy based on item.
+    /// </summary>
+    /// <param name="item">The item data being passed.</param>
     private void AddItem(ItemDataSO item)
     {
         if (addStrategies.TryGetValue(item.itemType, out IItemAddStrategy strategy))
@@ -61,6 +64,10 @@ public class PlayerInventory : Singleton<PlayerInventory>, IDataPersistence
         }
     }
 
+    /// <summary>
+    /// Executes removal strategy based on item.
+    /// </summary>
+    /// <param name="item">The item data being passed.</param>
     public void RemoveItem(ItemDataSO item)
     {
         if (removeStrategies.TryGetValue(item.itemType, out IItemRemoveStrategy strategy))
@@ -78,7 +85,7 @@ public class PlayerInventory : Singleton<PlayerInventory>, IDataPersistence
         foreach (var inventoryData in data.inventoryData)
         {
             LoadItemsFromIDs(inventoryData.weaponIDs, (id) => Resources.Load<WeaponDataSO>("ScriptableObjects/Weapons/" + id));
-            LoadItemsFromIDs(inventoryData.keyIDs, (id) => Resources.Load<WeaponDataSO>("ScriptableObjects/Weapons/" + id));
+            LoadItemsFromIDs(inventoryData.keyIDs, (id) => Resources.Load<WeaponDataSO>("ScriptableObjects/Keys/" + id));
             LoadItemsFromCount(inventoryData.potionCount);
         }
 
@@ -86,6 +93,11 @@ public class PlayerInventory : Singleton<PlayerInventory>, IDataPersistence
         OnPotionCountChanged?.Invoke(HealingPotions.Count);
     }
 
+    /// <summary>
+    /// Loads items based on IDs using a provided function.
+    /// </summary>
+    /// <param name="itemIDs">The id from load data to use.</param>
+    /// <param name="loadFunction">Calls a resource load function with path.</param>
     private void LoadItemsFromIDs(List<string> itemIDs, Func<string, ItemDataSO> loadFunction)
     {
         foreach (string itemID in itemIDs)
@@ -95,7 +107,10 @@ public class PlayerInventory : Singleton<PlayerInventory>, IDataPersistence
             else Debug.LogError("Failed to load item with ID: " + itemID);
         }
     }
-
+    /// <summary>
+    /// Loads healing potions based on count. Could be more generic.
+    /// </summary>
+    /// <param name="count">The count of items.</param>
     private void LoadItemsFromCount(int count)
     {
         for (int i = 0; i < count; i++)
@@ -133,12 +148,9 @@ public class PlayerInventory : Singleton<PlayerInventory>, IDataPersistence
             if (HealingPotions.Count > 0)
             {
                 HealingPotionSO potion = HealingPotions[0];
-                if (playerHealth != null)
-                {
-                    playerHealth.Heal(potion.HealAmount);
-                }
+                // Decoupled from player health now...
+                OnHealingPotionUsed?.Invoke(potion.HealAmount);
                 RemoveItem(potion);
-                HUD.Instance.InitiatePopup("+" + potion.HealAmount, new Vector2(-60, -490), false);
                 GameManager.Instance.audioManager.PlaySound("heal");
             }
         }

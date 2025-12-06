@@ -48,6 +48,7 @@ public class PlayerHealth : Health
     {
         maxHealth = playerStats.MaxHealth;
         PlayerHealthActions.OnPlayerHealthChanged?.Invoke(maxHealth, maxHealth);
+        PlayerInventory.Instance.OnHealingPotionUsed += Heal;
     }
 
     private void OnDisable()

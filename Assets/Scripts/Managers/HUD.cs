@@ -40,6 +40,7 @@ public class HUD : Singleton<HUD>
 
         PlayerInventory.Instance.OnKeyCountChanged += UpdateKeyCount;
         PlayerInventory.Instance.OnPotionCountChanged += UpdatePotionCount;
+        PlayerInventory.Instance.OnHealingPotionUsed += DisplayHealing;
     }
 
     private void OnDisable()
@@ -104,6 +105,11 @@ public class HUD : Singleton<HUD>
             isLowHealth = false;
             StopHealthEffect(fillImage);
         }     
+    }
+
+    private void DisplayHealing(int amount)
+    {
+        InitiatePopup($"+{amount}", new Vector2(-60, -490), false);
     }
 
     private void LowHealthEffect(Image fillImage)
