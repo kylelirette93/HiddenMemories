@@ -4,18 +4,19 @@ using UnityEngine;
 public class WeaponManager : Singleton<WeaponManager>
 {
     // Parent object for whatever weapon the player is holding.
-    public Transform weaponParent;
-
-    public PlayerInventory inventory;
+    [SerializeField] Transform weaponParent;
+    [SerializeField] PlayerInventory inventory;
+    [SerializeField] InputManager inputManager;
 
     private int currentWeaponIndex = -1;
     private GameObject currentWeaponInstance;
     private WeaponDataSO weaponData;
-    public WeaponBase EquippedWeapon { get { return equippedWeapon; } }
     private WeaponBase equippedWeapon;
     private WeaponUI weaponUI;
-    public InputManager inputManager;
-    public Dictionary<int, int> ammoCounts = new Dictionary<int, int>();
+    private Dictionary<int, GameObject> weaponInstances = new Dictionary<int, GameObject>();
+    AmmoManager ammoManager = new AmmoManager();
+
+    public WeaponBase EquippedWeapon => equippedWeapon;
 
     private void Awake()
     {
@@ -37,35 +38,15 @@ public class WeaponManager : Singleton<WeaponManager>
 
     public void SwitchWeapon(Vector2 scrollInput)
     {
-        if (inventory == null || inventory.AvailableWeapons.Count == 0)
-        {
-            Debug.LogWarning("No weapons available in inventory.");
-            return;
-        }
+        if (inventory?.AvailableWeapons?.Count == 0) return;
 
         int newIndex = currentWeaponIndex;
-        if (scrollInput.y > 0)
-        {
-            newIndex++;
-        }
-        else if (scrollInput.y < 0)
-        {
-            newIndex--;
-        }
-        else
-        {
-            Debug.Log("NO SCROLL detected (scrollInput.y == 0)");
-        }
+        if (scrollInput.y > 0) newIndex++;
+        else if (scrollInput.y < 0) newIndex--;
+        else return;
 
-        if (newIndex < 0) newIndex = inventory.AvailableWeapons.Count - 1;
-        else if (newIndex >= inventory.AvailableWeapons.Count) newIndex = 0;
-
-        if (newIndex == currentWeaponIndex)
-        {
-            return;
-        }
-
-        EquipWeaponByIndex(newIndex);
+        newIndex = (newIndex + inventory.AvailableWeapons.Count) % inventory.AvailableWeapons.Count;
+        if (newIndex != currentWeaponIndex) EquipWeaponByIndex(newIndex);
     }
 
     public void EquipWeapon(WeaponDataSO weaponData)
@@ -75,61 +56,32 @@ public class WeaponManager : Singleton<WeaponManager>
 
     public void EquipWeaponByIndex(int index)
     {
-        if (equippedWeapon != null && equippedWeapon.IsReloading) return;
-        if (inventory == null || inventory.AvailableWeapons.Count == 0)
-        {
-            Debug.LogWarning("No weapons available in inventory.");
-            return;
-        }
+        // Sanity checks.
+        if (inventory?.AvailableWeapons == null || index < 0 || index >= inventory.AvailableWeapons.Count) return;
+        if (equippedWeapon?.IsReloading == true || index == currentWeaponIndex) return;
+        // Save ammo before switch.
+        if (equippedWeapon != null) ammoManager.Save(weaponData.index, equippedWeapon.CurrentAmmo);
 
-        if (index < 0 || index >= inventory.AvailableWeapons.Count)
-        {
-            Debug.LogWarning($"Invalid weapon index: {index}");
-            return;
-        }
+        // Refactored to enable instead of destruction.
+        if (currentWeaponInstance != null) currentWeaponInstance.SetActive(false);
 
-        if (index == currentWeaponIndex) return;
-
-        if (currentWeaponInstance != null) Destroy(currentWeaponInstance);
-
-        if (weaponData != null && equippedWeapon != null)
-        {
-            ammoCounts[weaponData.index] = equippedWeapon.CurrentAmmo;
-        }
         WeaponDataSO weaponToEquip = inventory.AvailableWeapons[index];
-        if (weaponToEquip != null && weaponParent != null)
+
+        if (!weaponInstances.TryGetValue(index, out currentWeaponInstance))
         {
             currentWeaponInstance = Instantiate(weaponToEquip.weaponPrefab, weaponParent);
             currentWeaponInstance.transform.localPosition = Vector3.zero;
             currentWeaponInstance.transform.localRotation = Quaternion.identity;
-            currentWeaponIndex = index;
+            weaponInstances[index] = currentWeaponInstance;
         }
-
-
-        WeaponBase weaponBase = currentWeaponInstance.GetComponent<WeaponBase>();
-
-        // Adjust weapon parent based on which weapon it is.
-       
-        if (weaponBase != null)
-        {
-            weaponBase.Initialize(weaponToEquip);
-            equippedWeapon = weaponBase;
-            if (ammoCounts.Count > 0 && ammoCounts.ContainsKey(weaponToEquip.index))
-            {
-                equippedWeapon.CurrentAmmo = ammoCounts[weaponToEquip.index];
-            }
-            else
-            {
-                //Debug.Log("No saved ammo for this weapon yet.");
-            }
-            weaponData = weaponToEquip;
-        }
-        else
-        {
-            Debug.LogWarning("Weapon prefab does not have a WeaponBase component.");
-        }
+        // Active and initialize weapon with data.
+        currentWeaponInstance.SetActive(true);
+        equippedWeapon = currentWeaponInstance.GetComponent<WeaponBase>();
+        equippedWeapon.Initialize(weaponToEquip);
+        equippedWeapon.CurrentAmmo = ammoManager.Load(index, weaponToEquip.ClipCapacity);
+        weaponData = weaponToEquip;
+        currentWeaponIndex = index;
     }
-
     public void UpdateUI()
     {
         if (equippedWeapon == null || weaponUI == null) return;

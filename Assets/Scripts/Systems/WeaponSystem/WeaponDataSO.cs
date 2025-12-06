@@ -8,6 +8,7 @@ public class WeaponDataSO : ItemDataSO
     public string name;
     public float powerRate;
     public float fireRate;
+    public int ClipCapacity { get { return clipCapacity; } set { clipCapacity = value; } }
     public int clipCapacity;
     public float reloadSpeed;
     public int spread = 0;
