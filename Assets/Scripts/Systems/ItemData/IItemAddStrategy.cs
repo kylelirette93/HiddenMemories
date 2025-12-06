@@ -38,9 +38,9 @@ public class WeaponAddStrategy : IItemAddStrategy
 {
     public void Execute(ItemDataSO item, PlayerInventory inventory)
     {
-        if (item is WeaponDataSO weapon && !inventory.availableWeapons.Contains(weapon))
+        if (item is WeaponDataSO weapon && !inventory.AvailableWeapons.Contains(weapon))
         {
-            inventory.availableWeapons.Add(weapon);
+            inventory.AvailableWeapons.Add(weapon);
             WeaponManager.Instance.EquipWeapon(weapon);
             weapon.IsUnlocked = true;
             WeaponActions.UnlockWeapon?.Invoke(weapon);

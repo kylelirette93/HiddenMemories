@@ -37,7 +37,7 @@ public class WeaponManager : Singleton<WeaponManager>
 
     public void SwitchWeapon(Vector2 scrollInput)
     {
-        if (inventory == null || inventory.availableWeapons.Count == 0)
+        if (inventory == null || inventory.AvailableWeapons.Count == 0)
         {
             Debug.LogWarning("No weapons available in inventory.");
             return;
@@ -57,8 +57,8 @@ public class WeaponManager : Singleton<WeaponManager>
             Debug.Log("NO SCROLL detected (scrollInput.y == 0)");
         }
 
-        if (newIndex < 0) newIndex = inventory.availableWeapons.Count - 1;
-        else if (newIndex >= inventory.availableWeapons.Count) newIndex = 0;
+        if (newIndex < 0) newIndex = inventory.AvailableWeapons.Count - 1;
+        else if (newIndex >= inventory.AvailableWeapons.Count) newIndex = 0;
 
         if (newIndex == currentWeaponIndex)
         {
@@ -76,13 +76,13 @@ public class WeaponManager : Singleton<WeaponManager>
     public void EquipWeaponByIndex(int index)
     {
         if (equippedWeapon != null && equippedWeapon.IsReloading) return;
-        if (inventory == null || inventory.availableWeapons.Count == 0)
+        if (inventory == null || inventory.AvailableWeapons.Count == 0)
         {
             Debug.LogWarning("No weapons available in inventory.");
             return;
         }
 
-        if (index < 0 || index >= inventory.availableWeapons.Count)
+        if (index < 0 || index >= inventory.AvailableWeapons.Count)
         {
             Debug.LogWarning($"Invalid weapon index: {index}");
             return;
@@ -96,7 +96,7 @@ public class WeaponManager : Singleton<WeaponManager>
         {
             ammoCounts[weaponData.index] = equippedWeapon.CurrentAmmo;
         }
-        WeaponDataSO weaponToEquip = inventory.availableWeapons[index];
+        WeaponDataSO weaponToEquip = inventory.AvailableWeapons[index];
         if (weaponToEquip != null && weaponParent != null)
         {
             currentWeaponInstance = Instantiate(weaponToEquip.weaponPrefab, weaponParent);

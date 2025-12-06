@@ -9,13 +9,28 @@ public class Interactable : BaseInteractable
     // Reference to scriptable object associated with this interactable.
     public ItemDataSO itemData;
 
+    // Strategy to interact with this interactable.
+    private IInteractionStrategy strategy;
+    PlayerInventory playerInventory => PlayerInventory.Instance;
+
+    public override void Awake()
+    {
+        base.Awake();
+        // Initialize strategy based on type.
+        strategy = type switch
+        {
+            InteractionType.Door => new DoorInteractionStrategy(),
+            InteractionType.Pickup => new PickupInteractionStrategy(),
+            _ => throw new ArgumentOutOfRangeException(nameof(type), "No strategy defined for this interaction type.")
+        };
+    }
+
     protected void OnCollisionEnter(Collision collision)
     {
-        if (type == InteractionType.Door && collision.gameObject.CompareTag("Player"))
+        if (strategy is DoorInteractionStrategy && collision.gameObject.CompareTag("Player"))
         {
-            PlayerInventory playerInventory = collision.gameObject.GetComponent<PlayerInventory>();
             Door door = GetComponent<Door>();
-            if (playerInventory != null)
+            if (PlayerInventory.Instance != null)
             {
                 interactionPromptText = playerInventory.Keys.Contains(door.keyToUnlock) ? "Press E to Open" : "No key found in Inventory...";
             }
@@ -24,66 +39,17 @@ public class Interactable : BaseInteractable
 
     public override string GetInteractionPrompt()
     {
-        if (type == InteractionType.Door)
+        string prompt = strategy.Prompt(this);
+        if (!string.IsNullOrEmpty(prompt))
         {
-            PlayerInventory playerInventory = GameObject.FindWithTag("Player").GetComponent<PlayerInventory>();
-            Door door = GetComponent<Door>();
-            if (playerInventory != null)
-            {
-                if (door.isOpen)
-                {
-                    canInteract = false;
-                }
-                else if (!door.isOpen && canInteract)
-                {
-                    return playerInventory.Keys.Contains(door.keyToUnlock) ? "Press E to Open" : "No key found in Inventory...";
-                }
-            }
+            return prompt;
         }
-        else
-        {
-            return base.GetInteractionPrompt();
-        }
-        return string.Empty;
+        return base.GetInteractionPrompt();
     }
 
     public override void OnInteract()
     {
-        switch (type)
-        {
-            case InteractionType.Pickup:
-                if (itemData.itemType == ItemType.Weapon)
-                {
-                    isFocused = false;
-                    InteractableActions.AddWeapon?.Invoke(itemData);
-                    GameManager.Instance.audioManager.PlaySound("key_pickup");
-                }
-                else if (itemData.itemType == ItemType.HealthPotion)
-                {
-                    InteractableActions.AddPotion?.Invoke(itemData);
-                    GameManager.Instance.audioManager.PlaySound("key_pickup");
-                }
-                else if (itemData.itemType == ItemType.Ammo)
-                {
-                    // Add ammo.
-                }
-                else if (itemData.itemType == ItemType.Cash)
-                {
-                    // Add cash.
-                    InteractableActions.AddCash?.Invoke(itemData);
-                }
-                else if (itemData.itemType == ItemType.Key)
-                {
-                    InteractableActions.AddKey?.Invoke(itemData);
-                    GameManager.Instance.audioManager.PlaySound("key_pickup");
-                }
-                Destroy(gameObject);
-                break;
-            case InteractionType.Door:
-                Door door = GetComponent<Door>();
-                door.TryUnlock();
-                break;
-        }
+        strategy.Interact(this);
     }
 }
 

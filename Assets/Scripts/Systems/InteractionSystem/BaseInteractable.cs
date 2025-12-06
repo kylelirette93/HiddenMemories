@@ -12,7 +12,7 @@ public abstract class BaseInteractable : MonoBehaviour, IInteractable
     protected bool canInteract = true;
 
 
-    void Awake()
+    public virtual void Awake()
     {
         if (gameObject.layer != LayerMask.NameToLayer("Interactable"))
         {

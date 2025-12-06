@@ -7,16 +7,23 @@ using UnityEngine.InputSystem;
 public class PlayerInventory : Singleton<PlayerInventory>, IDataPersistence
 {
     [Header("Item Lists")]
-    public List<WeaponDataSO> availableWeapons = new List<WeaponDataSO>();
-    public List<KeyDataSO> Keys = new List<KeyDataSO>();
-    public List<HealingPotionSO> HealingPotions = new List<HealingPotionSO>();
+    List<WeaponDataSO> availableWeapons = new List<WeaponDataSO>();
+    List<KeyDataSO> keys = new List<KeyDataSO>();
+    List<HealingPotionSO> healingPotions = new List<HealingPotionSO>();
+
+    // Getters for item lists.
+    public List<KeyDataSO> Keys => keys;
+    public List<HealingPotionSO> HealingPotions => healingPotions;
+    public List<WeaponDataSO> AvailableWeapons => availableWeapons;
     InputManager input;
 
+    private readonly Dictionary<ItemType, IItemAddStrategy> addStrategies = new Dictionary<ItemType, IItemAddStrategy>();
+    private readonly Dictionary<ItemType, IItemRemoveStrategy> removeStrategies = new Dictionary<ItemType, IItemRemoveStrategy>();
+
+    // Events for updating other systems
     public Action<int> OnPotionCountChanged;
     public Action<int> OnKeyCountChanged;
     public Action<int> OnHealingPotionUsed;
-    private readonly Dictionary<ItemType, IItemAddStrategy> addStrategies = new Dictionary<ItemType, IItemAddStrategy>();
-    private readonly Dictionary<ItemType, IItemRemoveStrategy> removeStrategies = new Dictionary<ItemType, IItemRemoveStrategy>();
 
     private void Awake()
     {
@@ -79,8 +86,8 @@ public class PlayerInventory : Singleton<PlayerInventory>, IDataPersistence
     public void LoadData(GameData data)
     {
         availableWeapons.Clear();
-        Keys.Clear();
-        HealingPotions.Clear();
+        keys.Clear();
+        healingPotions.Clear();
 
         foreach (var inventoryData in data.inventoryData)
         {
@@ -89,8 +96,8 @@ public class PlayerInventory : Singleton<PlayerInventory>, IDataPersistence
             LoadItemsFromCount(inventoryData.potionCount);
         }
 
-        OnKeyCountChanged?.Invoke(Keys.Count);
-        OnPotionCountChanged?.Invoke(HealingPotions.Count);
+        OnKeyCountChanged?.Invoke(keys.Count);
+        OnPotionCountChanged?.Invoke(healingPotions.Count);
     }
 
     /// <summary>
@@ -133,9 +140,9 @@ public class PlayerInventory : Singleton<PlayerInventory>, IDataPersistence
             .Select(weapon => weapon.name)
             .ToList(),
 
-            keyIDs = Keys.Select(key => key.name).ToList(),
+            keyIDs = keys.Select(key => key.name).ToList(),
 
-            potionCount = HealingPotions.Count
+            potionCount = healingPotions.Count
         };
 
         data.inventoryData.Add(saveState);
@@ -145,9 +152,9 @@ public class PlayerInventory : Singleton<PlayerInventory>, IDataPersistence
     {
         if (context.started)
         {
-            if (HealingPotions.Count > 0)
+            if (healingPotions.Count > 0)
             {
-                HealingPotionSO potion = HealingPotions[0];
+                HealingPotionSO potion = healingPotions[0];
                 // Decoupled from player health now...
                 OnHealingPotionUsed?.Invoke(potion.HealAmount);
                 RemoveItem(potion);

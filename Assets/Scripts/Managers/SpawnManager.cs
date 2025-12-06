@@ -21,8 +21,8 @@ public class SpawnManager : MonoBehaviour
 
     [Header("Keys and Doors")]
     [SerializeField] GameObject[] doors; // Doors in the scene, to be closed when resetting.
-    [SerializeField] GameObject[] keys; // Keys pickups in the scene, to be respawned if not picked up.
-    List<GameObject> spawnedKeys = new List<GameObject>(); // Keys currently spawned in scene.
+    [SerializeField] GameObject[] keys; // keys pickups in the scene, to be respawned if not picked up.
+    List<GameObject> spawnedKeys = new List<GameObject>(); // keys currently spawned in scene.
 
     
     EnemyData enemyData; // Enemy data that's applied to spawned enemies.
